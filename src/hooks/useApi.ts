@@ -71,8 +71,8 @@ export function useAuthorPoems(authorId: number) {
 
 export function useThemes() {
   return useQuery<Theme[]>({
-    queryKey: ['categories'],
-    queryFn: () => fetchFromApi<Theme[]>(API_ENDPOINTS.categories),
+    queryKey: ['themes'],
+    queryFn: () => fetchFromApi<Theme[]>(API_ENDPOINTS.themes),
   });
 }
 

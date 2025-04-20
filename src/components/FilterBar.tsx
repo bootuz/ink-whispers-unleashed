@@ -1,12 +1,12 @@
 
 import { Filter, RefreshCw } from "lucide-react"
 import { useSearchParams } from "react-router-dom"
-import { useGenres, useFilterAuthors } from "@/hooks/useApi"
+import { useThemes, useFilterAuthors } from "@/hooks/useApi"
 import { Skeleton } from "./ui/skeleton"
 
 export const FilterBar = () => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const { data: genres, isLoading: isLoadingGenres } = useGenres();
+  const { data: categories, isLoading: isLoadingCategories } = useThemes();
   const { data: authorsData, isLoading: isLoadingAuthors } = useFilterAuthors();
   
   // Extract the authors array from the paginated response
@@ -49,7 +49,7 @@ export const FilterBar = () => {
         <span className="text-sm font-medium">Filter by:</span>
       </div>
 
-      {isLoadingGenres ? (
+      {isLoadingCategories ? (
         <Skeleton className="h-8 w-32" />
       ) : (
         <select 
@@ -58,9 +58,9 @@ export const FilterBar = () => {
           className="px-3 py-1 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-black transition-colors"
         >
           <option value="">All Genres</option>
-          {genres?.map((genre) => (
-            <option key={genre.id} value={genre.title.toLowerCase()}>
-              {genre.title}
+          {categories?.map((category) => (
+            <option key={category.id} value={category.title.toLowerCase()}>
+              {category.title}
             </option>
           ))}
         </select>
@@ -101,5 +101,5 @@ export const FilterBar = () => {
         Reset
       </button>
     </div>
-  )
-}
+  );
+};
