@@ -49,7 +49,16 @@ const popularPoems = [
 const Index = () => {
   return (
     <div className="min-h-screen flex flex-col items-center px-4 py-16 max-w-7xl mx-auto">
-      <h1 className="font-['Marck_Script'] text-5xl mb-8 tracking-wider text-center" style={{fontFamily: "'Marck Script', cursive"}}>Усэрадэ</h1>
+      <h1 
+        className="text-5xl mb-8 tracking-wider text-center"
+        style={{
+          fontFamily: "'Marck Script', cursive",
+          fontWeight: 400,
+          fontStyle: "normal"
+        }}
+      >
+        Усэрадэ
+      </h1>
       <SearchBar className="mb-16" />
       <div className="w-full space-y-16">
         <PoemGrid 
