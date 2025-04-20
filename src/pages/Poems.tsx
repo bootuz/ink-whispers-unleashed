@@ -6,6 +6,7 @@ import { useState } from "react"
 import { useSearchParams } from "react-router-dom"
 import { usePoems, useSearchPoems } from "@/hooks/useApi"
 import { Poem } from "@/types/api"
+import { Skeleton } from "@/components/ui/skeleton"
 
 const Poems = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -62,7 +63,6 @@ const Poems = () => {
     fetchNextPage();
   };
 
-  // Add the missing getPageTitle function
   const getPageTitle = () => {
     if (searchQuery) {
       return `Search results for "${searchQuery}"`;
@@ -80,10 +80,6 @@ const Poems = () => {
     return "All Poems";
   };
 
-  if (isLoading && poems.length === 0) {
-    return <div className="min-h-screen px-4 py-16">Loading...</div>;
-  }
-
   return (
     <div className="min-h-screen px-4 py-16 max-w-7xl mx-auto">
       <div className="max-w-2xl mx-auto mb-8">
@@ -93,14 +89,28 @@ const Poems = () => {
         />
       </div>
       <FilterBar />
+      
       <div className="mt-8">
-        <PoemGrid 
-          title={getPageTitle()} 
-          poems={filteredPoems}
-          hasMore={!searchQuery && !!hasNextPage}
-          loading={isFetchingNextPage}
-          onMoreClick={handleMoreClick}
-        />
+        {isLoading && poems.length === 0 ? (
+          <div>
+            <h2 className="text-2xl font-playfair mb-6">{getPageTitle()}</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {[1, 2, 3, 4, 5, 6].map((i) => (
+                <div key={i} className="overflow-hidden rounded-lg border border-gray-200">
+                  <Skeleton className="h-[200px] w-full" />
+                </div>
+              ))}
+            </div>
+          </div>
+        ) : (
+          <PoemGrid 
+            title={getPageTitle()} 
+            poems={filteredPoems}
+            hasMore={!searchQuery && !!hasNextPage}
+            loading={isFetchingNextPage}
+            onMoreClick={handleMoreClick}
+          />
+        )}
       </div>
     </div>
   )
