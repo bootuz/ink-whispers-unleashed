@@ -92,6 +92,7 @@ export default {
       },
       fontFamily: {
         'pt-serif': ['PT Serif', 'serif'],
+        'marck-script': ['Marck Script', 'cursive'],
       }
     }
   },
