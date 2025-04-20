@@ -24,7 +24,7 @@ const Poems = () => {
     theme => theme.title.toLowerCase() === selectedGenre?.toLowerCase()
   )?.id;
 
-  const selectedAuthorId = authors?.results?.find(
+  const selectedAuthorId = authors?.find(
     author => author.name.toLowerCase().replace(/\s+/g, '-') === selectedAuthor?.toLowerCase()
   )?.id;
 

@@ -9,7 +9,7 @@ export const FilterBar = () => {
   const { data: themes, isLoading: isLoadingThemes } = useThemes();
   const { data: authorsData, isLoading: isLoadingAuthors } = useFilterAuthors();
   
-  // Extract the authors array from the paginated response
+  // Use the authors directly since it's already an array
   const authors = authorsData?.results || [];
 
   const handleOrderChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
