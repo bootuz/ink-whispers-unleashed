@@ -1,4 +1,3 @@
-
 import { SearchBar } from "@/components/SearchBar"
 import { FilterBar } from "@/components/FilterBar"
 import { PoemGrid } from "@/components/PoemGrid"
@@ -84,13 +83,8 @@ const Poems = () => {
     
     if (selectedGenre) {
       filtered = filtered.filter(poem => {
-        // Check if the poem has a theme property with a title
-        const poemWithTheme = poem as Partial<PoemDetail>;
-        if (poemWithTheme.theme && poemWithTheme.theme.title) {
-          return poemWithTheme.theme.title.toLowerCase().includes(selectedGenre.toLowerCase());
-        }
-        // Fallback to checking title if theme is not available
-        return poem.title.toLowerCase().includes(selectedGenre.toLowerCase());
+        const poemDetail = poem as PoemDetail;
+        return poemDetail.theme?.title.toLowerCase().includes(selectedGenre.toLowerCase());
       });
     }
     
