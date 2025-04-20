@@ -1,3 +1,4 @@
+
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent } from "@/components/ui/card"
@@ -89,7 +90,7 @@ const Authors = () => {
           </SelectContent>
         </Select>
       </div>
-      <div className="w-full mb-8">
+      <div className="w-full mb-8 space-y-4"> {/* Added space-y-4 to create margins between rows */}
         {paginatedAuthors.map((author) => (
           <Link to={`/author/${author.id}`} key={author.id}>
             <Card className="overflow-hidden hover:shadow-lg transition-shadow hover:bg-muted/20 space-y-10">
