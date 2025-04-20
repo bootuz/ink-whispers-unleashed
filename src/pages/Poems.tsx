@@ -85,9 +85,9 @@ const Poems = () => {
     
     if (selectedGenre) {
       filtered = filtered.filter(poem => {
-        if (!poem.theme) return false;
-        const themeTitle = poem.theme.title?.toLowerCase() || '';
-        return themeTitle.includes(selectedGenre.toLowerCase());
+        if (!poem.category) return false;
+        const categoryTitle = poem.category.title?.toLowerCase() || '';
+        return categoryTitle.includes(selectedGenre.toLowerCase());
       });
     }
     

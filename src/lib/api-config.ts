@@ -1,4 +1,3 @@
-
 export const API_BASE_URL = 'https://wuserade.onrender.com/api/v1';
 
 export const API_ENDPOINTS = {
@@ -11,4 +10,6 @@ export const API_ENDPOINTS = {
   authorPoems: (id: number) => `/authors/${id}/poems/`,
   themes: '/themes/',
   themePoems: (id: number) => `/themes/${id}/poems/`,
+  categories: '/categories/',
+  categoryPoems: (id: number) => `/categories/${id}/poems/`,
 } as const;

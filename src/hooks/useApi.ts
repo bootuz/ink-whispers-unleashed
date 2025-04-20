@@ -71,8 +71,8 @@ export function useAuthorPoems(authorId: number) {
 
 export function useThemes() {
   return useQuery<Theme[]>({
-    queryKey: ['themes'],
-    queryFn: () => fetchFromApi<Theme[]>(API_ENDPOINTS.themes),
+    queryKey: ['categories'],
+    queryFn: () => fetchFromApi<Theme[]>(API_ENDPOINTS.categories),
   });
 }
 
@@ -85,8 +85,8 @@ export function useThemePoems(themeId: number) {
 
 export function useGenres() {
   return useQuery<Theme[]>({
-    queryKey: ['genres'],
-    queryFn: () => fetchFromApi<Theme[]>(API_ENDPOINTS.themes),
+    queryKey: ['categories'],
+    queryFn: () => fetchFromApi<Theme[]>(API_ENDPOINTS.categories),
   });
 }
 
