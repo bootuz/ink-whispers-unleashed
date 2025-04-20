@@ -49,9 +49,9 @@ export function usePoem(id: number) {
 }
 
 export function useAuthors() {
-  return useQuery<AuthorDetail[]>({
+  return useQuery<PaginatedResponse<AuthorDetail>>({
     queryKey: ['authors'],
-    queryFn: () => fetchFromApi<AuthorDetail[]>(`${API_ENDPOINTS.authors}`),
+    queryFn: () => fetchFromApi<PaginatedResponse<AuthorDetail>>(`${API_ENDPOINTS.authors}`),
   });
 }
 

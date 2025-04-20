@@ -16,7 +16,9 @@ import {
 
 const Authors = () => {
   const [sortBy, setSortBy] = useState<"name" | "poems">("name");
-  const { data: authors, isLoading } = useAuthors();
+  const { data, isLoading } = useAuthors();
+  
+  const authors = data?.results || [];
 
   if (isLoading) {
     return (
@@ -26,7 +28,7 @@ const Authors = () => {
     );
   }
 
-  if (!authors) {
+  if (!authors.length) {
     return (
       <div className="min-h-screen flex flex-col items-center px-4 py-16">
         No authors found
