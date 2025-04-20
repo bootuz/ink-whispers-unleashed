@@ -85,10 +85,8 @@ const Poems = () => {
     
     if (selectedGenre) {
       filtered = filtered.filter(poem => {
-        const poemWithTheme = poem as Partial<PoemDetail>;
-        if (!poemWithTheme.theme) return false;
-        
-        const themeTitle = poemWithTheme.theme.title?.toLowerCase() || '';
+        if (!poem.theme) return false;
+        const themeTitle = poem.theme.title?.toLowerCase() || '';
         return themeTitle.includes(selectedGenre.toLowerCase());
       });
     }

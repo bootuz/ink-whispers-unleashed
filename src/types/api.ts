@@ -22,10 +22,10 @@ export interface Poem {
   author: Author;
   content: string;
   created_at: string;
+  theme: Theme;
 }
 
 export interface PoemDetail extends Poem {
-  theme: Theme;
   views: number;
   likes: number;
 }
