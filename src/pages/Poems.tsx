@@ -1,3 +1,4 @@
+
 import { SearchBar } from "@/components/SearchBar"
 import { FilterBar } from "@/components/FilterBar"
 import { PoemGrid } from "@/components/PoemGrid"
@@ -70,7 +71,9 @@ const Poems = () => {
     
     if (selectedAuthor) {
       filtered = filtered.filter(poem => {
-        const authorName = poem.author.name.toLowerCase();
+        if (!poem.author) return false;
+        
+        const authorName = poem.author.name?.toLowerCase() || '';
         let filterValue = selectedAuthor.toLowerCase();
         
         if (filterValue === 'frost' && authorName.includes('robert frost')) return true;
@@ -83,15 +86,18 @@ const Poems = () => {
     
     if (selectedGenre) {
       filtered = filtered.filter(poem => {
-        const poemDetail = poem as PoemDetail;
-        return poemDetail.theme?.title.toLowerCase().includes(selectedGenre.toLowerCase());
+        // Safely access theme property
+        if (!poem.theme) return false;
+        const themeTitle = poem.theme.title?.toLowerCase() || '';
+        return themeTitle.includes(selectedGenre.toLowerCase());
       });
     }
     
     if (filterType === 'new') {
-      return filtered.sort((a, b) => 
-        new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
-      );
+      return filtered.sort((a, b) => {
+        if (!a.created_at || !b.created_at) return 0;
+        return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
+      });
     } else if (filterType === 'popular') {
       return filtered.reverse();
     }
