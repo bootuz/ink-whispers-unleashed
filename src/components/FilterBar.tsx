@@ -1,20 +1,13 @@
 
 import { Filter } from "lucide-react"
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
 import { useSearchParams } from "react-router-dom"
 
 export const FilterBar = () => {
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const handleOrderChange = (value: string) => {
+  const handleOrderChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const newParams = new URLSearchParams(searchParams);
-    newParams.set('filter', value);
+    newParams.set('filter', e.target.value);
     setSearchParams(newParams);
   };
 
@@ -36,20 +29,15 @@ export const FilterBar = () => {
         <option value="dickinson">Emily Dickinson</option>
         <option value="poe">Edgar Allan Poe</option>
       </select>
-      <Select 
-        onValueChange={handleOrderChange} 
-        defaultValue={searchParams.get('filter') || "default"}
+      <select 
+        onChange={handleOrderChange}
+        value={searchParams.get('filter') || "default"}
+        className="px-3 py-1 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-black transition-colors"
       >
-        <SelectTrigger className="w-auto min-w-[120px] h-[30px] px-3 py-1 text-sm">
-          <SelectValue placeholder="Default order" />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectItem value="default">Default order</SelectItem>
-          <SelectItem value="new">Newest first</SelectItem>
-          <SelectItem value="popular">Most popular</SelectItem>
-        </SelectContent>
-      </Select>
+        <option value="default">Default order</option>
+        <option value="new">Newest first</option>
+        <option value="popular">Most popular</option>
+      </select>
     </div>
   )
 }
-
