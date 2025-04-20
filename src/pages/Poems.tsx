@@ -1,4 +1,3 @@
-
 import { SearchBar } from "@/components/SearchBar"
 import { FilterBar } from "@/components/FilterBar"
 import { PoemGrid } from "@/components/PoemGrid"
@@ -51,6 +50,8 @@ const Poems = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [searchParams] = useSearchParams();
   const filterType = searchParams.get('filter');
+  const selectedGenre = searchParams.get('genre');
+  const selectedAuthor = searchParams.get('author');
   
   // Filter poems based on URL parameter
   const filteredPoems = (() => {
@@ -80,6 +81,16 @@ const Poems = () => {
   };
 
   const getPageTitle = () => {
+    if (selectedAuthor) {
+      return `Poems by ${selectedAuthor === 'frost' ? 'Robert Frost' : 
+        selectedAuthor === 'dickinson' ? 'Emily Dickinson' : 
+        selectedAuthor === 'poe' ? 'Edgar Allan Poe' : 'All Authors'}`;
+    }
+    
+    if (selectedGenre) {
+      return `${selectedGenre.charAt(0).toUpperCase() + selectedGenre.slice(1)} Poems`;
+    }
+    
     if (filterType === 'new') return "New Poems";
     if (filterType === 'popular') return "Popular Poems";
     return "All Poems";
