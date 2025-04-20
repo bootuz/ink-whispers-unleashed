@@ -3,53 +3,20 @@ import { SearchBar } from "@/components/SearchBar"
 import { PoemGrid } from "@/components/PoemGrid"
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
-
-// Placeholder data
-const newPoems = [
-  {
-    id: 1,
-    title: "The Road Not Taken",
-    author: { id: 1, name: "Robert Frost" },
-    excerpt: "Two roads diverged in a yellow wood, And sorry I could not travel both...",
-  },
-  {
-    id: 2,
-    title: "Hope is the thing with feathers",
-    author: { id: 1, name: "Robert Frost" },
-    excerpt: "Hope is the thing with feathers That perches in the soul...",
-  },
-  {
-    id: 3,
-    title: "The Raven",
-    author: { id: 1, name: "Robert Frost" },
-    excerpt: "Once upon a midnight dreary, while I pondered, weak and weary...",
-  },
-]
-
-const popularPoems = [
-  {
-    id: 4,
-    title: "Stopping by Woods",
-    author: { id: 1, name: "Robert Frost" },
-    excerpt: "Whose woods these are I think I know. His house is in the village though...",
-  },
-  {
-    id: 5,
-    title: "Because I could not stop for Death",
-    author: { id: 1, name: "Robert Frost" },
-    excerpt: "Because I could not stop for Death – He kindly stopped for me...",
-  },
-  {
-    id: 6,
-    title: "Annabel Lee",
-    author: { id: 1, name: "Robert Frost" },
-    excerpt: "It was many and many a year ago, In a kingdom by the sea...",
-  },
-]
+import { useLatestPoems } from "@/hooks/useApi"
+import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert"
+import { AlertCircle } from "lucide-react"
+import { Skeleton } from "@/components/ui/skeleton"
 
 const Index = () => {
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
+
+  const { 
+    data: latestPoems = [], 
+    isLoading: isLoadingLatest,
+    error: latestError 
+  } = useLatestPoems();
 
   const handleNewPoemsMore = () => {
     navigate('/poems?filter=new');
@@ -93,15 +60,37 @@ const Index = () => {
         onSearch={handleSearch}
         onKeyDown={handleKeyPress}
       />
+      
+      {latestError && (
+        <Alert variant="destructive" className="mb-6">
+          <AlertCircle className="h-4 w-4" />
+          <AlertTitle>Error</AlertTitle>
+          <AlertDescription>
+            Unable to load latest poems. Please try again later.
+          </AlertDescription>
+        </Alert>
+      )}
+
       <div className="w-full space-y-16">
-        <PoemGrid 
-          title="УсэщIэхэр" 
-          poems={newPoems}
-          onMoreClick={handleNewPoemsMore}
-        />
+        {isLoadingLatest ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[1, 2, 3].map((i) => (
+              <div key={i} className="overflow-hidden rounded-lg border border-gray-200">
+                <Skeleton className="h-[200px] w-full" />
+              </div>
+            ))}
+          </div>
+        ) : (
+          <PoemGrid 
+            title="УсэщIэхэр" 
+            poems={latestPoems}
+            onMoreClick={handleNewPoemsMore}
+          />
+        )}
+        
         <PoemGrid 
           title="Нэхъ зэджэ усэхэр" 
-          poems={popularPoems}
+          poems={[]} // For now, keeping this empty as we don't have a popular poems endpoint
           onMoreClick={handlePopularPoemsMore}
         />
       </div>
