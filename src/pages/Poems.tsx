@@ -3,7 +3,7 @@ import { FilterBar } from "@/components/FilterBar"
 import { PoemGrid } from "@/components/PoemGrid"
 import { useState, useEffect } from "react"
 import { useSearchParams } from "react-router-dom"
-import { usePoems, useSearchPoems, useThemes, useThemePoems } from "@/hooks/useApi"
+import { usePoems, useSearchPoems, useThemes, useThemePoems, useAuthorPoems, useAuthors } from "@/hooks/useApi"
 import { Poem } from "@/types/api"
 import { Skeleton } from "@/components/ui/skeleton"
 import { toast } from "@/hooks/use-toast"
@@ -18,9 +18,14 @@ const Poems = () => {
   const searchQuery = searchParams.get('q') || '';
   
   const { data: themes } = useThemes();
+  const { data: authors } = useAuthors();
   
   const selectedThemeId = themes?.find(
     theme => theme.title.toLowerCase() === selectedGenre?.toLowerCase()
+  )?.id;
+
+  const selectedAuthorId = authors?.results?.find(
+    author => author.name.toLowerCase().replace(/\s+/g, '-') === selectedAuthor?.toLowerCase()
   )?.id;
 
   const { 
@@ -41,6 +46,12 @@ const Poems = () => {
   });
 
   const {
+    data: authorPoems,
+    isLoading: isLoadingAuthorPoems,
+    error: authorPoemsError
+  } = useAuthorPoems(selectedAuthorId || 0);
+
+  const {
     data: searchResults,
     isLoading: isLoadingSearch,
     error: searchError
@@ -49,8 +60,8 @@ const Poems = () => {
   const [hasShownError, setHasShownError] = useState(false);
 
   useEffect(() => {
-    if ((poemsError || searchError || themePoemsError) && !hasShownError) {
-      console.error("API Error:", poemsError || searchError || themePoemsError);
+    if ((poemsError || searchError || themePoemsError || authorPoemsError) && !hasShownError) {
+      console.error("API Error:", poemsError || searchError || themePoemsError || authorPoemsError);
       toast({
         title: "Error loading poems",
         description: "Using cached data. Some features may be limited.",
@@ -58,7 +69,7 @@ const Poems = () => {
       });
       setHasShownError(true);
     }
-  }, [poemsError, searchError, themePoemsError, hasShownError]);
+  }, [poemsError, searchError, themePoemsError, authorPoemsError, hasShownError]);
 
   const handleSearch = (query: string) => {
     const newParams = new URLSearchParams(searchParams);
@@ -76,15 +87,19 @@ const Poems = () => {
     
   const poems = searchQuery 
     ? (searchResults || []) 
-    : selectedThemeId 
-      ? (themePoems || [])
-      : poemsFromPages;
+    : selectedAuthorId 
+      ? (authorPoems || [])
+      : selectedThemeId 
+        ? (themePoems || [])
+        : poemsFromPages;
 
   const isLoading = searchQuery 
     ? isLoadingSearch 
-    : selectedThemeId 
-      ? isLoadingThemePoems 
-      : isLoadingPoems;
+    : selectedAuthorId
+      ? isLoadingAuthorPoems
+      : selectedThemeId 
+        ? isLoadingThemePoems 
+        : isLoadingPoems;
   
   const filteredPoems = (() => {
     if (!poems?.length) return [];
@@ -149,7 +164,7 @@ const Poems = () => {
       </div>
       <FilterBar />
       
-      {(poemsError || searchError || themePoemsError) && (
+      {(poemsError || searchError || themePoemsError || authorPoemsError) && (
         <Alert variant="destructive" className="mb-6">
           <AlertCircle className="h-4 w-4" />
           <AlertTitle>Error</AlertTitle>
@@ -175,7 +190,7 @@ const Poems = () => {
           <PoemGrid 
             title={getPageTitle()} 
             poems={filteredPoems}
-            hasMore={!searchQuery && !selectedAuthor && !selectedGenre && !!hasNextPage}
+            hasMore={!searchQuery && !selectedAuthor && !selectedThemeId && !!hasNextPage}
             loading={isFetchingNextPage}
             onMoreClick={handleMoreClick}
           />
