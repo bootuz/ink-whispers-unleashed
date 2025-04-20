@@ -1,9 +1,11 @@
+
 import { SearchBar } from "@/components/SearchBar"
 import { FilterBar } from "@/components/FilterBar"
 import { PoemGrid } from "@/components/PoemGrid"
 import { useState, useEffect } from "react"
 import { useSearchParams } from "react-router-dom"
 import { usePoems } from "@/hooks/useApi"
+import { Poem } from "@/types/api"
 
 const ITEMS_PER_PAGE = 6;
 
@@ -18,7 +20,7 @@ const Poems = () => {
   
   // Filter poems based on URL parameter
   const filteredPoems = (() => {
-    if (!poems) return [];
+    if (!poems) return [] as Poem[];
     
     if (filterType === 'new') {
       return [...poems].sort((a, b) => b.id - a.id); // Newest first
