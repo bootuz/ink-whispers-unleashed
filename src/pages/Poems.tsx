@@ -1,3 +1,4 @@
+
 import { SearchBar } from "@/components/SearchBar"
 import { FilterBar } from "@/components/FilterBar"
 import { PoemGrid } from "@/components/PoemGrid"
@@ -11,7 +12,7 @@ import { AlertCircle } from "lucide-react"
 import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert"
 
 const Poems = () => {
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const filterType = searchParams.get('filter');
   const selectedGenre = searchParams.get('genre');
   const selectedAuthor = searchParams.get('author');
