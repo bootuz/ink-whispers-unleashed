@@ -15,7 +15,9 @@ export const Navigation = () => {
         <NavigationMenuItem>
           <Link to="/">
             <NavigationMenuLink 
-              className={`${navigationMenuTriggerStyle()} ${isActive('/') ? 'bg-purple-100 text-purple-800' : ''}`}
+              className={`${navigationMenuTriggerStyle()} 
+                ${isActive('/') ? 'bg-purple-100 text-purple-800' : ''}
+                hover:bg-[#F1F0FB] transition-colors duration-200 ease-in-out`}
             >
               <Home className="mr-2 h-4 w-4" />
               Унэр
@@ -25,7 +27,9 @@ export const Navigation = () => {
         <NavigationMenuItem>
           <Link to="/poems">
             <NavigationMenuLink 
-              className={`${navigationMenuTriggerStyle()} ${isActive('/poems') ? 'bg-purple-100 text-purple-800' : ''}`}
+              className={`${navigationMenuTriggerStyle()} 
+                ${isActive('/poems') ? 'bg-purple-100 text-purple-800' : ''}
+                hover:bg-[#F1F0FB] transition-colors duration-200 ease-in-out`}
             >
               <Book className="mr-2 h-4 w-4" />
               Усэхэр
@@ -35,7 +39,9 @@ export const Navigation = () => {
         <NavigationMenuItem>
           <Link to="/authors">
             <NavigationMenuLink 
-              className={`${navigationMenuTriggerStyle()} ${isActive('/authors') ? 'bg-purple-100 text-purple-800' : ''}`}
+              className={`${navigationMenuTriggerStyle()} 
+                ${isActive('/authors') ? 'bg-purple-100 text-purple-800' : ''}
+                hover:bg-[#F1F0FB] transition-colors duration-200 ease-in-out`}
             >
               <Users className="mr-2 h-4 w-4" />
               УсакIуэхэр
