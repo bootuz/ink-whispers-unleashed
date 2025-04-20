@@ -1,8 +1,11 @@
 import { Filter, RefreshCw } from "lucide-react"
 import { useSearchParams } from "react-router-dom"
+import { useGenres } from "@/hooks/useApi"
+import { Skeleton } from "./ui/skeleton"
 
 export const FilterBar = () => {
   const [searchParams, setSearchParams] = useSearchParams();
+  const { data: genres, isLoading: isLoadingGenres } = useGenres();
 
   const handleOrderChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const newParams = new URLSearchParams(searchParams);
@@ -40,16 +43,24 @@ export const FilterBar = () => {
         <Filter className="w-4 h-4" />
         <span className="text-sm font-medium">Filter by:</span>
       </div>
-      <select 
-        onChange={handleGenreChange}
-        value={searchParams.get('genre') || ""}
-        className="px-3 py-1 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-black transition-colors"
-      >
-        <option value="">All Genres</option>
-        <option value="love">Love</option>
-        <option value="nature">Nature</option>
-        <option value="life">Life</option>
-      </select>
+
+      {isLoadingGenres ? (
+        <Skeleton className="h-8 w-32" />
+      ) : (
+        <select 
+          onChange={handleGenreChange}
+          value={searchParams.get('genre') || ""}
+          className="px-3 py-1 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-black transition-colors"
+        >
+          <option value="">All Genres</option>
+          {genres?.map((genre) => (
+            <option key={genre.id} value={genre.title.toLowerCase()}>
+              {genre.title}
+            </option>
+          ))}
+        </select>
+      )}
+      
       <select 
         onChange={handleAuthorChange}
         value={searchParams.get('author') || ""}
@@ -60,6 +71,7 @@ export const FilterBar = () => {
         <option value="dickinson">Emily Dickinson</option>
         <option value="poe">Edgar Allan Poe</option>
       </select>
+
       <select 
         onChange={handleOrderChange}
         value={searchParams.get('filter') || "default"}
@@ -69,6 +81,7 @@ export const FilterBar = () => {
         <option value="new">Newest first</option>
         <option value="popular">Most popular</option>
       </select>
+
       <button
         onClick={handleReset}
         className="flex items-center gap-2 px-3 py-1 text-sm border border-gray-200 rounded-lg hover:border-black transition-colors"
