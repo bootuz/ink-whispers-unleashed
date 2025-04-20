@@ -90,7 +90,7 @@ const Authors = () => {
           </SelectContent>
         </Select>
       </div>
-      <div className="w-full mb-8 space-y-6"> {/* Increased space between rows from space-y-4 to space-y-6 */}
+      <div className="w-full mb-8 grid gap-y-4"> {/* Changed to grid with gap-y-4 */}
         {paginatedAuthors.map((author) => (
           <Link to={`/author/${author.id}`} key={author.id}>
             <Card className="overflow-hidden hover:shadow-lg transition-shadow hover:bg-muted/20">
