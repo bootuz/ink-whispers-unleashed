@@ -1,5 +1,4 @@
-
-import { Filter } from "lucide-react"
+import { Filter, RefreshCw } from "lucide-react"
 import { useSearchParams } from "react-router-dom"
 
 export const FilterBar = () => {
@@ -29,6 +28,10 @@ export const FilterBar = () => {
       newParams.delete('author');
     }
     setSearchParams(newParams);
+  };
+
+  const handleReset = () => {
+    setSearchParams(new URLSearchParams());
   };
 
   return (
@@ -66,6 +69,13 @@ export const FilterBar = () => {
         <option value="new">Newest first</option>
         <option value="popular">Most popular</option>
       </select>
+      <button
+        onClick={handleReset}
+        className="flex items-center gap-2 px-3 py-1 text-sm border border-gray-200 rounded-lg hover:border-black transition-colors"
+      >
+        <RefreshCw className="w-4 h-4" />
+        Reset
+      </button>
     </div>
   )
 }
