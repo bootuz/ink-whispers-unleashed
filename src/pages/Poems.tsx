@@ -1,12 +1,14 @@
 import { SearchBar } from "@/components/SearchBar"
 import { FilterBar } from "@/components/FilterBar"
 import { PoemGrid } from "@/components/PoemGrid"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useSearchParams } from "react-router-dom"
 import { usePoems, useSearchPoems } from "@/hooks/useApi"
 import { Poem } from "@/types/api"
 import { Skeleton } from "@/components/ui/skeleton"
 import { toast } from "@/hooks/use-toast"
+import { AlertCircle } from "lucide-react"
+import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert"
 
 const Poems = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -30,14 +32,19 @@ const Poems = () => {
     error: searchError
   } = useSearchPoems(searchQuery);
 
-  if (poemsError || searchError) {
-    console.error("API Error:", poemsError || searchError);
-    toast({
-      title: "Error loading poems",
-      description: "Please try again later",
-      variant: "destructive"
-    });
-  }
+  const [hasShownError, setHasShownError] = useState(false);
+
+  useEffect(() => {
+    if ((poemsError || searchError) && !hasShownError) {
+      console.error("API Error:", poemsError || searchError);
+      toast({
+        title: "Error loading poems",
+        description: "Using cached data. Some features may be limited.",
+        variant: "destructive"
+      });
+      setHasShownError(true);
+    }
+  }, [poemsError, searchError, hasShownError]);
 
   const handleSearch = (query: string) => {
     const newParams = new URLSearchParams(searchParams);
@@ -58,14 +65,40 @@ const Poems = () => {
   
   const filteredPoems = (() => {
     if (!poems?.length) return [];
+    
+    let filtered = [...poems];
+    
+    if (selectedAuthor) {
+      filtered = filtered.filter(poem => {
+        const authorName = poem.author.name.toLowerCase();
+        let filterValue = selectedAuthor.toLowerCase();
+        
+        if (filterValue === 'frost' && authorName.includes('robert frost')) return true;
+        if (filterValue === 'dickinson' && authorName.includes('emily dickinson')) return true;
+        if (filterValue === 'poe' && authorName.includes('edgar allan poe')) return true;
+        
+        return authorName.includes(filterValue);
+      });
+    }
+    
+    if (selectedGenre) {
+      filtered = filtered.filter(poem => {
+        if ('theme' in poem && poem.theme) {
+          return poem.theme.title.toLowerCase().includes(selectedGenre.toLowerCase());
+        }
+        return poem.title.toLowerCase().includes(selectedGenre.toLowerCase());
+      });
+    }
+    
     if (filterType === 'new') {
-      return [...poems].sort((a, b) => 
+      return filtered.sort((a, b) => 
         new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
       );
     } else if (filterType === 'popular') {
-      return [...poems].reverse();
+      return filtered.reverse();
     }
-    return poems;
+    
+    return filtered;
   })();
 
   const handleMoreClick = () => {
@@ -99,6 +132,16 @@ const Poems = () => {
       </div>
       <FilterBar />
       
+      {(poemsError || searchError) && (
+        <Alert variant="destructive" className="mb-6">
+          <AlertCircle className="h-4 w-4" />
+          <AlertTitle>Error</AlertTitle>
+          <AlertDescription>
+            Unable to connect to the server. Showing available data.
+          </AlertDescription>
+        </Alert>
+      )}
+      
       <div className="mt-8">
         {isLoading && poems.length === 0 ? (
           <div>
@@ -115,7 +158,7 @@ const Poems = () => {
           <PoemGrid 
             title={getPageTitle()} 
             poems={filteredPoems}
-            hasMore={!searchQuery && !!hasNextPage}
+            hasMore={!searchQuery && !selectedAuthor && !selectedGenre && !!hasNextPage}
             loading={isFetchingNextPage}
             onMoreClick={handleMoreClick}
           />
