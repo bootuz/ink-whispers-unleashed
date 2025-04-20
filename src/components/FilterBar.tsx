@@ -36,9 +36,12 @@ export const FilterBar = () => {
         <option value="dickinson">Emily Dickinson</option>
         <option value="poe">Edgar Allan Poe</option>
       </select>
-      <Select onValueChange={handleOrderChange} defaultValue={searchParams.get('filter') || "default"}>
-        <SelectTrigger className="w-[180px]">
-          <SelectValue placeholder="Order by..." />
+      <Select 
+        onValueChange={handleOrderChange} 
+        defaultValue={searchParams.get('filter') || "default"}
+      >
+        <SelectTrigger className="w-[120px] h-[34px] px-3 py-1 text-sm">
+          <SelectValue placeholder="Default order" />
         </SelectTrigger>
         <SelectContent>
           <SelectItem value="default">Default order</SelectItem>
