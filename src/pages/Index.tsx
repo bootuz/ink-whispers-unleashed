@@ -1,5 +1,6 @@
 import { SearchBar } from "@/components/SearchBar"
 import { PoemGrid } from "@/components/PoemGrid"
+import { useNavigate } from "react-router-dom"
 
 // Placeholder data
 const newPoems = [
@@ -45,6 +46,12 @@ const popularPoems = [
 ]
 
 const Index = () => {
+  const navigate = useNavigate();
+
+  const handleMoreClick = () => {
+    navigate('/poems');
+  };
+
   return (
     <div className="min-h-screen flex flex-col items-center px-4 py-16 max-w-7xl mx-auto">
       <h1 
@@ -62,16 +69,12 @@ const Index = () => {
         <PoemGrid 
           title="New Poems" 
           poems={newPoems}
-          currentPage={1}
-          totalPages={1}
-          onPageChange={() => {}}
+          onMoreClick={handleMoreClick}
         />
         <PoemGrid 
           title="Popular Poems" 
           poems={popularPoems}
-          currentPage={1}
-          totalPages={1}
-          onPageChange={() => {}}
+          onMoreClick={handleMoreClick}
         />
       </div>
     </div>
