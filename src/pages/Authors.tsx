@@ -64,7 +64,7 @@ const Authors = () => {
   return (
     <div className="min-h-screen flex flex-col items-center px-4 py-16 max-w-7xl mx-auto">
       <h1 className="text-3xl font-semibold mb-8">Authors</h1>
-      <div className="w-full space-y-4 mb-8">
+      <div className="w-full space-y-6 mb-8">
         {paginatedAuthors.map((author) => (
           <Link to={`/author/${author.id}`} key={author.id}>
             <Card className="overflow-hidden hover:shadow-lg transition-shadow hover:bg-muted/20">
