@@ -36,12 +36,12 @@ export const FilterBar = () => {
         <option value="dickinson">Emily Dickinson</option>
         <option value="poe">Edgar Allan Poe</option>
       </select>
-      <Select onValueChange={handleOrderChange} defaultValue={searchParams.get('filter') || ""}>
+      <Select onValueChange={handleOrderChange} defaultValue={searchParams.get('filter') || "default"}>
         <SelectTrigger className="w-[180px]">
           <SelectValue placeholder="Order by..." />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="">Default order</SelectItem>
+          <SelectItem value="default">Default order</SelectItem>
           <SelectItem value="new">Newest first</SelectItem>
           <SelectItem value="popular">Most popular</SelectItem>
         </SelectContent>
@@ -49,4 +49,3 @@ export const FilterBar = () => {
     </div>
   )
 }
-
