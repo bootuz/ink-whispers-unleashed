@@ -1,4 +1,3 @@
-
 import { SearchBar } from "@/components/SearchBar"
 import { FilterBar } from "@/components/FilterBar"
 import { PoemGrid } from "@/components/PoemGrid"
@@ -31,7 +30,6 @@ const Poems = () => {
     error: searchError
   } = useSearchPoems(searchQuery);
 
-  // Show error toast if API calls fail
   if (poemsError || searchError) {
     console.error("API Error:", poemsError || searchError);
     toast({
@@ -51,16 +49,13 @@ const Poems = () => {
     setSearchParams(newParams);
   };
 
-  // Flatten the pages from infinite query
   const poemsFromPages: Poem[] = poemsResponse?.pages 
     ? poemsResponse.pages.flatMap(page => page.results) 
     : [];
     
-  // Use search results if there's a query, otherwise use paginated poems
   const poems = searchQuery ? (searchResults || []) : poemsFromPages;
   const isLoading = searchQuery ? isLoadingSearch : isLoadingPoems;
   
-  // Filter poems based on URL parameter
   const filteredPoems = (() => {
     if (!poems?.length) return [];
     if (filterType === 'new') {
@@ -91,7 +86,7 @@ const Poems = () => {
     }
     if (filterType === 'new') return "New Poems";
     if (filterType === 'popular') return "Popular Poems";
-    return "All Poems";
+    return "Усэу хъуар";
   };
 
   return (
