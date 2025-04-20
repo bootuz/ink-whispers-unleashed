@@ -1,4 +1,3 @@
-
 import { useAuthors } from "@/hooks/useApi";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
@@ -16,9 +15,7 @@ import {
 
 const Authors = () => {
   const [sortBy, setSortBy] = useState<"name" | "poems">("name");
-  const { data, isLoading } = useAuthors();
-  
-  const authors = data?.results || [];
+  const { data: authors, isLoading } = useAuthors();
 
   if (isLoading) {
     return (
@@ -28,7 +25,7 @@ const Authors = () => {
     );
   }
 
-  if (!authors.length) {
+  if (!authors?.length) {
     return (
       <div className="min-h-screen flex flex-col items-center px-4 py-16">
         No authors found
