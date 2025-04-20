@@ -12,7 +12,7 @@ export const Navigation = () => {
           <Link to="/">
             <NavigationMenuLink className={navigationMenuTriggerStyle()}>
               <Home className="mr-2 h-4 w-4" />
-              Home
+              Унэр
             </NavigationMenuLink>
           </Link>
         </NavigationMenuItem>
@@ -20,7 +20,7 @@ export const Navigation = () => {
           <Link to="/poems">
             <NavigationMenuLink className={navigationMenuTriggerStyle()}>
               <Book className="mr-2 h-4 w-4" />
-              Poems
+              Усэхэр
             </NavigationMenuLink>
           </Link>
         </NavigationMenuItem>
@@ -28,7 +28,7 @@ export const Navigation = () => {
           <Link to="/authors">
             <NavigationMenuLink className={navigationMenuTriggerStyle()}>
               <Users className="mr-2 h-4 w-4" />
-              Authors
+              УсакIуэхэр
             </NavigationMenuLink>
           </Link>
         </NavigationMenuItem>
