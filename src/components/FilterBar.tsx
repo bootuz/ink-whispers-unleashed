@@ -1,7 +1,23 @@
 
 import { Filter } from "lucide-react"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+import { useSearchParams } from "react-router-dom"
 
 export const FilterBar = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const handleOrderChange = (value: string) => {
+    const newParams = new URLSearchParams(searchParams);
+    newParams.set('filter', value);
+    setSearchParams(newParams);
+  };
+
   return (
     <div className="flex items-center gap-4 py-4">
       <div className="flex items-center gap-2">
@@ -20,6 +36,17 @@ export const FilterBar = () => {
         <option value="dickinson">Emily Dickinson</option>
         <option value="poe">Edgar Allan Poe</option>
       </select>
+      <Select onValueChange={handleOrderChange} defaultValue={searchParams.get('filter') || ""}>
+        <SelectTrigger className="w-[180px]">
+          <SelectValue placeholder="Order by..." />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="">Default order</SelectItem>
+          <SelectItem value="new">Newest first</SelectItem>
+          <SelectItem value="popular">Most popular</SelectItem>
+        </SelectContent>
+      </Select>
     </div>
   )
 }
+
