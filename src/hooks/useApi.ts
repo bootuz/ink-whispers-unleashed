@@ -10,12 +10,14 @@ async function fetchFromApi<T>(endpoint: string): Promise<T> {
   return response.json();
 }
 
-export function usePoems() {
+export function usePoems(genre?: string) {
   return useInfiniteQuery<PaginatedResponse<Poem>>({
-    queryKey: ['poems'],
+    queryKey: ['poems', genre],
     initialPageParam: 1,
-    queryFn: ({ pageParam = 1 }) => 
-      fetchFromApi<PaginatedResponse<Poem>>(`${API_ENDPOINTS.poems}?page=${pageParam}`),
+    queryFn: ({ pageParam = 1 }) => {
+      const endpoint = `${API_ENDPOINTS.poems}?page=${pageParam}${genre ? `&theme=${genre}` : ''}`;
+      return fetchFromApi<PaginatedResponse<Poem>>(endpoint);
+    },
     getNextPageParam: (lastPage: PaginatedResponse<Poem>) => {
       if (lastPage.next) {
         const url = new URL(lastPage.next);

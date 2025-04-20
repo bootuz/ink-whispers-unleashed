@@ -4,14 +4,14 @@ import { PoemGrid } from "@/components/PoemGrid"
 import { useState, useEffect } from "react"
 import { useSearchParams } from "react-router-dom"
 import { usePoems, useSearchPoems } from "@/hooks/useApi"
-import { Poem, PoemDetail } from "@/types/api"
+import { Poem } from "@/types/api"
 import { Skeleton } from "@/components/ui/skeleton"
 import { toast } from "@/hooks/use-toast"
 import { AlertCircle } from "lucide-react"
 import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert"
 
 const Poems = () => {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const filterType = searchParams.get('filter');
   const selectedGenre = searchParams.get('genre');
   const selectedAuthor = searchParams.get('author');
@@ -24,7 +24,7 @@ const Poems = () => {
     fetchNextPage,
     isFetchingNextPage,
     error: poemsError
-  } = usePoems();
+  } = usePoems(selectedGenre || undefined);
   
   const {
     data: searchResults,
