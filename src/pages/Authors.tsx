@@ -54,7 +54,7 @@ const authors = [
   }
 ]
 
-const AUTHORS_PER_PAGE = 8
+const AUTHORS_PER_PAGE = 15
 
 const Authors = () => {
   const [currentPage, setCurrentPage] = useState(1)
@@ -90,7 +90,7 @@ const Authors = () => {
           </SelectContent>
         </Select>
       </div>
-      <div className="w-full space-y-6 mb-8">
+      <div className="w-full space-y-6 mb-8 pb-10">
         {paginatedAuthors.map((author) => (
           <Link to={`/author/${author.id}`} key={author.id}>
             <Card className="overflow-hidden hover:shadow-lg transition-shadow hover:bg-muted/20">
