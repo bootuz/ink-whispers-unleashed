@@ -1,18 +1,9 @@
-
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent } from "@/components/ui/card"
 import { BookOpen, UserRound } from "lucide-react"
 import { useState } from "react"
 import { Link } from "react-router-dom"
-import {
-  Pagination,
-  PaginationContent,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from "@/components/ui/pagination"
 import {
   Select,
   SelectContent,
@@ -90,7 +81,7 @@ const Authors = () => {
           </SelectContent>
         </Select>
       </div>
-      <div className="w-full space-y-10 mb-8">
+      <div className="w-full space-y-4 mb-8">
         {paginatedAuthors.map((author) => (
           <Link to={`/author/${author.id}`} key={author.id}>
             <Card className="overflow-hidden hover:shadow-lg transition-shadow hover:bg-muted/20">
@@ -150,4 +141,3 @@ const Authors = () => {
 }
 
 export default Authors
-
