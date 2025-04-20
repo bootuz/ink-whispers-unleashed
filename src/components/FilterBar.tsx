@@ -40,7 +40,7 @@ export const FilterBar = () => {
         onValueChange={handleOrderChange} 
         defaultValue={searchParams.get('filter') || "default"}
       >
-        <SelectTrigger className="w-auto min-w-[120px] h-[32px] px-3 py-1 text-sm">
+        <SelectTrigger className="w-auto min-w-[120px] h-[30px] px-3 py-1 text-sm">
           <SelectValue placeholder="Default order" />
         </SelectTrigger>
         <SelectContent>
