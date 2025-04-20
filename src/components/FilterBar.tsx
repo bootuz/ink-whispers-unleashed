@@ -1,3 +1,4 @@
+
 import { Filter, RefreshCw } from "lucide-react"
 import { useSearchParams } from "react-router-dom"
 import { useGenres, useFilterAuthors } from "@/hooks/useApi"
@@ -6,7 +7,10 @@ import { Skeleton } from "./ui/skeleton"
 export const FilterBar = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const { data: genres, isLoading: isLoadingGenres } = useGenres();
-  const { data: authors, isLoading: isLoadingAuthors } = useFilterAuthors();
+  const { data: authorsData, isLoading: isLoadingAuthors } = useFilterAuthors();
+  
+  // Extract the authors array from the paginated response
+  const authors = authorsData?.results || [];
 
   const handleOrderChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const newParams = new URLSearchParams(searchParams);
@@ -71,7 +75,7 @@ export const FilterBar = () => {
           className="px-3 py-1 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-black transition-colors"
         >
           <option value="">All Authors</option>
-          {authors?.map((author) => (
+          {authors.map((author) => (
             <option key={author.id} value={author.name.toLowerCase().replace(/\s+/g, '-')}>
               {author.name}
             </option>

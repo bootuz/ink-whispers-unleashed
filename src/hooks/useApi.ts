@@ -1,3 +1,4 @@
+
 import { useQuery, useInfiniteQuery } from "@tanstack/react-query";
 import { API_BASE_URL, API_ENDPOINTS } from "@/lib/api-config";
 import { Poem, PoemDetail, Author, AuthorDetail, Theme, PaginatedResponse } from "@/types/api";
@@ -91,8 +92,8 @@ export function useGenres() {
 }
 
 export function useFilterAuthors() {
-  return useQuery<Author[]>({
+  return useQuery<PaginatedResponse<Author>>({
     queryKey: ['authors', 'filter'],
-    queryFn: () => fetchFromApi<Author[]>(API_ENDPOINTS.authors),
+    queryFn: () => fetchFromApi<PaginatedResponse<Author>>(API_ENDPOINTS.authors),
   });
 }
