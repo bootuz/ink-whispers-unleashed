@@ -3,8 +3,12 @@ import { Filter, RefreshCw } from "lucide-react"
 import { useSearchParams } from "react-router-dom"
 import { useThemes, useAuthors } from "@/hooks/useApi"
 import { Skeleton } from "./ui/skeleton"
+import { useIsMobile } from "@/hooks/use-mobile"
+import { Drawer, DrawerContent, DrawerTrigger } from "./ui/drawer"
+import { Button } from "./ui/button"
 
 export const FilterBar = () => {
+  const isMobile = useIsMobile();
   const [searchParams, setSearchParams] = useSearchParams();
   const { data: themes, isLoading: isLoadingThemes } = useThemes();
   const { data: authors, isLoading: isLoadingAuthors } = useAuthors();
@@ -43,20 +47,15 @@ export const FilterBar = () => {
     setSearchParams(new URLSearchParams());
   };
 
-  return (
-    <div className="flex items-center gap-4 py-4">
-      <div className="flex items-center gap-2">
-        <Filter className="w-4 h-4" />
-        <span className="text-sm font-medium">Filter by:</span>
-      </div>
-
+  const FilterControls = () => (
+    <div className="flex flex-col md:flex-row md:items-center gap-4 py-4">
       {isLoadingThemes ? (
         <Skeleton className="h-8 w-32" />
       ) : (
         <select 
           onChange={handleGenreChange}
           value={searchParams.get('genre') || ""}
-          className="px-3 py-1 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-black transition-colors"
+          className="px-3 py-1 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-black transition-colors w-full md:w-auto"
         >
           <option value="">All Genres</option>
           {themes?.map((theme) => (
@@ -73,7 +72,7 @@ export const FilterBar = () => {
         <select 
           onChange={handleAuthorChange}
           value={searchParams.get('author') || ""}
-          className="px-3 py-1 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-black transition-colors"
+          className="px-3 py-1 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-black transition-colors w-full md:w-auto"
         >
           <option value="">All Authors</option>
           {authors?.map((author) => (
@@ -87,7 +86,7 @@ export const FilterBar = () => {
       <select 
         onChange={handleOrderChange}
         value={searchParams.get('filter') || "default"}
-        className="px-3 py-1 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-black transition-colors"
+        className="px-3 py-1 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-black transition-colors w-full md:w-auto"
       >
         <option value="default">Default order</option>
         <option value="new">Newest first</option>
@@ -96,11 +95,40 @@ export const FilterBar = () => {
 
       <button
         onClick={handleReset}
-        className="flex items-center gap-2 px-3 py-1 text-sm border border-gray-200 rounded-lg hover:border-black transition-colors"
+        className="flex items-center justify-center gap-2 px-3 py-1 text-sm border border-gray-200 rounded-lg hover:border-black transition-colors w-full md:w-auto"
       >
         <RefreshCw className="w-4 h-4" />
         Reset
       </button>
+    </div>
+  );
+
+  if (isMobile) {
+    return (
+      <Drawer>
+        <DrawerTrigger asChild>
+          <Button variant="outline" className="w-full flex items-center gap-2">
+            <Filter className="w-4 h-4" />
+            <span className="text-sm font-medium">Filters</span>
+          </Button>
+        </DrawerTrigger>
+        <DrawerContent>
+          <div className="px-4 pb-4">
+            <h3 className="text-lg font-semibold mb-4">Filter Poems</h3>
+            <FilterControls />
+          </div>
+        </DrawerContent>
+      </Drawer>
+    );
+  }
+
+  return (
+    <div className="flex items-center gap-4 py-4">
+      <div className="flex items-center gap-2">
+        <Filter className="w-4 h-4" />
+        <span className="text-sm font-medium">Filter by:</span>
+      </div>
+      <FilterControls />
     </div>
   );
 };

@@ -1,3 +1,4 @@
+
 import { SearchBar } from "@/components/SearchBar";
 import { FilterBar } from "@/components/FilterBar";
 import { PoemGrid } from "@/components/PoemGrid";
@@ -50,14 +51,16 @@ const Poems = () => {
 
   return (
     <div className="min-h-screen px-4 py-8 md:py-16 max-w-7xl mx-auto">
-      <div className="max-w-2xl mx-auto mb-6 md:mb-8">
+      <div className="max-w-2xl mx-auto mb-4">
         <SearchBar 
           value={searchQuery}
           onSearch={handleSearch}
           onKeyDown={handleKeyDown}
         />
       </div>
-      <FilterBar />
+      <div className="max-w-2xl mx-auto mb-6 md:mb-8">
+        <FilterBar />
+      </div>
       
       {(poemsError || searchError || themePoemsError || authorPoemsError) && <PoemError />}
       
