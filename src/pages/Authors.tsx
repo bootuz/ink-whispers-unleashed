@@ -42,9 +42,9 @@ const Authors = () => {
   });
 
   return (
-    <div className="min-h-screen flex flex-col items-center px-4 py-16 max-w-7xl mx-auto">
-      <div className="w-full flex justify-between items-center mb-8">
-        <h1 className="text-3xl font-semibold">УсакIуэхэр</h1>
+    <div className="min-h-screen flex flex-col items-center px-4 py-8 md:py-16 max-w-7xl mx-auto">
+      <div className="w-full flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
+        <h1 className="text-2xl md:text-3xl font-semibold">УсакIуэхэр</h1>
         <Select value={sortBy} onValueChange={(value: "name" | "poems") => setSortBy(value)}>
           <SelectTrigger className="w-[180px]">
             <SelectValue placeholder="Sort by..." />
@@ -54,24 +54,24 @@ const Authors = () => {
           </SelectContent>
         </Select>
       </div>
-      <div className="w-full mb-8 grid gap-y-4">
+      <div className="w-full mb-8 grid gap-4">
         {sortedAuthors.map((author) => (
           <Link to={`/author/${author.id}`} key={author.id}>
             <Card className="overflow-hidden hover:shadow-lg transition-shadow hover:bg-muted/20">
               <CardContent className="p-4 flex items-center space-x-4">
-                <Avatar className="h-16 w-16">
+                <Avatar className="h-12 w-12 md:h-16 md:w-16">
                   {author.photo ? (
                     <AvatarImage src={author.photo} alt={author.name} />
                   ) : (
                     <AvatarFallback>
-                      <UserRound className="w-8 h-8 text-muted-foreground" />
+                      <UserRound className="w-6 h-6 md:w-8 md:h-8 text-muted-foreground" />
                     </AvatarFallback>
                   )}
                 </Avatar>
-                <div className="flex flex-col flex-1">
-                  <h2 className="text-lg font-semibold">{author.name}</h2>
+                <div className="flex flex-col flex-1 min-w-0">
+                  <h2 className="text-base md:text-lg font-semibold truncate">{author.name}</h2>
                 </div>
-                <Badge variant="outline" className="ml-auto">
+                <Badge variant="outline" className="ml-auto whitespace-nowrap">
                   View Profile
                 </Badge>
               </CardContent>

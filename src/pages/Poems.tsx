@@ -1,4 +1,3 @@
-
 import { SearchBar } from "@/components/SearchBar";
 import { FilterBar } from "@/components/FilterBar";
 import { PoemGrid } from "@/components/PoemGrid";
@@ -50,8 +49,8 @@ const Poems = () => {
   };
 
   return (
-    <div className="min-h-screen px-4 py-16 max-w-7xl mx-auto">
-      <div className="max-w-2xl mx-auto mb-8">
+    <div className="min-h-screen px-4 py-8 md:py-16 max-w-7xl mx-auto">
+      <div className="max-w-2xl mx-auto mb-6 md:mb-8">
         <SearchBar 
           value={searchQuery}
           onSearch={handleSearch}
@@ -62,11 +61,11 @@ const Poems = () => {
       
       {(poemsError || searchError || themePoemsError || authorPoemsError) && <PoemError />}
       
-      <div className="mt-8">
+      <div className="mt-6 md:mt-8">
         {isLoading && filteredPoems.length === 0 ? (
           <div>
-            <h2 className="text-2xl font-playfair mb-6">{getPageTitle()}</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <h2 className="text-xl md:text-2xl font-playfair mb-4 md:mb-6">{getPageTitle()}</h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
               {[1, 2, 3, 4, 5, 6].map((i) => (
                 <div key={i} className="overflow-hidden rounded-lg border border-gray-200">
                   <Skeleton className="h-[200px] w-full" />

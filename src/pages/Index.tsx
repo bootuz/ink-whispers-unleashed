@@ -43,9 +43,9 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center px-4 py-16 max-w-7xl mx-auto">
+    <div className="min-h-screen flex flex-col items-center px-4 py-8 md:py-16 max-w-7xl mx-auto">
       <h1 
-        className="text-5xl mb-8 tracking-wider text-center"
+        className="text-4xl md:text-5xl mb-6 md:mb-8 tracking-wider text-center"
         style={{
           fontFamily: "'Marck Script', cursive",
           fontWeight: 400,
@@ -55,7 +55,7 @@ const Index = () => {
         Усэрадэ
       </h1>
       <SearchBar 
-        className="mb-16" 
+        className="mb-8 md:mb-16 w-full max-w-2xl" 
         value={searchQuery}
         onSearch={handleSearch}
         onKeyDown={handleKeyPress}
@@ -71,9 +71,9 @@ const Index = () => {
         </Alert>
       )}
 
-      <div className="w-full space-y-16">
+      <div className="w-full space-y-8 md:space-y-16">
         {isLoadingLatest ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
             {[1, 2, 3].map((i) => (
               <div key={i} className="overflow-hidden rounded-lg border border-gray-200">
                 <Skeleton className="h-[200px] w-full" />
@@ -90,7 +90,7 @@ const Index = () => {
         
         <PoemGrid 
           title="Нэхъ зэджэ усэхэр" 
-          poems={[]} // For now, keeping this empty as we don't have a popular poems endpoint
+          poems={[]}
           onMoreClick={handlePopularPoemsMore}
         />
       </div>
