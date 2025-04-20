@@ -6,7 +6,7 @@ import { Skeleton } from "./ui/skeleton"
 
 export const FilterBar = () => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const { data: categories, isLoading: isLoadingCategories } = useThemes();
+  const { data: themes, isLoading: isLoadingThemes } = useThemes();
   const { data: authorsData, isLoading: isLoadingAuthors } = useFilterAuthors();
   
   // Extract the authors array from the paginated response
@@ -49,7 +49,7 @@ export const FilterBar = () => {
         <span className="text-sm font-medium">Filter by:</span>
       </div>
 
-      {isLoadingCategories ? (
+      {isLoadingThemes ? (
         <Skeleton className="h-8 w-32" />
       ) : (
         <select 
@@ -58,9 +58,9 @@ export const FilterBar = () => {
           className="px-3 py-1 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-black transition-colors"
         >
           <option value="">All Genres</option>
-          {categories?.map((category) => (
-            <option key={category.id} value={category.title.toLowerCase()}>
-              {category.title}
+          {themes?.map((theme) => (
+            <option key={theme.id} value={theme.title.toLowerCase()}>
+              {theme.title}
             </option>
           ))}
         </select>
