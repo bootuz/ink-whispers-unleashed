@@ -5,6 +5,7 @@ import { PoemGrid } from "@/components/PoemGrid"
 import { useState } from "react"
 import { useSearchParams } from "react-router-dom"
 import { usePoems, useSearchPoems } from "@/hooks/useApi"
+import { Poem } from "@/types/api"
 
 const Poems = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -59,6 +60,24 @@ const Poems = () => {
 
   const handleMoreClick = () => {
     fetchNextPage();
+  };
+
+  // Add the missing getPageTitle function
+  const getPageTitle = () => {
+    if (searchQuery) {
+      return `Search results for "${searchQuery}"`;
+    }
+    if (selectedAuthor) {
+      return `Poems by ${selectedAuthor === 'frost' ? 'Robert Frost' : 
+        selectedAuthor === 'dickinson' ? 'Emily Dickinson' : 
+        selectedAuthor === 'poe' ? 'Edgar Allan Poe' : 'All Authors'}`;
+    }
+    if (selectedGenre) {
+      return `${selectedGenre.charAt(0).toUpperCase() + selectedGenre.slice(1)} Poems`;
+    }
+    if (filterType === 'new') return "New Poems";
+    if (filterType === 'popular') return "Popular Poems";
+    return "All Poems";
   };
 
   if (isLoading && poems.length === 0) {
