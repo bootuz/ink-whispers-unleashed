@@ -73,7 +73,7 @@ const Author = () => {
                   id={poem.id}
                   title={poem.title}
                   author={{id: author.id, name: author.name}}
-                  content={poem.content}
+                  excerpt={poem.content}
                 />
               ))}
             </div>
