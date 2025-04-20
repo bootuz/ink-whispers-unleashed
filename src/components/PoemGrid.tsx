@@ -1,6 +1,6 @@
-
 import { Button } from "@/components/ui/button"
 import { PoemCard } from "./PoemCard"
+import { ChevronRight } from "lucide-react"
 
 interface Poem {
   id: number;
@@ -36,12 +36,13 @@ export const PoemGrid = ({
       {hasMore && (
         <div className="flex justify-center">
           <Button 
-            variant="outline" 
+            variant="default" 
             onClick={onMoreClick}
             disabled={loading}
-            className="w-[200px]"
+            className="w-[250px] bg-sky-500 hover:bg-sky-600 transition-colors duration-300 group"
           >
-            {loading ? 'Loading...' : 'More'}
+            {loading ? 'Loading...' : 'More Poems'}
+            <ChevronRight className="ml-2 group-hover:translate-x-1 transition-transform" />
           </Button>
         </div>
       )}
