@@ -1,10 +1,9 @@
-
 import { SearchBar } from "@/components/SearchBar"
 import { FilterBar } from "@/components/FilterBar"
 import { PoemGrid } from "@/components/PoemGrid"
 import { useState, useEffect } from "react"
 import { useSearchParams } from "react-router-dom"
-import { usePoems, useSearchPoems, useThemes } from "@/hooks/useApi"
+import { usePoems, useSearchPoems, useThemes, useThemePoems } from "@/hooks/useApi"
 import { Poem } from "@/types/api"
 import { Skeleton } from "@/components/ui/skeleton"
 import { toast } from "@/hooks/use-toast"
@@ -22,8 +21,8 @@ const Poems = () => {
   
   const selectedThemeId = themes?.find(
     theme => theme.title.toLowerCase() === selectedGenre?.toLowerCase()
-  )?.id?.toString();
-  
+  )?.id;
+
   const { 
     data: poemsResponse, 
     isLoading: isLoadingPoems,
@@ -31,7 +30,15 @@ const Poems = () => {
     fetchNextPage,
     isFetchingNextPage,
     error: poemsError
-  } = usePoems(selectedThemeId);
+  } = usePoems();
+
+  const {
+    data: themePoems,
+    isLoading: isLoadingThemePoems,
+    error: themePoemsError
+  } = useThemePoems(selectedThemeId || 0, {
+    enabled: !!selectedThemeId
+  });
 
   const {
     data: searchResults,
@@ -42,8 +49,8 @@ const Poems = () => {
   const [hasShownError, setHasShownError] = useState(false);
 
   useEffect(() => {
-    if ((poemsError || searchError) && !hasShownError) {
-      console.error("API Error:", poemsError || searchError);
+    if ((poemsError || searchError || themePoemsError) && !hasShownError) {
+      console.error("API Error:", poemsError || searchError || themePoemsError);
       toast({
         title: "Error loading poems",
         description: "Using cached data. Some features may be limited.",
@@ -51,7 +58,7 @@ const Poems = () => {
       });
       setHasShownError(true);
     }
-  }, [poemsError, searchError, hasShownError]);
+  }, [poemsError, searchError, themePoemsError, hasShownError]);
 
   const handleSearch = (query: string) => {
     const newParams = new URLSearchParams(searchParams);
@@ -63,12 +70,21 @@ const Poems = () => {
     setSearchParams(newParams);
   };
 
-  const poemsFromPages: Poem[] = poemsResponse?.pages 
+  const poemsFromPages = poemsResponse?.pages 
     ? poemsResponse.pages.flatMap(page => page.results) 
     : [];
     
-  const poems = searchQuery ? (searchResults || []) : poemsFromPages;
-  const isLoading = searchQuery ? isLoadingSearch : isLoadingPoems;
+  const poems = searchQuery 
+    ? (searchResults || []) 
+    : selectedThemeId 
+      ? (themePoems || [])
+      : poemsFromPages;
+
+  const isLoading = searchQuery 
+    ? isLoadingSearch 
+    : selectedThemeId 
+      ? isLoadingThemePoems 
+      : isLoadingPoems;
   
   const filteredPoems = (() => {
     if (!poems?.length) return [];
@@ -87,13 +103,6 @@ const Poems = () => {
         if (filterValue === 'poe' && authorName.includes('edgar allan poe')) return true;
         
         return authorName.includes(filterValue);
-      });
-    }
-    
-    if (selectedGenre) {
-      filtered = filtered.filter(poem => {
-        const categoryTitle = poem.theme.title?.toLowerCase() || '';
-        return categoryTitle.includes(selectedGenre.toLowerCase());
       });
     }
     
@@ -140,7 +149,7 @@ const Poems = () => {
       </div>
       <FilterBar />
       
-      {(poemsError || searchError) && (
+      {(poemsError || searchError || themePoemsError) && (
         <Alert variant="destructive" className="mb-6">
           <AlertCircle className="h-4 w-4" />
           <AlertTitle>Error</AlertTitle>

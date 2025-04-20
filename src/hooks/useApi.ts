@@ -80,10 +80,11 @@ export function useThemes() {
   });
 }
 
-export function useThemePoems(themeId: number) {
+export function useThemePoems(themeId: number, options: { enabled: boolean } = { enabled: true }) {
   return useQuery<Poem[]>({
     queryKey: ['theme', themeId, 'poems'],
     queryFn: () => fetchFromApi<Poem[]>(API_ENDPOINTS.themePoems(themeId)),
+    enabled: themeId > 0 && options.enabled,
   });
 }
 
