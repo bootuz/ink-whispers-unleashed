@@ -1,4 +1,3 @@
-
 import { SearchBar } from "@/components/SearchBar"
 import { FilterBar } from "@/components/FilterBar"
 import { PoemGrid } from "@/components/PoemGrid"
@@ -86,9 +85,10 @@ const Poems = () => {
     
     if (selectedGenre) {
       filtered = filtered.filter(poem => {
-        // Safely access theme property
-        if (!poem.theme) return false;
-        const themeTitle = poem.theme.title?.toLowerCase() || '';
+        const poemWithTheme = poem as Partial<PoemDetail>;
+        if (!poemWithTheme.theme) return false;
+        
+        const themeTitle = poemWithTheme.theme.title?.toLowerCase() || '';
         return themeTitle.includes(selectedGenre.toLowerCase());
       });
     }
