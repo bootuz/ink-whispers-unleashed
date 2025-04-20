@@ -16,7 +16,10 @@ const Poems = () => {
   
   const { 
     data: poemsResponse, 
-    isLoading: isLoadingPoems 
+    isLoading: isLoadingPoems,
+    hasNextPage,
+    fetchNextPage,
+    isFetchingNextPage
   } = usePoems(currentPage);
   
   const {
@@ -40,18 +43,14 @@ const Poems = () => {
     return poems;
   })();
 
-  const totalPages = searchQuery ? 
-    Math.ceil(filteredPoems.length / 20) : 
-    Math.ceil((poemsResponse?.count || 0) / 20);
-
   // Reset to first page when filter changes
   useEffect(() => {
     setCurrentPage(1);
   }, [filterType, searchQuery]);
 
-  const handlePageChange = (page: number) => {
-    setCurrentPage(page);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+  const handleMoreClick = () => {
+    setCurrentPage(prev => prev + 1);
+    fetchNextPage();
   };
 
   if (isLoading) {
@@ -85,10 +84,9 @@ const Poems = () => {
         <PoemGrid 
           title={getPageTitle()} 
           poems={filteredPoems}
-          currentPage={currentPage}
-          totalPages={totalPages}
-          onPageChange={handlePageChange}
-          showPagination={!searchQuery}
+          hasMore={hasNextPage}
+          loading={isFetchingNextPage}
+          onMoreClick={handleMoreClick}
         />
       </div>
     </div>
