@@ -13,6 +13,13 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 
 const authors = [
   {
@@ -51,10 +58,18 @@ const AUTHORS_PER_PAGE = 8
 
 const Authors = () => {
   const [currentPage, setCurrentPage] = useState(1)
+  const [sortBy, setSortBy] = useState<"name" | "poems">("name")
   
-  const totalPages = Math.ceil(authors.length / AUTHORS_PER_PAGE)
+  const sortedAuthors = [...authors].sort((a, b) => {
+    if (sortBy === "name") {
+      return a.name.localeCompare(b.name)
+    }
+    return b.poemCount - a.poemCount
+  })
+
+  const totalPages = Math.ceil(sortedAuthors.length / AUTHORS_PER_PAGE)
   const startIndex = (currentPage - 1) * AUTHORS_PER_PAGE
-  const paginatedAuthors = authors.slice(startIndex, startIndex + AUTHORS_PER_PAGE)
+  const paginatedAuthors = sortedAuthors.slice(startIndex, startIndex + AUTHORS_PER_PAGE)
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page)
@@ -63,7 +78,18 @@ const Authors = () => {
 
   return (
     <div className="min-h-screen flex flex-col items-center px-4 py-16 max-w-7xl mx-auto">
-      <h1 className="text-3xl font-semibold mb-8">Authors</h1>
+      <div className="w-full flex justify-between items-center mb-8">
+        <h1 className="text-3xl font-semibold">Authors</h1>
+        <Select value={sortBy} onValueChange={(value: "name" | "poems") => setSortBy(value)}>
+          <SelectTrigger className="w-[180px]">
+            <SelectValue placeholder="Sort by..." />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="name">Alphabetically</SelectItem>
+            <SelectItem value="poems">Number of poems</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
       <div className="w-full space-y-6 mb-8">
         {paginatedAuthors.map((author) => (
           <Link to={`/author/${author.id}`} key={author.id}>
@@ -124,3 +150,4 @@ const Authors = () => {
 }
 
 export default Authors
+
