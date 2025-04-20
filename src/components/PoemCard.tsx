@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 interface PoemCardProps {
   id: number;
   title: string;
-  author: { id: number; name: string } | string;
+  author: { id: number, name: string };
   excerpt: string;
 }
 

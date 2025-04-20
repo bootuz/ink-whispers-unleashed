@@ -8,19 +8,19 @@ const newPoems = [
   {
     id: 1,
     title: "The Road Not Taken",
-    author: "Robert Frost",
+    author: { id: 1, name: "Robert Frost" },
     excerpt: "Two roads diverged in a yellow wood, And sorry I could not travel both...",
   },
   {
     id: 2,
     title: "Hope is the thing with feathers",
-    author: "Emily Dickinson",
+    author: { id: 1, name: "Robert Frost" },
     excerpt: "Hope is the thing with feathers That perches in the soul...",
   },
   {
     id: 3,
     title: "The Raven",
-    author: "Edgar Allan Poe",
+    author: { id: 1, name: "Robert Frost" },
     excerpt: "Once upon a midnight dreary, while I pondered, weak and weary...",
   },
 ]
@@ -29,19 +29,19 @@ const popularPoems = [
   {
     id: 4,
     title: "Stopping by Woods",
-    author: "Robert Frost",
+    author: { id: 1, name: "Robert Frost" },
     excerpt: "Whose woods these are I think I know. His house is in the village though...",
   },
   {
     id: 5,
     title: "Because I could not stop for Death",
-    author: "Emily Dickinson",
+    author: { id: 1, name: "Robert Frost" },
     excerpt: "Because I could not stop for Death – He kindly stopped for me...",
   },
   {
     id: 6,
     title: "Annabel Lee",
-    author: "Edgar Allan Poe",
+    author: { id: 1, name: "Robert Frost" },
     excerpt: "It was many and many a year ago, In a kingdom by the sea...",
   },
 ]
