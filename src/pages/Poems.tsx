@@ -1,10 +1,9 @@
-
 import { SearchBar } from "@/components/SearchBar"
 import { FilterBar } from "@/components/FilterBar"
 import { PoemGrid } from "@/components/PoemGrid"
 import { useState, useEffect } from "react"
 import { useSearchParams } from "react-router-dom"
-import { usePoems, useSearchPoems } from "@/hooks/useApi"
+import { usePoems, useSearchPoems, useThemes } from "@/hooks/useApi"
 import { Poem } from "@/types/api"
 import { Skeleton } from "@/components/ui/skeleton"
 import { toast } from "@/hooks/use-toast"
@@ -18,6 +17,12 @@ const Poems = () => {
   const selectedAuthor = searchParams.get('author');
   const searchQuery = searchParams.get('q') || '';
   
+  const { data: themes } = useThemes();
+  
+  const selectedThemeId = themes?.find(
+    theme => theme.title.toLowerCase() === selectedGenre?.toLowerCase()
+  )?.id?.toString();
+  
   const { 
     data: poemsResponse, 
     isLoading: isLoadingPoems,
@@ -25,8 +30,8 @@ const Poems = () => {
     fetchNextPage,
     isFetchingNextPage,
     error: poemsError
-  } = usePoems(selectedGenre || undefined);
-  
+  } = usePoems(selectedThemeId);
+
   const {
     data: searchResults,
     isLoading: isLoadingSearch,
