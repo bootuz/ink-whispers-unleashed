@@ -1,9 +1,10 @@
 
 import { SearchBar } from "@/components/SearchBar"
+import { FilterBar } from "@/components/FilterBar"
 import { PoemGrid } from "@/components/PoemGrid"
 
 // Placeholder data
-const newPoems = [
+const allPoems = [
   {
     id: 1,
     title: "The Road Not Taken",
@@ -22,9 +23,6 @@ const newPoems = [
     author: "Edgar Allan Poe",
     excerpt: "Once upon a midnight dreary, while I pondered, weak and weary...",
   },
-]
-
-const popularPoems = [
   {
     id: 4,
     title: "Stopping by Woods",
@@ -45,17 +43,18 @@ const popularPoems = [
   },
 ]
 
-const Index = () => {
+const Poems = () => {
   return (
-    <div className="min-h-screen flex flex-col items-center px-4 py-16 max-w-7xl mx-auto">
-      <h1 className="font-playfair text-4xl mb-8">Poetry Haven</h1>
-      <SearchBar className="mb-16" />
-      <div className="w-full space-y-16">
-        <PoemGrid title="New Poems" poems={newPoems} />
-        <PoemGrid title="Popular Poems" poems={popularPoems} />
+    <div className="min-h-screen px-4 py-16 max-w-7xl mx-auto">
+      <div className="max-w-2xl mx-auto mb-8">
+        <SearchBar />
+      </div>
+      <FilterBar />
+      <div className="mt-8">
+        <PoemGrid title="All Poems" poems={allPoems} />
       </div>
     </div>
   )
 }
 
-export default Index
+export default Poems
