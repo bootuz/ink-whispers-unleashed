@@ -92,7 +92,7 @@ const Authors = () => {
       <div className="w-full mb-8">
         {paginatedAuthors.map((author) => (
           <Link to={`/author/${author.id}`} key={author.id}>
-            <Card className="overflow-hidden hover:shadow-lg transition-shadow hover:bg-muted/20 space-y-6">
+            <Card className="overflow-hidden hover:shadow-lg transition-shadow hover:bg-muted/20 space-y-10">
               <CardContent className="p-4 flex items-center space-x-4">
                 <Avatar className="h-16 w-16">
                   {author.image ? (
