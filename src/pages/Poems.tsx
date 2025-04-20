@@ -3,46 +3,7 @@ import { FilterBar } from "@/components/FilterBar"
 import { PoemGrid } from "@/components/PoemGrid"
 import { useState, useEffect } from "react"
 import { useSearchParams } from "react-router-dom"
-
-// Placeholder data
-const allPoems = [
-  {
-    id: 1,
-    title: "The Road Not Taken",
-    author: "Robert Frost",
-    excerpt: "Two roads diverged in a yellow wood, And sorry I could not travel both...",
-  },
-  {
-    id: 2,
-    title: "Hope is the thing with feathers",
-    author: "Emily Dickinson",
-    excerpt: "Hope is the thing with feathers That perches in the soul...",
-  },
-  {
-    id: 3,
-    title: "The Raven",
-    author: "Edgar Allan Poe",
-    excerpt: "Once upon a midnight dreary, while I pondered, weak and weary...",
-  },
-  {
-    id: 4,
-    title: "Stopping by Woods",
-    author: "Robert Frost",
-    excerpt: "Whose woods these are I think I know. His house is in the village though...",
-  },
-  {
-    id: 5,
-    title: "Because I could not stop for Death",
-    author: "Emily Dickinson",
-    excerpt: "Because I could not stop for Death – He kindly stopped for me...",
-  },
-  {
-    id: 6,
-    title: "Annabel Lee",
-    author: "Edgar Allan Poe",
-    excerpt: "It was many and many a year ago, In a kingdom by the sea...",
-  },
-]
+import { usePoems } from "@/hooks/useApi"
 
 const ITEMS_PER_PAGE = 6;
 
@@ -53,17 +14,18 @@ const Poems = () => {
   const selectedGenre = searchParams.get('genre');
   const selectedAuthor = searchParams.get('author');
   
+  const { data: poems = [], isLoading, error } = usePoems();
+  
   // Filter poems based on URL parameter
   const filteredPoems = (() => {
-    // This is just a simulation since we're using static data
-    // In a real app, you would fetch the data with the appropriate sorting
+    if (!poems) return [];
+    
     if (filterType === 'new') {
-      return [...allPoems].sort((a, b) => b.id - a.id); // Newest first
+      return [...poems].sort((a, b) => b.id - a.id); // Newest first
     } else if (filterType === 'popular') {
-      // For demo, we'll just reverse the order to simulate popularity
-      return [...allPoems].reverse();
+      return [...poems].reverse();
     }
-    return allPoems;
+    return poems;
   })();
 
   const totalPages = Math.ceil(filteredPoems.length / ITEMS_PER_PAGE);
@@ -79,6 +41,14 @@ const Poems = () => {
     setCurrentPage(page);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
+
+  if (isLoading) {
+    return <div className="min-h-screen px-4 py-16">Loading...</div>;
+  }
+
+  if (error) {
+    return <div className="min-h-screen px-4 py-16">Error loading poems</div>;
+  }
 
   const getPageTitle = () => {
     if (selectedAuthor) {
