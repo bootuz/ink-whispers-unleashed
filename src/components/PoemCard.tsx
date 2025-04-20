@@ -11,9 +11,11 @@ export interface PoemCardProps {
 }
 
 export const PoemCard = ({ id, title, author, excerpt }: PoemCardProps) => {
-  // Safely handle content that might be undefined
-  const lines = text.split('\n');
-  const firstLine = lines[0];
+  // Process excerpt if available
+  const displayContent = excerpt || "";
+  const lines = displayContent.split('\n');
+  const firstLine = lines[0] || "";
+  const restOfContent = lines.slice(1).join('\n');
   
   return (
     <Link to={`/poem/${id}`}>
@@ -31,6 +33,12 @@ export const PoemCard = ({ id, title, author, excerpt }: PoemCardProps) => {
           </Tooltip>
           <p className="text-gray-600 text-sm mb-3">by {author.name}</p>
           
+          {displayContent && (
+            <div className="prose prose-sm line-clamp-3">
+              {firstLine && <p className="font-semibold mb-1">{firstLine}</p>}
+              {restOfContent && <p className="text-gray-700">{restOfContent}</p>}
+            </div>
+          )}
         </CardContent>
       </Card>
     </Link>
