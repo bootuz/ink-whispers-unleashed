@@ -77,7 +77,7 @@ const Index = () => {
           onMoreClick={handleNewPoemsMore}
         />
         <PoemGrid 
-          title="Popular Poems" 
+          title="Нэхъ зэджэ усэхэр" 
           poems={popularPoems}
           onMoreClick={handlePopularPoemsMore}
         />
