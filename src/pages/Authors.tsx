@@ -3,17 +3,9 @@ import { useAuthors } from "@/hooks/useApi";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent } from "@/components/ui/card"
-import { UserRound, BookOpen } from "lucide-react"
+import { UserRound } from "lucide-react"
 import { useState } from "react"
 import { Link } from "react-router-dom"
-import {
-  Pagination,
-  PaginationContent,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from "@/components/ui/pagination"
 import {
   Select,
   SelectContent,
@@ -23,9 +15,8 @@ import {
 } from "@/components/ui/select"
 
 const Authors = () => {
-  const [currentPage, setCurrentPage] = useState(1);
   const [sortBy, setSortBy] = useState<"name" | "poems">("name");
-  const { data: authorData, isLoading } = useAuthors(currentPage);
+  const { data: authors, isLoading } = useAuthors();
 
   if (isLoading) {
     return (
@@ -35,7 +26,7 @@ const Authors = () => {
     );
   }
 
-  if (!authorData) {
+  if (!authors) {
     return (
       <div className="min-h-screen flex flex-col items-center px-4 py-16">
         No authors found
@@ -43,20 +34,12 @@ const Authors = () => {
     );
   }
 
-  const totalPages = Math.ceil(authorData.count / 15); // Assuming 15 authors per page
-
-  const sortedAuthors = [...authorData.results].sort((a, b) => {
+  const sortedAuthors = [...authors].sort((a, b) => {
     if (sortBy === "name") {
       return a.name.localeCompare(b.name);
     }
-    // Since we don't have poem count in the API response, we'll remove this sort option
     return 0;
   });
-
-  const handlePageChange = (page: number) => {
-    setCurrentPage(page);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
 
   return (
     <div className="min-h-screen flex flex-col items-center px-4 py-16 max-w-7xl mx-auto">
@@ -96,32 +79,6 @@ const Authors = () => {
           </Link>
         ))}
       </div>
-      <Pagination>
-        <PaginationContent>
-          <PaginationItem>
-            <PaginationPrevious 
-              onClick={() => currentPage > 1 && handlePageChange(currentPage - 1)}
-              className={currentPage <= 1 ? 'pointer-events-none opacity-50' : ''}
-            />
-          </PaginationItem>
-          {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-            <PaginationItem key={page}>
-              <PaginationLink
-                onClick={() => handlePageChange(page)}
-                isActive={currentPage === page}
-              >
-                {page}
-              </PaginationLink>
-            </PaginationItem>
-          ))}
-          <PaginationItem>
-            <PaginationNext 
-              onClick={() => currentPage < totalPages && handlePageChange(currentPage + 1)}
-              className={currentPage >= totalPages ? 'pointer-events-none opacity-50' : ''}
-            />
-          </PaginationItem>
-        </PaginationContent>
-      </Pagination>
     </div>
   );
 };
