@@ -2,13 +2,12 @@
 import { SearchBar } from "@/components/SearchBar"
 import { FilterBar } from "@/components/FilterBar"
 import { PoemGrid } from "@/components/PoemGrid"
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import { useSearchParams } from "react-router-dom"
 import { usePoems, useSearchPoems } from "@/hooks/useApi"
-import { Poem } from "@/types/api"
 
 const Poems = () => {
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const filterType = searchParams.get('filter');
   const selectedGenre = searchParams.get('genre');
   const selectedAuthor = searchParams.get('author');
@@ -26,6 +25,16 @@ const Poems = () => {
     data: searchResults,
     isLoading: isLoadingSearch
   } = useSearchPoems(searchQuery);
+
+  const handleSearch = (query: string) => {
+    const newParams = new URLSearchParams(searchParams);
+    if (query) {
+      newParams.set('q', query);
+    } else {
+      newParams.delete('q');
+    }
+    setSearchParams(newParams);
+  };
 
   // Flatten the pages from infinite query
   const poemsFromPages: Poem[] = poemsResponse?.pages 
@@ -56,34 +65,20 @@ const Poems = () => {
     return <div className="min-h-screen px-4 py-16">Loading...</div>;
   }
 
-  const getPageTitle = () => {
-    if (searchQuery) {
-      return `Search results for "${searchQuery}"`;
-    }
-    if (selectedAuthor) {
-      return `Poems by ${selectedAuthor === 'frost' ? 'Robert Frost' : 
-        selectedAuthor === 'dickinson' ? 'Emily Dickinson' : 
-        selectedAuthor === 'poe' ? 'Edgar Allan Poe' : 'All Authors'}`;
-    }
-    if (selectedGenre) {
-      return `${selectedGenre.charAt(0).toUpperCase() + selectedGenre.slice(1)} Poems`;
-    }
-    if (filterType === 'new') return "New Poems";
-    if (filterType === 'popular') return "Popular Poems";
-    return "All Poems";
-  };
-
   return (
     <div className="min-h-screen px-4 py-16 max-w-7xl mx-auto">
       <div className="max-w-2xl mx-auto mb-8">
-        <SearchBar />
+        <SearchBar 
+          value={searchQuery}
+          onSearch={handleSearch}
+        />
       </div>
       <FilterBar />
       <div className="mt-8">
         <PoemGrid 
           title={getPageTitle()} 
           poems={filteredPoems}
-          hasMore={!!hasNextPage}
+          hasMore={!searchQuery && !!hasNextPage}
           loading={isFetchingNextPage}
           onMoreClick={handleMoreClick}
         />
