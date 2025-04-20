@@ -12,18 +12,9 @@ export interface PoemCardProps {
 }
 
 export const PoemCard = ({ id, title, author, content, excerpt }: PoemCardProps) => {
-  // Use content if provided, otherwise use excerpt
-  const displayText = content || excerpt || "";
-  
-  // Extract first line for highlighting
-  const lines = displayText.split('\n');
+  const lines = content.split('\n');
   const firstLine = lines[0];
   const remainingText = lines.length > 1 ? lines.slice(1).join('\n') : "";
-  
-  // For debugging
-  console.log("PoemCard displayText:", displayText);
-  console.log("First line:", firstLine);
-  console.log("Remaining text:", remainingText);
   
   return (
     <Link to={`/poem/${id}`}>
