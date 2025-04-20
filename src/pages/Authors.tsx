@@ -1,6 +1,15 @@
 
 import { Card, CardContent } from "@/components/ui/card"
 import { UserRound } from "lucide-react"
+import { useState } from "react"
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination"
 
 // Placeholder data for authors
 const authors = [
@@ -26,12 +35,25 @@ const authors = [
   }
 ]
 
+const AUTHORS_PER_PAGE = 8
+
 const Authors = () => {
+  const [currentPage, setCurrentPage] = useState(1)
+  
+  const totalPages = Math.ceil(authors.length / AUTHORS_PER_PAGE)
+  const startIndex = (currentPage - 1) * AUTHORS_PER_PAGE
+  const paginatedAuthors = authors.slice(startIndex, startIndex + AUTHORS_PER_PAGE)
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page)
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
   return (
     <div className="min-h-screen flex flex-col items-center px-4 py-16 max-w-7xl mx-auto">
       <h1 className="text-3xl font-semibold mb-8">Authors</h1>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 w-full">
-        {authors.map((author) => (
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 w-full mb-8">
+        {paginatedAuthors.map((author) => (
           <Card key={author.id} className="overflow-hidden hover:shadow-lg transition-shadow">
             <div className="relative aspect-square">
               {author.image ? (
@@ -52,6 +74,32 @@ const Authors = () => {
           </Card>
         ))}
       </div>
+      <Pagination>
+        <PaginationContent>
+          <PaginationItem>
+            <PaginationPrevious 
+              onClick={() => currentPage > 1 && handlePageChange(currentPage - 1)}
+              className={currentPage <= 1 ? 'pointer-events-none opacity-50' : ''}
+            />
+          </PaginationItem>
+          {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+            <PaginationItem key={page}>
+              <PaginationLink
+                onClick={() => handlePageChange(page)}
+                isActive={currentPage === page}
+              >
+                {page}
+              </PaginationLink>
+            </PaginationItem>
+          ))}
+          <PaginationItem>
+            <PaginationNext 
+              onClick={() => currentPage < totalPages && handlePageChange(currentPage + 1)}
+              className={currentPage >= totalPages ? 'pointer-events-none opacity-50' : ''}
+            />
+          </PaginationItem>
+        </PaginationContent>
+      </Pagination>
     </div>
   )
 }
