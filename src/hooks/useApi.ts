@@ -1,3 +1,4 @@
+
 import { useQuery, useInfiniteQuery } from "@tanstack/react-query";
 import { API_BASE_URL, API_ENDPOINTS } from "@/lib/api-config";
 import { Poem, PoemDetail, Author, AuthorDetail, Theme, PaginatedResponse } from "@/types/api";
@@ -10,12 +11,13 @@ async function fetchFromApi<T>(endpoint: string): Promise<T> {
   return response.json();
 }
 
-export function usePoems(page = 1) {
-  return useInfiniteQuery({
+export function usePoems() {
+  return useInfiniteQuery<PaginatedResponse<Poem>>({
     queryKey: ['poems'],
+    initialPageParam: 1,
     queryFn: ({ pageParam = 1 }) => 
       fetchFromApi<PaginatedResponse<Poem>>(`${API_ENDPOINTS.poems}?page=${pageParam}`),
-    getNextPageParam: (lastPage) => {
+    getNextPageParam: (lastPage: PaginatedResponse<Poem>) => {
       if (lastPage.next) {
         const url = new URL(lastPage.next);
         return url.searchParams.get('page');

@@ -17,12 +17,12 @@ const authorsData = {
       {
         id: 1,
         title: "The Road Not Taken",
-        excerpt: "Two roads diverged in a yellow wood, And sorry I could not travel both..."
+        content: "Two roads diverged in a yellow wood, And sorry I could not travel both..."
       },
       {
         id: 4,
         title: "Stopping by Woods on a Snowy Evening",
-        excerpt: "Whose woods these are I think I know. His house is in the village though..."
+        content: "Whose woods these are I think I know. His house is in the village though..."
       }
     ]
   },
@@ -37,12 +37,12 @@ const authorsData = {
       {
         id: 2,
         title: "Hope is the thing with feathers",
-        excerpt: "Hope is the thing with feathers That perches in the soul..."
+        content: "Hope is the thing with feathers That perches in the soul..."
       },
       {
         id: 5,
         title: "Because I could not stop for Death",
-        excerpt: "Because I could not stop for Death – He kindly stopped for me..."
+        content: "Because I could not stop for Death – He kindly stopped for me..."
       }
     ]
   }
@@ -110,8 +110,8 @@ const Author = () => {
                   key={poem.id}
                   id={poem.id}
                   title={poem.title}
-                  author={author.name}
-                  excerpt={poem.excerpt}
+                  author={{id: author.id, name: author.name}}
+                  content={poem.content}
                 />
               ))}
             </div>

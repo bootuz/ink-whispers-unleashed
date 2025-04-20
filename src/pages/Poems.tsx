@@ -5,10 +5,10 @@ import { PoemGrid } from "@/components/PoemGrid"
 import { useState, useEffect } from "react"
 import { useSearchParams } from "react-router-dom"
 import { usePoems, useSearchPoems } from "@/hooks/useApi"
+import { Poem } from "@/types/api"
 
 const Poems = () => {
   const [searchParams] = useSearchParams();
-  const [currentPage, setCurrentPage] = useState(1);
   const filterType = searchParams.get('filter');
   const selectedGenre = searchParams.get('genre');
   const selectedAuthor = searchParams.get('author');
@@ -20,15 +20,20 @@ const Poems = () => {
     hasNextPage,
     fetchNextPage,
     isFetchingNextPage
-  } = usePoems(currentPage);
+  } = usePoems();
   
   const {
     data: searchResults,
     isLoading: isLoadingSearch
   } = useSearchPoems(searchQuery);
 
+  // Flatten the pages from infinite query
+  const poemsFromPages: Poem[] = poemsResponse?.pages 
+    ? poemsResponse.pages.flatMap(page => page.results) 
+    : [];
+    
   // Use search results if there's a query, otherwise use paginated poems
-  const poems = searchQuery ? searchResults || [] : poemsResponse?.results || [];
+  const poems = searchQuery ? searchResults || [] : poemsFromPages;
   const isLoading = searchQuery ? isLoadingSearch : isLoadingPoems;
   
   // Filter poems based on URL parameter
@@ -43,17 +48,11 @@ const Poems = () => {
     return poems;
   })();
 
-  // Reset to first page when filter changes
-  useEffect(() => {
-    setCurrentPage(1);
-  }, [filterType, searchQuery]);
-
   const handleMoreClick = () => {
-    setCurrentPage(prev => prev + 1);
     fetchNextPage();
   };
 
-  if (isLoading) {
+  if (isLoading && poems.length === 0) {
     return <div className="min-h-screen px-4 py-16">Loading...</div>;
   }
 
@@ -84,7 +83,7 @@ const Poems = () => {
         <PoemGrid 
           title={getPageTitle()} 
           poems={filteredPoems}
-          hasMore={hasNextPage}
+          hasMore={!!hasNextPage}
           loading={isFetchingNextPage}
           onMoreClick={handleMoreClick}
         />
