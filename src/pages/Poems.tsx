@@ -4,40 +4,50 @@ import { FilterBar } from "@/components/FilterBar"
 import { PoemGrid } from "@/components/PoemGrid"
 import { useState, useEffect } from "react"
 import { useSearchParams } from "react-router-dom"
-import { usePoems } from "@/hooks/useApi"
-import { Poem } from "@/types/api"
-
-const ITEMS_PER_PAGE = 6;
+import { usePoems, useSearchPoems } from "@/hooks/useApi"
 
 const Poems = () => {
-  const [currentPage, setCurrentPage] = useState(1);
   const [searchParams] = useSearchParams();
+  const [currentPage, setCurrentPage] = useState(1);
   const filterType = searchParams.get('filter');
   const selectedGenre = searchParams.get('genre');
   const selectedAuthor = searchParams.get('author');
+  const searchQuery = searchParams.get('q') || '';
   
-  const { data: poems = [], isLoading, error } = usePoems();
+  const { 
+    data: poemsResponse, 
+    isLoading: isLoadingPoems 
+  } = usePoems(currentPage);
+  
+  const {
+    data: searchResults,
+    isLoading: isLoadingSearch
+  } = useSearchPoems(searchQuery);
+
+  // Use search results if there's a query, otherwise use paginated poems
+  const poems = searchQuery ? searchResults || [] : poemsResponse?.results || [];
+  const isLoading = searchQuery ? isLoadingSearch : isLoadingPoems;
   
   // Filter poems based on URL parameter
   const filteredPoems = (() => {
-    if (!poems) return [] as Poem[];
-    
     if (filterType === 'new') {
-      return [...poems].sort((a, b) => b.id - a.id); // Newest first
+      return [...poems].sort((a, b) => 
+        new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+      );
     } else if (filterType === 'popular') {
       return [...poems].reverse();
     }
     return poems;
   })();
 
-  const totalPages = Math.ceil(filteredPoems.length / ITEMS_PER_PAGE);
-  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
-  const paginatedPoems = filteredPoems.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+  const totalPages = searchQuery ? 
+    Math.ceil(filteredPoems.length / 20) : 
+    Math.ceil((poemsResponse?.count || 0) / 20);
 
   // Reset to first page when filter changes
   useEffect(() => {
     setCurrentPage(1);
-  }, [filterType]);
+  }, [filterType, searchQuery]);
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
@@ -48,21 +58,18 @@ const Poems = () => {
     return <div className="min-h-screen px-4 py-16">Loading...</div>;
   }
 
-  if (error) {
-    return <div className="min-h-screen px-4 py-16">Error loading poems</div>;
-  }
-
   const getPageTitle = () => {
+    if (searchQuery) {
+      return `Search results for "${searchQuery}"`;
+    }
     if (selectedAuthor) {
       return `Poems by ${selectedAuthor === 'frost' ? 'Robert Frost' : 
         selectedAuthor === 'dickinson' ? 'Emily Dickinson' : 
         selectedAuthor === 'poe' ? 'Edgar Allan Poe' : 'All Authors'}`;
     }
-    
     if (selectedGenre) {
       return `${selectedGenre.charAt(0).toUpperCase() + selectedGenre.slice(1)} Poems`;
     }
-    
     if (filterType === 'new') return "New Poems";
     if (filterType === 'popular') return "Popular Poems";
     return "All Poems";
@@ -77,11 +84,11 @@ const Poems = () => {
       <div className="mt-8">
         <PoemGrid 
           title={getPageTitle()} 
-          poems={paginatedPoems}
+          poems={filteredPoems}
           currentPage={currentPage}
           totalPages={totalPages}
           onPageChange={handlePageChange}
-          showPagination={true}
+          showPagination={!searchQuery}
         />
       </div>
     </div>
