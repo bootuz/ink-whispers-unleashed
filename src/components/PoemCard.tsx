@@ -20,6 +20,11 @@ export const PoemCard = ({ id, title, author, content, excerpt }: PoemCardProps)
   const firstLine = lines[0];
   const remainingText = lines.length > 1 ? lines.slice(1).join('\n') : "";
   
+  // For debugging
+  console.log("PoemCard displayText:", displayText);
+  console.log("First line:", firstLine);
+  console.log("Remaining text:", remainingText);
+  
   return (
     <Link to={`/poem/${id}`}>
       <Card className="overflow-hidden hover:shadow-lg transition-shadow hover:bg-muted/20">
@@ -46,5 +51,5 @@ export const PoemCard = ({ id, title, author, content, excerpt }: PoemCardProps)
         </CardContent>
       </Card>
     </Link>
-  )
-}
+  );
+};
