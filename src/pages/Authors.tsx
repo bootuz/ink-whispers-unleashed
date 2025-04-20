@@ -32,6 +32,11 @@ const authors = [
     id: 4,
     name: "Maya Angelou",
     image: null
+  },
+  {
+    id: 5,
+    name: "Walt Whitman",
+    image: "https://images.unsplash.com/photo-1518005020951-eccb494ad742"
   }
 ]
 
