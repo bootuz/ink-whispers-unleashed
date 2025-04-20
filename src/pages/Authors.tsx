@@ -90,7 +90,7 @@ const Authors = () => {
           </SelectContent>
         </Select>
       </div>
-      <div className="w-full space-y-6 mb-8 pb-10">
+      <div className="w-full space-y-6 mb-8">
         {paginatedAuthors.map((author) => (
           <Link to={`/author/${author.id}`} key={author.id}>
             <Card className="overflow-hidden hover:shadow-lg transition-shadow hover:bg-muted/20">
