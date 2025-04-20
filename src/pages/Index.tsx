@@ -61,8 +61,17 @@ const Index = () => {
 
   const handleSearch = (query: string) => {
     setSearchQuery(query);
-    if (query.trim()) {
-      navigate(`/poems?q=${encodeURIComponent(query)}`);
+  };
+  
+  const handleSearchSubmit = () => {
+    if (searchQuery.trim()) {
+      navigate(`/poems?q=${encodeURIComponent(searchQuery)}`);
+    }
+  };
+
+  const handleKeyPress = (event: React.KeyboardEvent) => {
+    if (event.key === 'Enter') {
+      handleSearchSubmit();
     }
   };
 
@@ -82,6 +91,7 @@ const Index = () => {
         className="mb-16" 
         value={searchQuery}
         onSearch={handleSearch}
+        onKeyDown={handleKeyPress}
       />
       <div className="w-full space-y-16">
         <PoemGrid 
