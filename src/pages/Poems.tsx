@@ -92,9 +92,7 @@ const Poems = () => {
     
     if (selectedGenre) {
       filtered = filtered.filter(poem => {
-        // Add null check for poem and poem.category
-        if (!poem || !poem.category) return false;
-        const categoryTitle = poem.category.title?.toLowerCase() || '';
+        const categoryTitle = poem.theme.title?.toLowerCase() || '';
         return categoryTitle.includes(selectedGenre.toLowerCase());
       });
     }
