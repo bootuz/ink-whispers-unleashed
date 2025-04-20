@@ -72,7 +72,7 @@ const Index = () => {
       <SearchBar className="mb-16" />
       <div className="w-full space-y-16">
         <PoemGrid 
-          title="New Poems" 
+          title="УсэщIэхэр" 
           poems={newPoems}
           onMoreClick={handleNewPoemsMore}
         />
