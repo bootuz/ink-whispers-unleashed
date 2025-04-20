@@ -1,8 +1,7 @@
-
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent } from "@/components/ui/card"
-import { BookOpen, UserRound } from "lucide-react"
+import { BookOpen, Filter, UserRound } from "lucide-react"
 import { useState } from "react"
 import { Link } from "react-router-dom"
 import {
@@ -78,8 +77,11 @@ const Authors = () => {
 
   return (
     <div className="min-h-screen flex flex-col items-center px-4 py-16 max-w-7xl mx-auto">
-      <div className="w-full flex justify-between items-center mb-8">
-        <h1 className="text-3xl font-semibold">Authors</h1>
+      <div className="w-full flex items-center gap-2 mb-8">
+        <div className="flex items-center gap-2">
+          <Filter className="w-4 h-4" />
+          <span className="text-sm font-medium">Order by:</span>
+        </div>
         <Select value={sortBy} onValueChange={(value: "name" | "poems") => setSortBy(value)}>
           <SelectTrigger className="w-[180px]">
             <SelectValue placeholder="Sort by..." />
@@ -150,4 +152,3 @@ const Authors = () => {
 }
 
 export default Authors
-
