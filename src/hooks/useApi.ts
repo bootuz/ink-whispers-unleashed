@@ -86,7 +86,7 @@ export function useThemePoems(themeId: number) {
 export function useGenres() {
   return useQuery<Theme[]>({
     queryKey: ['categories'],
-    queryFn: () => fetchFromApi<Theme[]>(API_ENDPOINTS.categories),
+    queryFn: () => fetchFromApi<Theme[]>(API_ENDPOINTS.themes),
   });
 }
 
