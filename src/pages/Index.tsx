@@ -1,6 +1,7 @@
 
 import { SearchBar } from "@/components/SearchBar"
 import { PoemGrid } from "@/components/PoemGrid"
+import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 
 // Placeholder data
@@ -48,6 +49,7 @@ const popularPoems = [
 
 const Index = () => {
   const navigate = useNavigate();
+  const [searchQuery, setSearchQuery] = useState("");
 
   const handleNewPoemsMore = () => {
     navigate('/poems?filter=new');
@@ -55,6 +57,13 @@ const Index = () => {
 
   const handlePopularPoemsMore = () => {
     navigate('/poems?filter=popular');
+  };
+
+  const handleSearch = (query: string) => {
+    setSearchQuery(query);
+    if (query.trim()) {
+      navigate(`/poems?q=${encodeURIComponent(query)}`);
+    }
   };
 
   return (
@@ -69,7 +78,11 @@ const Index = () => {
       >
         Усэрадэ
       </h1>
-      <SearchBar className="mb-16" />
+      <SearchBar 
+        className="mb-16" 
+        value={searchQuery}
+        onSearch={handleSearch}
+      />
       <div className="w-full space-y-16">
         <PoemGrid 
           title="УсэщIэхэр" 
