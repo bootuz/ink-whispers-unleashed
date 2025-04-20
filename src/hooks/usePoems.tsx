@@ -87,6 +87,9 @@ export const usePoemsPage = () => {
         ? isLoadingThemePoems 
         : isLoadingPoems;
 
+  // Determine if we should show the "Load More" button based on current filter
+  const shouldShowLoadMore = !selectedAuthor && !selectedGenre && !searchQuery && hasNextPage;
+
   const filteredPoems = (() => {
     if (!poems?.length) return [];
     
@@ -127,7 +130,7 @@ export const usePoemsPage = () => {
   return {
     filteredPoems,
     isLoading,
-    hasNextPage,
+    hasNextPage: shouldShowLoadMore, // Here we use our new check
     isFetchingNextPage,
     fetchNextPage,
     getPageTitle,
