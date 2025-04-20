@@ -7,11 +7,10 @@ export interface PoemCardProps {
   id: number;
   title: string;
   author: { id: number, name: string };
-  text: string;
   excerpt?: string;
 }
 
-export const PoemCard = ({ id, title, author, text, excerpt }: PoemCardProps) => {
+export const PoemCard = ({ id, title, author, excerpt }: PoemCardProps) => {
   // Safely handle content that might be undefined
   const lines = text.split('\n');
   const firstLine = lines[0];
@@ -31,8 +30,7 @@ export const PoemCard = ({ id, title, author, text, excerpt }: PoemCardProps) =>
             </TooltipContent>
           </Tooltip>
           <p className="text-gray-600 text-sm mb-3">by {author.name}</p>
-          <p className="font-playfair text-gray-800 font-medium mb-1">{firstLine}</p>
-
+          
         </CardContent>
       </Card>
     </Link>

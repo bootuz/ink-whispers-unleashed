@@ -6,7 +6,6 @@ interface Poem {
   id: number;
   title: string;
   author: { id: number; name: string };
-  text: string;
   excerpt?: string;
 }
 
