@@ -1,3 +1,4 @@
+
 import { Card, CardContent } from "@/components/ui/card"
 import { UserRound } from "lucide-react"
 import { useState } from "react"
@@ -51,7 +52,7 @@ const Authors = () => {
   return (
     <div className="min-h-screen flex flex-col items-center px-4 py-16 max-w-7xl mx-auto">
       <h1 className="text-3xl font-semibold mb-8">Authors</h1>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 w-full mb-8">
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 w-full mb-8">
         {paginatedAuthors.map((author) => (
           <Link to={`/author/${author.id}`} key={author.id}>
             <Card className="overflow-hidden hover:shadow-lg transition-shadow">
@@ -64,12 +65,12 @@ const Authors = () => {
                   />
                 ) : (
                   <div className="w-full h-full bg-muted flex items-center justify-center">
-                    <UserRound className="w-1/3 h-1/3 text-muted-foreground" />
+                    <UserRound className="w-1/2 h-1/2 text-muted-foreground" />
                   </div>
                 )}
               </div>
-              <CardContent className="p-4">
-                <h2 className="text-xl font-semibold text-center">{author.name}</h2>
+              <CardContent className="p-2">
+                <h2 className="text-sm font-semibold text-center">{author.name}</h2>
               </CardContent>
             </Card>
           </Link>
