@@ -1,3 +1,4 @@
+
 import { SearchBar } from "@/components/SearchBar"
 import { PoemGrid } from "@/components/PoemGrid"
 import { useNavigate } from "react-router-dom"
@@ -48,8 +49,12 @@ const popularPoems = [
 const Index = () => {
   const navigate = useNavigate();
 
-  const handleMoreClick = () => {
-    navigate('/poems');
+  const handleNewPoemsMore = () => {
+    navigate('/poems?filter=new');
+  };
+
+  const handlePopularPoemsMore = () => {
+    navigate('/poems?filter=popular');
   };
 
   return (
@@ -69,12 +74,12 @@ const Index = () => {
         <PoemGrid 
           title="New Poems" 
           poems={newPoems}
-          onMoreClick={handleMoreClick}
+          onMoreClick={handleNewPoemsMore}
         />
         <PoemGrid 
           title="Popular Poems" 
           poems={popularPoems}
-          onMoreClick={handleMoreClick}
+          onMoreClick={handlePopularPoemsMore}
         />
       </div>
     </div>

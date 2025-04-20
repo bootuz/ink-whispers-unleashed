@@ -1,8 +1,8 @@
-
 import { SearchBar } from "@/components/SearchBar"
 import { FilterBar } from "@/components/FilterBar"
 import { PoemGrid } from "@/components/PoemGrid"
-import { useState } from "react"
+import { useState, useEffect } from "react"
+import { useSearchParams } from "react-router-dom"
 
 // Placeholder data
 const allPoems = [
@@ -48,14 +48,40 @@ const ITEMS_PER_PAGE = 6;
 
 const Poems = () => {
   const [currentPage, setCurrentPage] = useState(1);
+  const [searchParams] = useSearchParams();
+  const filterType = searchParams.get('filter');
   
-  const totalPages = Math.ceil(allPoems.length / ITEMS_PER_PAGE);
+  // Filter poems based on URL parameter
+  const filteredPoems = (() => {
+    // This is just a simulation since we're using static data
+    // In a real app, you would fetch the data with the appropriate sorting
+    if (filterType === 'new') {
+      return [...allPoems].sort((a, b) => b.id - a.id); // Newest first
+    } else if (filterType === 'popular') {
+      // For demo, we'll just reverse the order to simulate popularity
+      return [...allPoems].reverse();
+    }
+    return allPoems;
+  })();
+
+  const totalPages = Math.ceil(filteredPoems.length / ITEMS_PER_PAGE);
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
-  const paginatedPoems = allPoems.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+  const paginatedPoems = filteredPoems.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+
+  // Reset to first page when filter changes
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [filterType]);
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const getPageTitle = () => {
+    if (filterType === 'new') return "New Poems";
+    if (filterType === 'popular') return "Popular Poems";
+    return "All Poems";
   };
 
   return (
@@ -66,7 +92,7 @@ const Poems = () => {
       <FilterBar />
       <div className="mt-8">
         <PoemGrid 
-          title="All Poems" 
+          title={getPageTitle()} 
           poems={paginatedPoems}
           currentPage={currentPage}
           totalPages={totalPages}
