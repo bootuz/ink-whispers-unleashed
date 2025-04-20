@@ -1,11 +1,12 @@
 import { Filter, RefreshCw } from "lucide-react"
 import { useSearchParams } from "react-router-dom"
-import { useGenres } from "@/hooks/useApi"
+import { useGenres, useFilterAuthors } from "@/hooks/useApi"
 import { Skeleton } from "./ui/skeleton"
 
 export const FilterBar = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const { data: genres, isLoading: isLoadingGenres } = useGenres();
+  const { data: authors, isLoading: isLoadingAuthors } = useFilterAuthors();
 
   const handleOrderChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const newParams = new URLSearchParams(searchParams);
@@ -61,16 +62,22 @@ export const FilterBar = () => {
         </select>
       )}
       
-      <select 
-        onChange={handleAuthorChange}
-        value={searchParams.get('author') || ""}
-        className="px-3 py-1 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-black transition-colors"
-      >
-        <option value="">All Authors</option>
-        <option value="frost">Robert Frost</option>
-        <option value="dickinson">Emily Dickinson</option>
-        <option value="poe">Edgar Allan Poe</option>
-      </select>
+      {isLoadingAuthors ? (
+        <Skeleton className="h-8 w-32" />
+      ) : (
+        <select 
+          onChange={handleAuthorChange}
+          value={searchParams.get('author') || ""}
+          className="px-3 py-1 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-black transition-colors"
+        >
+          <option value="">All Authors</option>
+          {authors?.map((author) => (
+            <option key={author.id} value={author.name.toLowerCase().replace(/\s+/g, '-')}>
+              {author.name}
+            </option>
+          ))}
+        </select>
+      )}
 
       <select 
         onChange={handleOrderChange}

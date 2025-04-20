@@ -89,3 +89,10 @@ export function useGenres() {
     queryFn: () => fetchFromApi<Theme[]>(API_ENDPOINTS.themes),
   });
 }
+
+export function useFilterAuthors() {
+  return useQuery<Author[]>({
+    queryKey: ['authors', 'filter'],
+    queryFn: () => fetchFromApi<Author[]>(API_ENDPOINTS.authors),
+  });
+}
