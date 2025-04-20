@@ -7,6 +7,7 @@ import { useSearchParams } from "react-router-dom"
 import { usePoems, useSearchPoems } from "@/hooks/useApi"
 import { Poem } from "@/types/api"
 import { Skeleton } from "@/components/ui/skeleton"
+import { toast } from "@/hooks/use-toast"
 
 const Poems = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -20,13 +21,25 @@ const Poems = () => {
     isLoading: isLoadingPoems,
     hasNextPage,
     fetchNextPage,
-    isFetchingNextPage
+    isFetchingNextPage,
+    error: poemsError
   } = usePoems();
   
   const {
     data: searchResults,
-    isLoading: isLoadingSearch
+    isLoading: isLoadingSearch,
+    error: searchError
   } = useSearchPoems(searchQuery);
+
+  // Show error toast if API calls fail
+  if (poemsError || searchError) {
+    console.error("API Error:", poemsError || searchError);
+    toast({
+      title: "Error loading poems",
+      description: "Please try again later",
+      variant: "destructive"
+    });
+  }
 
   const handleSearch = (query: string) => {
     const newParams = new URLSearchParams(searchParams);
@@ -44,11 +57,12 @@ const Poems = () => {
     : [];
     
   // Use search results if there's a query, otherwise use paginated poems
-  const poems = searchQuery ? searchResults || [] : poemsFromPages;
+  const poems = searchQuery ? (searchResults || []) : poemsFromPages;
   const isLoading = searchQuery ? isLoadingSearch : isLoadingPoems;
   
   // Filter poems based on URL parameter
   const filteredPoems = (() => {
+    if (!poems?.length) return [];
     if (filterType === 'new') {
       return [...poems].sort((a, b) => 
         new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
