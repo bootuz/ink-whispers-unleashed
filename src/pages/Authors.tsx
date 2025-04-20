@@ -1,6 +1,8 @@
 
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Badge } from "@/components/ui/badge"
 import { Card, CardContent } from "@/components/ui/card"
-import { UserRound } from "lucide-react"
+import { BookOpen, UserRound } from "lucide-react"
 import { useState } from "react"
 import { Link } from "react-router-dom"
 import {
@@ -16,27 +18,32 @@ const authors = [
   {
     id: 1,
     name: "Robert Frost",
-    image: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b"
+    image: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b",
+    poemCount: 12
   },
   {
     id: 2,
     name: "Emily Dickinson",
-    image: null
+    image: null,
+    poemCount: 8
   },
   {
     id: 3,
     name: "Edgar Allan Poe",
-    image: "https://images.unsplash.com/photo-1581092795360-fd1ca04f0952"
+    image: "https://images.unsplash.com/photo-1581092795360-fd1ca04f0952",
+    poemCount: 15
   },
   {
     id: 4,
     name: "Maya Angelou",
-    image: null
+    image: null,
+    poemCount: 7
   },
   {
     id: 5,
     name: "Walt Whitman",
-    image: "https://images.unsplash.com/photo-1518005020951-eccb494ad742"
+    image: "https://images.unsplash.com/photo-1518005020951-eccb494ad742",
+    poemCount: 10
   }
 ]
 
@@ -57,25 +64,30 @@ const Authors = () => {
   return (
     <div className="min-h-screen flex flex-col items-center px-4 py-16 max-w-7xl mx-auto">
       <h1 className="text-3xl font-semibold mb-8">Authors</h1>
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 w-full mb-8">
+      <div className="w-full space-y-4 mb-8">
         {paginatedAuthors.map((author) => (
           <Link to={`/author/${author.id}`} key={author.id}>
-            <Card className="overflow-hidden hover:shadow-lg transition-shadow">
-              <div className="relative aspect-square">
-                {author.image ? (
-                  <img
-                    src={author.image}
-                    alt={author.name}
-                    className="w-full h-full object-cover"
-                  />
-                ) : (
-                  <div className="w-full h-full bg-muted flex items-center justify-center">
-                    <UserRound className="w-1/2 h-1/2 text-muted-foreground" />
+            <Card className="overflow-hidden hover:shadow-lg transition-shadow hover:bg-muted/20">
+              <CardContent className="p-4 flex items-center space-x-4">
+                <Avatar className="h-16 w-16">
+                  {author.image ? (
+                    <AvatarImage src={author.image} alt={author.name} />
+                  ) : (
+                    <AvatarFallback>
+                      <UserRound className="w-8 h-8 text-muted-foreground" />
+                    </AvatarFallback>
+                  )}
+                </Avatar>
+                <div className="flex flex-col flex-1">
+                  <h2 className="text-lg font-semibold">{author.name}</h2>
+                  <div className="flex items-center mt-1">
+                    <BookOpen className="w-4 h-4 text-muted-foreground mr-1" />
+                    <span className="text-sm text-muted-foreground">{author.poemCount} poems</span>
                   </div>
-                )}
-              </div>
-              <CardContent className="p-2">
-                <h2 className="text-sm font-semibold text-center">{author.name}</h2>
+                </div>
+                <Badge variant="outline" className="ml-auto">
+                  View Profile
+                </Badge>
               </CardContent>
             </Card>
           </Link>
