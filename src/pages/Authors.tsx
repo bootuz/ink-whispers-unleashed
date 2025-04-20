@@ -1,3 +1,4 @@
+
 import { useAuthors } from "@/hooks/useApi";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
@@ -43,7 +44,7 @@ const Authors = () => {
   return (
     <div className="min-h-screen flex flex-col items-center px-4 py-16 max-w-7xl mx-auto">
       <div className="w-full flex justify-between items-center mb-8">
-        <h1 className="text-3xl font-semibold">Authors</h1>
+        <h1 className="text-3xl font-semibold">УсакIуэхэр</h1>
         <Select value={sortBy} onValueChange={(value: "name" | "poems") => setSortBy(value)}>
           <SelectTrigger className="w-[180px]">
             <SelectValue placeholder="Sort by..." />
