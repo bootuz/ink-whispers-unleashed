@@ -1,9 +1,10 @@
+import { useState } from "react"
+import { Link } from "react-router-dom"
+import { FilterBar } from "@/components/FilterBar"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent } from "@/components/ui/card"
-import { BookOpen, Filter, UserRound } from "lucide-react"
-import { useState } from "react"
-import { Link } from "react-router-dom"
+import { BookOpen, UserRound } from "lucide-react"
 import {
   Pagination,
   PaginationContent,
@@ -12,13 +13,6 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination"
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
 
 const authors = [
   {
@@ -57,18 +51,10 @@ const AUTHORS_PER_PAGE = 8
 
 const Authors = () => {
   const [currentPage, setCurrentPage] = useState(1)
-  const [sortBy, setSortBy] = useState<"name" | "poems">("name")
   
-  const sortedAuthors = [...authors].sort((a, b) => {
-    if (sortBy === "name") {
-      return a.name.localeCompare(b.name)
-    }
-    return b.poemCount - a.poemCount
-  })
-
-  const totalPages = Math.ceil(sortedAuthors.length / AUTHORS_PER_PAGE)
+  const totalPages = Math.ceil(authors.length / AUTHORS_PER_PAGE)
   const startIndex = (currentPage - 1) * AUTHORS_PER_PAGE
-  const paginatedAuthors = sortedAuthors.slice(startIndex, startIndex + AUTHORS_PER_PAGE)
+  const paginatedAuthors = authors.slice(startIndex, startIndex + AUTHORS_PER_PAGE)
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page)
@@ -76,21 +62,9 @@ const Authors = () => {
   }
 
   return (
-    <div className="min-h-screen flex flex-col items-center px-4 py-16 max-w-7xl mx-auto">
-      <div className="w-full flex items-center gap-2 mb-8">
-        <div className="flex items-center gap-2">
-          <Filter className="w-4 h-4" />
-          <span className="text-sm font-medium">Order by:</span>
-        </div>
-        <Select value={sortBy} onValueChange={(value: "name" | "poems") => setSortBy(value)}>
-          <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder="Sort by..." />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="name">Alphabetically</SelectItem>
-            <SelectItem value="poems">Number of poems</SelectItem>
-          </SelectContent>
-        </Select>
+    <div className="min-h-screen px-4 py-16 max-w-7xl mx-auto">
+      <div className="max-w-2xl mx-auto mb-8">
+        <FilterBar />
       </div>
       <div className="w-full space-y-6 mb-8">
         {paginatedAuthors.map((author) => (
