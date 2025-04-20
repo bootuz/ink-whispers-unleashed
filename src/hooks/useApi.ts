@@ -1,3 +1,4 @@
+
 import { useQuery, useInfiniteQuery } from "@tanstack/react-query";
 import { API_BASE_URL, API_ENDPOINTS } from "@/lib/api-config";
 import { Poem, PoemDetail, Author, AuthorDetail, Theme, PaginatedResponse } from "@/types/api";
@@ -66,10 +67,11 @@ export function useAuthor(id: number) {
   });
 }
 
-export function useAuthorPoems(authorId: number) {
+export function useAuthorPoems(authorId: number, options: { enabled: boolean } = { enabled: true }) {
   return useQuery<Poem[]>({
     queryKey: ['author', authorId, 'poems'],
     queryFn: () => fetchFromApi<Poem[]>(API_ENDPOINTS.authorPoems(authorId)),
+    enabled: authorId > 0 && options.enabled,
   });
 }
 

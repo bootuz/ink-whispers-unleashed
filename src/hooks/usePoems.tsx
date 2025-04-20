@@ -20,6 +20,7 @@ export const usePoemsPage = () => {
     theme => theme.title.toLowerCase() === selectedGenre?.toLowerCase()
   )?.id;
 
+  // Find the author ID based on the URL slug (author name with dashes)
   const selectedAuthorId = authors?.find(
     author => author.name.toLowerCase().replace(/\s+/g, '-') === selectedAuthor?.toLowerCase()
   )?.id;
@@ -45,7 +46,9 @@ export const usePoemsPage = () => {
     data: authorPoems,
     isLoading: isLoadingAuthorPoems,
     error: authorPoemsError
-  } = useAuthorPoems(selectedAuthorId || 0);
+  } = useAuthorPoems(selectedAuthorId || 0, {
+    enabled: !!selectedAuthorId
+  });
 
   const {
     data: searchResults,
@@ -89,21 +92,6 @@ export const usePoemsPage = () => {
     
     let filtered = [...poems];
     
-    if (selectedAuthor) {
-      filtered = filtered.filter(poem => {
-        if (!poem?.author) return false;
-        
-        const authorName = poem.author.name?.toLowerCase() || '';
-        let filterValue = selectedAuthor.toLowerCase();
-        
-        if (filterValue === 'frost' && authorName.includes('robert frost')) return true;
-        if (filterValue === 'dickinson' && authorName.includes('emily dickinson')) return true;
-        if (filterValue === 'poe' && authorName.includes('edgar allan poe')) return true;
-        
-        return authorName.includes(filterValue);
-      });
-    }
-    
     if (filterType === 'new') {
       return filtered.sort((a, b) => {
         if (!a.created_at || !b.created_at) return 0;
@@ -121,9 +109,12 @@ export const usePoemsPage = () => {
       return `Search results for "${searchQuery}"`;
     }
     if (selectedAuthor) {
-      return `Poems by ${selectedAuthor === 'frost' ? 'Robert Frost' : 
-        selectedAuthor === 'dickinson' ? 'Emily Dickinson' : 
-        selectedAuthor === 'poe' ? 'Edgar Allan Poe' : 'All Authors'}`;
+      // Get proper author name from slug
+      const authorName = authors?.find(
+        author => author.name.toLowerCase().replace(/\s+/g, '-') === selectedAuthor.toLowerCase()
+      )?.name || selectedAuthor;
+      
+      return `Poems by ${authorName}`;
     }
     if (selectedGenre) {
       return `${selectedGenre.charAt(0).toUpperCase() + selectedGenre.slice(1)} Poems`;

@@ -1,17 +1,14 @@
 
 import { Filter, RefreshCw } from "lucide-react"
 import { useSearchParams } from "react-router-dom"
-import { useThemes, useFilterAuthors } from "@/hooks/useApi"
+import { useThemes, useAuthors } from "@/hooks/useApi"
 import { Skeleton } from "./ui/skeleton"
 
 export const FilterBar = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const { data: themes, isLoading: isLoadingThemes } = useThemes();
-  const { data: authorsData, isLoading: isLoadingAuthors } = useFilterAuthors();
+  const { data: authors, isLoading: isLoadingAuthors } = useAuthors();
   
-  // Use the authors directly since it's already an array
-  const authors = authorsData?.results || [];
-
   const handleOrderChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const newParams = new URLSearchParams(searchParams);
     newParams.set('filter', e.target.value);
@@ -22,6 +19,8 @@ export const FilterBar = () => {
     const newParams = new URLSearchParams(searchParams);
     if (e.target.value) {
       newParams.set('genre', e.target.value);
+      // Clear author when selecting a genre
+      newParams.delete('author');
     } else {
       newParams.delete('genre');
     }
@@ -32,6 +31,8 @@ export const FilterBar = () => {
     const newParams = new URLSearchParams(searchParams);
     if (e.target.value) {
       newParams.set('author', e.target.value);
+      // Clear genre when selecting an author
+      newParams.delete('genre');
     } else {
       newParams.delete('author');
     }
@@ -75,7 +76,7 @@ export const FilterBar = () => {
           className="px-3 py-1 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-black transition-colors"
         >
           <option value="">All Authors</option>
-          {authors.map((author) => (
+          {authors?.map((author) => (
             <option key={author.id} value={author.name.toLowerCase().replace(/\s+/g, '-')}>
               {author.name}
             </option>
