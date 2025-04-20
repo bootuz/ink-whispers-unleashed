@@ -1,7 +1,10 @@
 
-const Poem = () => {
-  // Placeholder data
-  const poem = {
+import { useParams } from 'react-router-dom';
+
+// Placeholder data (in a real app, this would come from an API)
+const poemsData = {
+  1: {
+    id: 1,
     title: "The Road Not Taken",
     author: "Robert Frost",
     content: `Two roads diverged in a yellow wood,
@@ -27,6 +30,16 @@ Somewhere ages and ages hence:
 Two roads diverged in a wood, and I—
 I took the one less traveled by,
 And that has made all the difference.`
+  },
+  // Add more poems here as needed
+}
+
+const Poem = () => {
+  const { id } = useParams<{ id: string }>();
+  const poem = poemsData[Number(id)];
+
+  if (!poem) {
+    return <div className="min-h-screen px-4 py-16 max-w-3xl mx-auto">Poem not found</div>;
   }
 
   return (
@@ -43,3 +56,4 @@ And that has made all the difference.`
 }
 
 export default Poem
+
