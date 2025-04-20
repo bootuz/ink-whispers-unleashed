@@ -1,3 +1,4 @@
+
 import { SearchBar } from "@/components/SearchBar"
 import { FilterBar } from "@/components/FilterBar"
 import { PoemGrid } from "@/components/PoemGrid"
@@ -76,7 +77,7 @@ const Poems = () => {
     
     if (selectedAuthor) {
       filtered = filtered.filter(poem => {
-        if (!poem.author) return false;
+        if (!poem?.author) return false;
         
         const authorName = poem.author.name?.toLowerCase() || '';
         let filterValue = selectedAuthor.toLowerCase();
@@ -91,7 +92,8 @@ const Poems = () => {
     
     if (selectedGenre) {
       filtered = filtered.filter(poem => {
-        if (!poem.category) return false;
+        // Add null check for poem and poem.category
+        if (!poem || !poem.category) return false;
         const categoryTitle = poem.category.title?.toLowerCase() || '';
         return categoryTitle.includes(selectedGenre.toLowerCase());
       });
