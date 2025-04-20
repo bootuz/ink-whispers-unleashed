@@ -12,7 +12,9 @@ export interface PoemCardProps {
 }
 
 export const PoemCard = ({ id, title, author, content, excerpt }: PoemCardProps) => {
-  const lines = content.split('\n');
+  // Safely handle content that might be undefined
+  const poemContent = content || excerpt || "";
+  const lines = poemContent.split('\n');
   const firstLine = lines[0];
   const remainingText = lines.length > 1 ? lines.slice(1).join('\n') : "";
   
