@@ -51,7 +51,7 @@ export function usePoem(id: number) {
 export function useAuthors() {
   return useQuery<AuthorDetail[]>({
     queryKey: ['authors'],
-    queryFn: () => fetchFromApi<AuthorDetail[]>(`${API_ENDPOINTS.authors}all/`),
+    queryFn: () => fetchFromApi<AuthorDetail[]>(`${API_ENDPOINTS.authors}`),
   });
 }
 
