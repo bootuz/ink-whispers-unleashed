@@ -1,10 +1,11 @@
+
 import { SearchBar } from "@/components/SearchBar"
 import { FilterBar } from "@/components/FilterBar"
 import { PoemGrid } from "@/components/PoemGrid"
 import { useState, useEffect } from "react"
 import { useSearchParams } from "react-router-dom"
 import { usePoems, useSearchPoems } from "@/hooks/useApi"
-import { Poem } from "@/types/api"
+import { Poem, PoemDetail } from "@/types/api"
 import { Skeleton } from "@/components/ui/skeleton"
 import { toast } from "@/hooks/use-toast"
 import { AlertCircle } from "lucide-react"
@@ -83,9 +84,12 @@ const Poems = () => {
     
     if (selectedGenre) {
       filtered = filtered.filter(poem => {
-        if ('theme' in poem && poem.theme) {
-          return poem.theme.title.toLowerCase().includes(selectedGenre.toLowerCase());
+        // Check if the poem has a theme property with a title
+        const poemWithTheme = poem as Partial<PoemDetail>;
+        if (poemWithTheme.theme && poemWithTheme.theme.title) {
+          return poemWithTheme.theme.title.toLowerCase().includes(selectedGenre.toLowerCase());
         }
+        // Fallback to checking title if theme is not available
         return poem.title.toLowerCase().includes(selectedGenre.toLowerCase());
       });
     }
