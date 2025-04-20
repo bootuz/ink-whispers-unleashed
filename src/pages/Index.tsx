@@ -1,6 +1,7 @@
 
 import { SearchBar } from "@/components/SearchBar"
 import { PoemGrid } from "@/components/PoemGrid"
+import { useState } from "react"
 
 // Placeholder data
 const newPoems = [
@@ -51,8 +52,20 @@ const Index = () => {
       <h1 className="font-playfair text-4xl mb-8">Poetry Haven</h1>
       <SearchBar className="mb-16" />
       <div className="w-full space-y-16">
-        <PoemGrid title="New Poems" poems={newPoems} />
-        <PoemGrid title="Popular Poems" poems={popularPoems} />
+        <PoemGrid 
+          title="New Poems" 
+          poems={newPoems}
+          currentPage={1}
+          totalPages={1}
+          onPageChange={() => {}}
+        />
+        <PoemGrid 
+          title="Popular Poems" 
+          poems={popularPoems}
+          currentPage={1}
+          totalPages={1}
+          onPageChange={() => {}}
+        />
       </div>
     </div>
   )
