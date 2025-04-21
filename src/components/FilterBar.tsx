@@ -1,3 +1,4 @@
+
 import { Filter, RefreshCw } from "lucide-react"
 import { useSearchParams } from "react-router-dom"
 import { useThemes, useAuthors } from "@/hooks/useApi"
@@ -70,7 +71,8 @@ export const FilterBar = () => {
           value={searchParams.get('genre') || "all"}
           onValueChange={handleGenreChange}
         >
-          <SelectTrigger className="px-3 py-1 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-black transition-colors whitespace-nowrap w-full md:w-auto" aria-label="Select genre">
+          {/* Decreased padding from px-3 py-1 to px-2 py-0.5 */}
+          <SelectTrigger className="px-2 py-0.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-black transition-colors whitespace-nowrap w-full md:w-auto" aria-label="Select genre">
             <SelectValue placeholder="All Genres" />
           </SelectTrigger>
           <SelectContent>
@@ -91,7 +93,8 @@ export const FilterBar = () => {
           value={searchParams.get('author') || "all"}
           onValueChange={handleAuthorChange}
         >
-          <SelectTrigger className="px-3 py-1 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-black transition-colors whitespace-nowrap w-full md:w-auto" aria-label="Select author">
+          {/* Decreased padding here similarly */}
+          <SelectTrigger className="px-2 py-0.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-black transition-colors whitespace-nowrap w-full md:w-auto" aria-label="Select author">
             <SelectValue placeholder="All Authors" />
           </SelectTrigger>
           <SelectContent>
@@ -109,7 +112,8 @@ export const FilterBar = () => {
         value={searchParams.get('filter') || "default"}
         onValueChange={handleOrderSelectChange}
       >
-        <SelectTrigger className="px-3 py-1 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-black transition-colors whitespace-nowrap w-full md:w-auto" aria-label="Order poems">
+        {/* Decreased padding here as well */}
+        <SelectTrigger className="px-2 py-0.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-black transition-colors whitespace-nowrap w-full md:w-auto" aria-label="Order poems">
           <SelectValue placeholder="Order" />
         </SelectTrigger>
         <SelectContent>
