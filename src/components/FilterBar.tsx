@@ -63,12 +63,12 @@ export const FilterBar = () => {
   };
 
   const selectTriggerClass =
-    "px-2 py-0.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-black transition-colors whitespace-nowrap w-full md:w-auto";
+    "px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-black transition-colors whitespace-nowrap h-10 w-full md:w-auto";
 
   const FilterControls = () => (
     <div className="flex flex-col md:flex-row md:items-center gap-3 w-full md:w-auto">
       {isLoadingThemes ? (
-        <Skeleton className="h-8 w-full md:w-36" />
+        <Skeleton className="h-10 w-full md:w-36" />
       ) : (
         <Select
           value={searchParams.get('genre') || "all"}
@@ -89,7 +89,7 @@ export const FilterBar = () => {
       )}
 
       {isLoadingAuthors ? (
-        <Skeleton className="h-8 w-full md:w-36" />
+        <Skeleton className="h-10 w-full md:w-36" />
       ) : (
         <Select
           value={searchParams.get('author') || "all"}
@@ -125,7 +125,7 @@ export const FilterBar = () => {
 
       <button
         onClick={handleReset}
-        className="flex items-center justify-center gap-2 border border-gray-200 rounded-lg text-sm px-2 py-0.5 w-full md:w-auto hover:border-black transition-colors whitespace-nowrap"
+        className="flex items-center justify-center gap-2 border border-gray-200 rounded-lg text-sm px-3 py-2 w-full md:w-auto h-10 hover:border-black transition-colors whitespace-nowrap"
       >
         <RefreshCw className="w-4 h-4" />
         Reset
