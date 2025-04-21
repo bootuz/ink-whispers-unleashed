@@ -153,8 +153,8 @@ export const FilterBar = () => {
   }
 
   return (
-    <div className="flex flex-col md:flex-row items-center md:justify-center gap-4 py-4 max-w-4xl mx-auto">
-      <div className="flex items-center gap-4 whitespace-nowrap">
+    <div className="flex flex-col md:flex-row items-center md:justify-center gap-3 py-4 max-w-4xl mx-auto">
+      <div className="flex items-center gap-3 whitespace-nowrap">
         <Filter className="w-4 h-4" />
         <span className="text-sm font-medium whitespace-nowrap">Filter by:</span>
       </div>
