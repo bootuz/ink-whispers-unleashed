@@ -69,7 +69,7 @@ export const PoemCard = ({ id, title, author, excerpt }: PoemCardProps) => {
             </div>
           )}
 
-          {/* "Read more" button with color matching "More Poems" button */}
+          {/* "Еджэн" button with color matching "More Poems" button */}
           <div className="flex items-center mt-4" aria-hidden="true">
             <Button
               variant="default"
@@ -77,7 +77,7 @@ export const PoemCard = ({ id, title, author, excerpt }: PoemCardProps) => {
               className="w-[150px] bg-purple-100 text-purple-800 hover:bg-purple-200 transition-colors duration-300 group inline-flex items-center font-semibold px-3"
             >
               <BookOpen className="mr-1 w-5 h-5" aria-hidden="true" />
-              Read more
+              Еджэн
             </Button>
           </div>
         </CardContent>
@@ -85,3 +85,4 @@ export const PoemCard = ({ id, title, author, excerpt }: PoemCardProps) => {
     </Link>
   );
 };
+
