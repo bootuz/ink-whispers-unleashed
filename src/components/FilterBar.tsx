@@ -8,6 +8,15 @@ import { Drawer, DrawerContent, DrawerTrigger } from "./ui/drawer"
 import { Button } from "./ui/button"
 import * as React from "react"
 
+// Import Radix Select components
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from "./ui/select"
+
 export const FilterBar = () => {
   const isMobile = useIsMobile();
   const [searchParams, setSearchParams] = useSearchParams();
@@ -21,10 +30,10 @@ export const FilterBar = () => {
     setSearchParams(newParams);
   };
 
-  const handleGenreChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleGenreChange = (value: string) => {
     const newParams = new URLSearchParams(searchParams);
-    if (e.target.value) {
-      newParams.set('genre', e.target.value);
+    if (value) {
+      newParams.set('genre', value);
       // Clear author when selecting a genre
       newParams.delete('author');
     } else {
@@ -33,10 +42,10 @@ export const FilterBar = () => {
     setSearchParams(newParams);
   };
 
-  const handleAuthorChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleAuthorChange = (value: string) => {
     const newParams = new URLSearchParams(searchParams);
-    if (e.target.value) {
-      newParams.set('author', e.target.value);
+    if (value) {
+      newParams.set('author', value);
       // Clear genre when selecting an author
       newParams.delete('genre');
     } else {
@@ -54,35 +63,47 @@ export const FilterBar = () => {
       {isLoadingThemes ? (
         <Skeleton className="h-8 w-full md:w-32" />
       ) : (
-        <select 
-          onChange={handleGenreChange}
+        <Select
           value={searchParams.get('genre') || ""}
-          className="px-3 py-1 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-black transition-colors w-full md:w-auto whitespace-nowrap"
+          onValueChange={handleGenreChange}
+          aria-label="Select genre"
+          className="w-full md:w-auto"
         >
-          <option value="">All Genres</option>
-          {themes?.map((theme) => (
-            <option key={theme.id} value={theme.title.toLowerCase()}>
-              {theme.title}
-            </option>
-          ))}
-        </select>
+          <SelectTrigger className="px-3 py-1 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-black transition-colors whitespace-nowrap">
+            <SelectValue placeholder="All Genres" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="">All Genres</SelectItem>
+            {themes?.map((theme) => (
+              <SelectItem key={theme.id} value={theme.title.toLowerCase()}>
+                {theme.title}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
       )}
       
       {isLoadingAuthors ? (
         <Skeleton className="h-8 w-full md:w-32" />
       ) : (
-        <select 
-          onChange={handleAuthorChange}
+        <Select
           value={searchParams.get('author') || ""}
-          className="px-3 py-1 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-black transition-colors w-full md:w-auto whitespace-nowrap"
+          onValueChange={handleAuthorChange}
+          aria-label="Select author"
+          className="w-full md:w-auto"
         >
-          <option value="">All Authors</option>
-          {authors?.map((author) => (
-            <option key={author.id} value={author.name.toLowerCase().replace(/\s+/g, '-')}>
-              {author.name}
-            </option>
-          ))}
-        </select>
+          <SelectTrigger className="px-3 py-1 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-black transition-colors whitespace-nowrap">
+            <SelectValue placeholder="All Authors" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="">All Authors</SelectItem>
+            {authors?.map((author) => (
+              <SelectItem key={author.id} value={author.name.toLowerCase().replace(/\s+/g, '-')}>
+                {author.name}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
       )}
 
       <select 
@@ -134,3 +155,4 @@ export const FilterBar = () => {
     </div>
   );
 };
+
