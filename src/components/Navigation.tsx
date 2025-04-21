@@ -26,52 +26,52 @@ export const Navigation = () => {
   };
 
   const NavigationContent = () => (
-    <NavigationMenuList className={`${isMobile ? 'flex-col space-y-2 w-full p-4' : 'max-w-7xl w-full mx-auto px-4 h-14'}`}>
-      <NavigationMenuItem className={isMobile ? 'w-full' : ''}>
+    <NavigationMenuList className={`${isMobile ? 'flex flex-row space-x-4 w-full p-4 overflow-x-auto scrollbar-hide' : 'max-w-7xl w-full mx-auto px-4 h-14'}`}>
+      <NavigationMenuItem className={isMobile ? '' : ''}>
         <Link
           to="/"
-          className={isMobile ? 'w-full block' : ''}
+          className={isMobile ? '' : ''}
           onClick={handleMobileNavClick}
         >
           <NavigationMenuLink 
             className={`${navigationMenuTriggerStyle()} 
               ${isActive('/') ? 'bg-purple-100 text-purple-800' : ''}
               hover:bg-[#F1F0FB] transition-colors duration-200 ease-in-out
-              ${isMobile ? 'w-full justify-start' : ''}`}
+              ${isMobile ? 'justify-center' : ''}`}
           >
             <Home className="mr-2 h-4 w-4" />
             Унэр
           </NavigationMenuLink>
         </Link>
       </NavigationMenuItem>
-      <NavigationMenuItem className={isMobile ? 'w-full' : ''}>
+      <NavigationMenuItem className={isMobile ? '' : ''}>
         <Link
           to="/poems"
-          className={isMobile ? 'w-full block' : ''}
+          className={isMobile ? '' : ''}
           onClick={handleMobileNavClick}
         >
           <NavigationMenuLink 
             className={`${navigationMenuTriggerStyle()} 
               ${isActive('/poems') ? 'bg-purple-100 text-purple-800' : ''}
               hover:bg-[#F1F0FB] transition-colors duration-200 ease-in-out
-              ${isMobile ? 'w-full justify-start' : ''}`}
+              ${isMobile ? 'justify-center' : ''}`}
           >
             <Book className="mr-2 h-4 w-4" />
             Усэхэр
           </NavigationMenuLink>
         </Link>
       </NavigationMenuItem>
-      <NavigationMenuItem className={isMobile ? 'w-full' : ''}>
+      <NavigationMenuItem className={isMobile ? '' : ''}>
         <Link
           to="/authors"
-          className={isMobile ? 'w-full block' : ''}
+          className={isMobile ? '' : ''}
           onClick={handleMobileNavClick}
         >
           <NavigationMenuLink 
             className={`${navigationMenuTriggerStyle()} 
               ${isActive('/authors') ? 'bg-purple-100 text-purple-800' : ''}
               hover:bg-[#F1F0FB] transition-colors duration-200 ease-in-out
-              ${isMobile ? 'w-full justify-start' : ''}`}
+              ${isMobile ? 'justify-center' : ''}`}
           >
             <Users className="mr-2 h-4 w-4" />
             УсакIуэхэр
@@ -87,7 +87,13 @@ export const Navigation = () => {
         <div className="w-full px-4 py-2 flex items-center">
           <Drawer open={drawerOpen} onOpenChange={setDrawerOpen}>
             <DrawerTrigger asChild>
-              <Button variant="ghost" size="icon" onClick={() => setDrawerOpen(true)}>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => setDrawerOpen(true)}
+                className={drawerOpen || isActive('/') || isActive('/poems') || isActive('/authors') ? 'bg-purple-100 text-purple-800 hover:bg-purple-200' : ''}
+                aria-label="Open menu"
+              >
                 <Menu className="h-6 w-6" />
               </Button>
             </DrawerTrigger>
