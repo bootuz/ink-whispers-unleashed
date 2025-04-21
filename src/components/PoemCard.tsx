@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Card, CardContent } from "@/components/ui/card";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { User, BookOpen } from "lucide-react";
+import { Button } from "./ui/button";
 
 export interface PoemCardProps {
   id: number;
@@ -68,12 +69,16 @@ export const PoemCard = ({ id, title, author, excerpt }: PoemCardProps) => {
             </div>
           )}
 
-          {/* "Read more" link/hint */}
+          {/* "Read more" button */}
           <div className="flex items-center mt-4" aria-hidden="true">
-            <span className="inline-flex items-center text-sm text-vivid-purple font-semibold hover:underline transition">
+            <Button
+              variant="default"
+              size="sm"
+              className="inline-flex items-center font-semibold px-3"
+            >
               <BookOpen className="mr-1 w-5 h-5" aria-hidden="true" />
               Read more
-            </span>
+            </Button>
           </div>
         </CardContent>
       </Card>
