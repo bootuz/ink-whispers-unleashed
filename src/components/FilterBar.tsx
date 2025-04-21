@@ -1,3 +1,4 @@
+
 import { Filter, RefreshCw } from "lucide-react"
 import { useSearchParams } from "react-router-dom"
 import { useThemes, useAuthors } from "@/hooks/useApi"
@@ -62,9 +63,9 @@ export const FilterBar = () => {
   };
 
   const FilterControls = () => (
-    <div className="flex flex-col md:flex-row md:items-center gap-4 py-4 w-full md:justify-center">
+    <div className="flex flex-col md:flex-row md:items-center gap-3 py-4 w-full md:justify-center">
       {isLoadingThemes ? (
-        <Skeleton className="h-8 w-full md:w-32" />
+        <Skeleton className="h-8 w-full md:w-36" />
       ) : (
         <Select
           value={searchParams.get('genre') || "all"}
@@ -85,7 +86,7 @@ export const FilterBar = () => {
       )}
       
       {isLoadingAuthors ? (
-        <Skeleton className="h-8 w-full md:w-32" />
+        <Skeleton className="h-8 w-full md:w-36" />
       ) : (
         <Select
           value={searchParams.get('author') || "all"}
@@ -109,7 +110,7 @@ export const FilterBar = () => {
         value={searchParams.get('filter') || "default"}
         onValueChange={handleOrderSelectChange}
       >
-        <SelectTrigger className="px-3 py-1 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-black transition-colors w-full md:w-auto whitespace-nowrap" aria-label="Order poems">
+        <SelectTrigger className="px-3 py-1 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-black transition-colors whitespace-nowrap w-full md:w-auto" aria-label="Order poems">
           <SelectValue placeholder="Order" />
         </SelectTrigger>
         <SelectContent>
@@ -158,3 +159,4 @@ export const FilterBar = () => {
     </div>
   );
 };
+
