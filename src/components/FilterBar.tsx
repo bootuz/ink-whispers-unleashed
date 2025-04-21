@@ -1,3 +1,4 @@
+
 import { Filter, RefreshCw } from "lucide-react"
 import { useSearchParams } from "react-router-dom"
 import { useThemes, useAuthors } from "@/hooks/useApi"
@@ -124,7 +125,7 @@ export const FilterBar = () => {
 
       <button
         onClick={handleReset}
-        className="flex items-center justify-center gap-2 px-3 py-1 text-sm border border-gray-200 rounded-lg hover:border-black transition-colors w-full md:w-auto whitespace-nowrap"
+        className="flex items-center justify-center gap-2 border border-gray-200 rounded-lg text-sm px-2 py-0.5 w-full md:w-auto hover:border-black transition-colors whitespace-nowrap"
       >
         <RefreshCw className="w-4 h-4" />
         Reset
@@ -165,3 +166,4 @@ export const FilterBar = () => {
     </div>
   );
 };
+
