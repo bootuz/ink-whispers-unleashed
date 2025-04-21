@@ -1,4 +1,3 @@
-
 import { Filter, RefreshCw } from "lucide-react"
 import { useSearchParams } from "react-router-dom"
 import { useThemes, useAuthors } from "@/hooks/useApi"
@@ -23,10 +22,14 @@ export const FilterBar = () => {
   const { data: themes, isLoading: isLoadingThemes } = useThemes();
   const { data: authors, isLoading: isLoadingAuthors } = useAuthors();
 
-  // Improve accessibility for "reset filters" onEnter key
-  const handleOrderChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  // Add a handler for order changes using Radix Select style
+  const handleOrderSelectChange = (value: string) => {
     const newParams = new URLSearchParams(searchParams);
-    newParams.set('filter', e.target.value);
+    if (value && value !== "default") {
+      newParams.set('filter', value);
+    } else {
+      newParams.delete('filter');
+    }
     setSearchParams(newParams);
   };
 
@@ -102,15 +105,19 @@ export const FilterBar = () => {
         </Select>
       )}
 
-      <select 
-        onChange={handleOrderChange}
+      <Select
         value={searchParams.get('filter') || "default"}
-        className="px-3 py-1 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-black transition-colors w-full md:w-auto whitespace-nowrap"
+        onValueChange={handleOrderSelectChange}
       >
-        <option value="default">Default order</option>
-        <option value="new">Newest first</option>
-        <option value="popular">Most popular</option>
-      </select>
+        <SelectTrigger className="px-3 py-1 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-black transition-colors w-full md:w-auto whitespace-nowrap" aria-label="Order poems">
+          <SelectValue placeholder="Order" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="default">Default order</SelectItem>
+          <SelectItem value="new">Newest first</SelectItem>
+          <SelectItem value="popular">Most popular</SelectItem>
+        </SelectContent>
+      </Select>
 
       <button
         onClick={handleReset}
