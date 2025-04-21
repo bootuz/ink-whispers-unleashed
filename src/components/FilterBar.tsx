@@ -66,10 +66,8 @@ export const FilterBar = () => {
         <Select
           value={searchParams.get('genre') || ""}
           onValueChange={handleGenreChange}
-          aria-label="Select genre"
-          className="w-full md:w-auto"
         >
-          <SelectTrigger className="px-3 py-1 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-black transition-colors whitespace-nowrap">
+          <SelectTrigger className="px-3 py-1 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-black transition-colors whitespace-nowrap w-full md:w-auto" aria-label="Select genre">
             <SelectValue placeholder="All Genres" />
           </SelectTrigger>
           <SelectContent>
@@ -89,10 +87,8 @@ export const FilterBar = () => {
         <Select
           value={searchParams.get('author') || ""}
           onValueChange={handleAuthorChange}
-          aria-label="Select author"
-          className="w-full md:w-auto"
         >
-          <SelectTrigger className="px-3 py-1 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-black transition-colors whitespace-nowrap">
+          <SelectTrigger className="px-3 py-1 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-black transition-colors whitespace-nowrap w-full md:w-auto" aria-label="Select author">
             <SelectValue placeholder="All Authors" />
           </SelectTrigger>
           <SelectContent>
@@ -155,4 +151,3 @@ export const FilterBar = () => {
     </div>
   );
 };
-
