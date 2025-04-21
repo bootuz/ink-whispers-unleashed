@@ -57,7 +57,7 @@ export const PoemCard = ({ id, title, author, excerpt }: PoemCardProps) => {
               <Feather className="text-vivid-purple" aria-hidden="true" />
             </span>
             <p className="text-gray-800 text-sm font-medium" id={`poem-card-desc-${id}`}>
-              by {author.name}
+              {author.name}
             </p>
           </div>
 
@@ -85,4 +85,3 @@ export const PoemCard = ({ id, title, author, excerpt }: PoemCardProps) => {
     </Link>
   );
 };
-
