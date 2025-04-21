@@ -1,4 +1,5 @@
-import { useAuthors, useAuthorPoems } from "@/hooks/useApi";
+
+import { useAuthors } from "@/hooks/useApi";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent } from "@/components/ui/card"
@@ -33,7 +34,17 @@ const Authors = () => {
     );
   }
 
-  const sortedAuthors = [...authors].sort((a, b) => {
+  // Helper to generate random number in a range
+  const randomNumber = (min: number, max: number) => Math.floor(Math.random() * (max - min + 1)) + min;
+
+  // Add temporary random poems_count and views to each author for sorting and display
+  const authorsWithRandomData = authors.map(author => ({
+    ...author,
+    poems_count: randomNumber(5, 50),
+    views: randomNumber(100, 10000),
+  }));
+
+  const sortedAuthors = [...authorsWithRandomData].sort((a, b) => {
     if (sortBy === "name") {
       return a.name.localeCompare(b.name);
     }
@@ -102,7 +113,7 @@ const Authors = () => {
                   </div>
                 </div>
                 <Badge variant="outline" className="mt-4 whitespace-nowrap self-center">
-                  View Profile
+                  Еджэн
                 </Badge>
               </CardContent>
             </Card>
@@ -114,3 +125,4 @@ const Authors = () => {
 };
 
 export default Authors;
+
