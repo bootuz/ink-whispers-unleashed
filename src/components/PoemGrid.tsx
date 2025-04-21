@@ -1,3 +1,4 @@
+
 import { Button } from "@/components/ui/button"
 import { PoemCard } from "./PoemCard"
 import { ChevronRight } from "lucide-react"
@@ -38,7 +39,7 @@ export const PoemGrid = ({
             variant="default" 
             onClick={onMoreClick}
             disabled={loading}
-            className="w-[250px] bg-sky-500 hover:bg-sky-600 transition-colors duration-300 group"
+            className="w-[250px] bg-purple-100 text-purple-800 hover:bg-purple-200 transition-colors duration-300 group"
           >
             {loading ? 'Loading...' : 'More Poems'}
             <ChevronRight className="ml-2 group-hover:translate-x-1 transition-transform" />
@@ -48,3 +49,4 @@ export const PoemGrid = ({
     </section>
   )
 }
+
