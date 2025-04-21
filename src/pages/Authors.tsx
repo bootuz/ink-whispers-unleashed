@@ -112,7 +112,10 @@ const Authors = () => {
                     </span>
                   </div>
                 </div>
-                <Badge variant="outline" className="mt-4 whitespace-nowrap self-center">
+                <Badge
+                  variant="outline"
+                  className="mt-4 whitespace-nowrap self-center bg-purple-100 text-purple-800 border-transparent hover:bg-purple-200 cursor-pointer"
+                >
                   View Profile
                 </Badge>
               </CardContent>
@@ -125,4 +128,3 @@ const Authors = () => {
 };
 
 export default Authors;
-
