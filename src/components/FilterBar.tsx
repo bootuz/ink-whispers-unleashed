@@ -12,7 +12,7 @@ export const FilterBar = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const { data: themes, isLoading: isLoadingThemes } = useThemes();
   const { data: authors, isLoading: isLoadingAuthors } = useAuthors();
-  
+
   const handleOrderChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const newParams = new URLSearchParams(searchParams);
     newParams.set('filter', e.target.value);
@@ -48,9 +48,9 @@ export const FilterBar = () => {
   };
 
   const FilterControls = () => (
-    <div className="flex flex-col md:flex-row md:items-center gap-4 py-4">
+    <div className="flex flex-col md:flex-row md:items-center gap-4 py-4 w-full">
       {isLoadingThemes ? (
-        <Skeleton className="h-8 w-32" />
+        <Skeleton className="h-8 w-full md:w-32" />
       ) : (
         <select 
           onChange={handleGenreChange}
@@ -67,7 +67,7 @@ export const FilterBar = () => {
       )}
       
       {isLoadingAuthors ? (
-        <Skeleton className="h-8 w-32" />
+        <Skeleton className="h-8 w-full md:w-32" />
       ) : (
         <select 
           onChange={handleAuthorChange}
@@ -123,8 +123,8 @@ export const FilterBar = () => {
   }
 
   return (
-    <div className="flex items-center gap-4 py-4">
-      <div className="flex items-center gap-2">
+    <div className="flex flex-col md:flex-row items-center md:justify-center gap-4 py-4 max-w-4xl mx-auto">
+      <div className="flex items-center gap-2 whitespace-nowrap">
         <Filter className="w-4 h-4" />
         <span className="text-sm font-medium">Filter by:</span>
       </div>
@@ -132,3 +132,4 @@ export const FilterBar = () => {
     </div>
   );
 };
+
