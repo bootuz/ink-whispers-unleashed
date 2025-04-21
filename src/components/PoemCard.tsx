@@ -2,7 +2,7 @@
 import { Link } from 'react-router-dom';
 import { Card, CardContent } from "@/components/ui/card";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
-import { User, BookOpen } from "lucide-react";
+import { Feather, BookOpen } from "lucide-react";
 import { Button } from "./ui/button";
 
 export interface PoemCardProps {
@@ -47,14 +47,14 @@ export const PoemCard = ({ id, title, author, excerpt }: PoemCardProps) => {
             </TooltipContent>
           </Tooltip>
 
-          {/* Author + avatar */}
+          {/* Author + icon changed to Feather (pen) */}
           <div className="flex items-center gap-2 mb-3">
             <span
               className="rounded-full bg-soft-purple flex items-center justify-center w-7 h-7"
-              aria-label={`Author avatar for ${author.name}`}
+              aria-label={`Author icon for ${author.name}`}
               role="img"
             >
-              <User className="text-vivid-purple" aria-hidden="true" />
+              <Feather className="text-vivid-purple" aria-hidden="true" />
             </span>
             <p className="text-gray-800 text-sm font-medium" id={`poem-card-desc-${id}`}>
               by {author.name}
