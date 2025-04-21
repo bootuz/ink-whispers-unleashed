@@ -113,7 +113,7 @@ const Authors = () => {
                   </div>
                 </div>
                 <Badge variant="outline" className="mt-4 whitespace-nowrap self-center">
-                  Еджэн
+                  View Profile
                 </Badge>
               </CardContent>
             </Card>
