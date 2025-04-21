@@ -72,7 +72,7 @@ export const PoemCard = ({ id, title, author, excerpt }: PoemCardProps) => {
           {/* "Read more" button */}
           <div className="flex items-center mt-4" aria-hidden="true">
             <Button
-              variant="default"
+              variant="secondary"
               size="sm"
               className="inline-flex items-center font-semibold px-3"
             >
@@ -85,3 +85,4 @@ export const PoemCard = ({ id, title, author, excerpt }: PoemCardProps) => {
     </Link>
   );
 };
+
