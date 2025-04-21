@@ -1,4 +1,3 @@
-
 import { Filter, RefreshCw } from "lucide-react"
 import { useSearchParams } from "react-router-dom"
 import { useThemes, useAuthors } from "@/hooks/useApi"
@@ -8,7 +7,6 @@ import { Drawer, DrawerContent, DrawerTrigger } from "./ui/drawer"
 import { Button } from "./ui/button"
 import * as React from "react"
 
-// Import Radix Select components
 import {
   Select,
   SelectTrigger,
@@ -23,7 +21,6 @@ export const FilterBar = () => {
   const { data: themes, isLoading: isLoadingThemes } = useThemes();
   const { data: authors, isLoading: isLoadingAuthors } = useAuthors();
 
-  // Add a handler for order changes using Radix Select style
   const handleOrderSelectChange = (value: string) => {
     const newParams = new URLSearchParams(searchParams);
     if (value && value !== "default") {
@@ -38,7 +35,6 @@ export const FilterBar = () => {
     const newParams = new URLSearchParams(searchParams);
     if (value !== "all") {
       newParams.set('genre', value);
-      // Clear author when selecting a genre
       newParams.delete('author');
     } else {
       newParams.delete('genre');
@@ -50,7 +46,6 @@ export const FilterBar = () => {
     const newParams = new URLSearchParams(searchParams);
     if (value !== "all") {
       newParams.set('author', value);
-      // Clear genre when selecting an author
       newParams.delete('genre');
     } else {
       newParams.delete('author');
@@ -63,16 +58,16 @@ export const FilterBar = () => {
   };
 
   const FilterControls = () => (
-    <div className="flex flex-col md:flex-row md:items-center gap-3 py-4 w-full md:justify-center">
+    <div className="flex flex-wrap gap-3 py-4 justify-center max-w-4xl mx-auto">
       {isLoadingThemes ? (
-        <Skeleton className="h-8 w-full md:w-36" />
+        <Skeleton className="h-8 w-36" />
       ) : (
         <Select
           value={searchParams.get('genre') || "all"}
           onValueChange={handleGenreChange}
+          className="min-w-[140px]"
         >
-          {/* Decreased padding from px-3 py-1 to px-2 py-0.5 */}
-          <SelectTrigger className="px-2 py-0.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-black transition-colors whitespace-nowrap w-full md:w-auto" aria-label="Select genre">
+          <SelectTrigger className="px-2 py-1 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-black transition-colors whitespace-nowrap" aria-label="Select genre">
             <SelectValue placeholder="All Genres" />
           </SelectTrigger>
           <SelectContent>
@@ -87,14 +82,14 @@ export const FilterBar = () => {
       )}
       
       {isLoadingAuthors ? (
-        <Skeleton className="h-8 w-full md:w-36" />
+        <Skeleton className="h-8 w-36" />
       ) : (
         <Select
           value={searchParams.get('author') || "all"}
           onValueChange={handleAuthorChange}
+          className="min-w-[140px]"
         >
-          {/* Decreased padding here similarly */}
-          <SelectTrigger className="px-2 py-0.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-black transition-colors whitespace-nowrap w-full md:w-auto" aria-label="Select author">
+          <SelectTrigger className="px-2 py-1 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-black transition-colors whitespace-nowrap" aria-label="Select author">
             <SelectValue placeholder="All Authors" />
           </SelectTrigger>
           <SelectContent>
@@ -111,9 +106,9 @@ export const FilterBar = () => {
       <Select
         value={searchParams.get('filter') || "default"}
         onValueChange={handleOrderSelectChange}
+        className="min-w-[140px]"
       >
-        {/* Decreased padding here as well */}
-        <SelectTrigger className="px-2 py-0.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-black transition-colors whitespace-nowrap w-full md:w-auto" aria-label="Order poems">
+        <SelectTrigger className="px-2 py-1 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-black transition-colors whitespace-nowrap" aria-label="Order poems">
           <SelectValue placeholder="Order" />
         </SelectTrigger>
         <SelectContent>
@@ -125,7 +120,7 @@ export const FilterBar = () => {
 
       <button
         onClick={handleReset}
-        className="flex items-center justify-center gap-2 px-3 py-1 text-sm border border-gray-200 rounded-lg hover:border-black transition-colors w-full md:w-auto whitespace-nowrap"
+        className="flex items-center justify-center gap-2 px-3 py-1 text-sm border border-gray-200 rounded-lg hover:border-black transition-colors whitespace-nowrap"
       >
         <RefreshCw className="w-4 h-4" />
         Reset
@@ -153,10 +148,10 @@ export const FilterBar = () => {
   }
 
   return (
-    <div className="flex flex-col md:flex-row items-center md:justify-center gap-3 py-4 max-w-4xl mx-auto">
+    <div className="flex flex-col md:flex-row items-center justify-center gap-3 py-4 max-w-4xl mx-auto">
       <div className="flex items-center gap-3 whitespace-nowrap">
         <Filter className="w-4 h-4" />
-        <span className="text-sm font-medium whitespace-nowrap">Filter by:</span>
+        <span className="text-sm font-medium whitespace-nowrap text-center">Filter by:</span>
       </div>
       <FilterControls />
     </div>
