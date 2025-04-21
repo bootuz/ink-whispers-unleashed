@@ -32,7 +32,7 @@ export const FilterBar = () => {
 
   const handleGenreChange = (value: string) => {
     const newParams = new URLSearchParams(searchParams);
-    if (value) {
+    if (value !== "all") {
       newParams.set('genre', value);
       // Clear author when selecting a genre
       newParams.delete('author');
@@ -44,7 +44,7 @@ export const FilterBar = () => {
 
   const handleAuthorChange = (value: string) => {
     const newParams = new URLSearchParams(searchParams);
-    if (value) {
+    if (value !== "all") {
       newParams.set('author', value);
       // Clear genre when selecting an author
       newParams.delete('genre');
@@ -64,14 +64,14 @@ export const FilterBar = () => {
         <Skeleton className="h-8 w-full md:w-32" />
       ) : (
         <Select
-          value={searchParams.get('genre') || ""}
+          value={searchParams.get('genre') || "all"}
           onValueChange={handleGenreChange}
         >
           <SelectTrigger className="px-3 py-1 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-black transition-colors whitespace-nowrap w-full md:w-auto" aria-label="Select genre">
             <SelectValue placeholder="All Genres" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="">All Genres</SelectItem>
+            <SelectItem value="all">All Genres</SelectItem>
             {themes?.map((theme) => (
               <SelectItem key={theme.id} value={theme.title.toLowerCase()}>
                 {theme.title}
@@ -85,14 +85,14 @@ export const FilterBar = () => {
         <Skeleton className="h-8 w-full md:w-32" />
       ) : (
         <Select
-          value={searchParams.get('author') || ""}
+          value={searchParams.get('author') || "all"}
           onValueChange={handleAuthorChange}
         >
           <SelectTrigger className="px-3 py-1 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-black transition-colors whitespace-nowrap w-full md:w-auto" aria-label="Select author">
             <SelectValue placeholder="All Authors" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="">All Authors</SelectItem>
+            <SelectItem value="all">All Authors</SelectItem>
             {authors?.map((author) => (
               <SelectItem key={author.id} value={author.name.toLowerCase().replace(/\s+/g, '-')}>
                 {author.name}
