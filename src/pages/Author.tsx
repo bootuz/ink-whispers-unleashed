@@ -1,4 +1,3 @@
-
 import { useParams } from "react-router-dom";
 import { Book, Calendar, FileText, UserRound, Eye } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
@@ -26,7 +25,6 @@ const Author = () => {
   const { data: poems, isLoading: poemsLoading } = useAuthorPoems(Number(id));
   const { data: themes } = useThemes();
 
-  // State for filtering, sorting, and search inside poems
   const [poemFilter, setPoemFilter] = useState<FilterValues>({
     sort: "date",
     theme: "all",
@@ -40,50 +38,40 @@ const Author = () => {
     return <div className="min-h-screen px-4 py-16">Author not found</div>;
   }
 
-  // Prepare categories/themes present in this author's poems (mock if themes not linked)
   const presentThemes = useMemo(() => {
     if (!poems) return [];
     const themeSet = new Map<string, { id: number; title: string }>();
     poems.forEach(poem => {
-      // Try to use theme info if present
       if (poem.theme?.id && poem.theme?.title) {
         themeSet.set(poem.theme.title, { id: poem.theme.id, title: poem.theme.title });
       } else if (poem.theme_title) {
-        // fallback mock, not in api? use unique title as theme
         themeSet.set(poem.theme_title, { id: Math.floor(Math.random() * 10000), title: poem.theme_title });
       }
     });
-    // If no info, mock some
     if (themeSet.size === 0 && themes && themes.length > 0) {
       themes.slice(0, 3).forEach((t) => themeSet.set(t.title, { id: t.id, title: t.title }));
     }
     return Array.from(themeSet.values());
   }, [poems, themes]);
 
-  // Filtering, grouping & sort logic
   const filteredPoemsByTheme = useMemo(() => {
     if (!poems) return {};
     let filtered = poems;
 
-    // Search
     if (poemFilter.search) {
       filtered = filtered.filter(poem => poem.title.toLowerCase().includes(poemFilter.search.toLowerCase()) ||
         (poem.content && poem.content.toLowerCase().includes(poemFilter.search.toLowerCase()))
       );
     }
-    // Theme/category filter
     if (poemFilter.theme !== "all") {
       filtered = filtered.filter(poem =>
-        // try by theme title or mock
         (poem.theme?.title === poemFilter.theme) ||
         (poem.theme_title === poemFilter.theme)
       );
     }
 
-    // Sort
     filtered = [...filtered].sort((a, b) => {
       if (poemFilter.sort === "date") {
-        // Descending by created_at
         const da = new Date(a.created_at ?? 0).getTime();
         const db = new Date(b.created_at ?? 0).getTime();
         return db - da;
@@ -99,9 +87,7 @@ const Author = () => {
       return 0;
     });
 
-    // Group by current theme/category
     if (poemFilter.theme === "all" && presentThemes.length) {
-      // Group poems by their theme title (or theme_title)
       const grouped: { [theme: string]: typeof poems } = {};
       presentThemes.forEach(t => grouped[t.title] = []);
       filtered.forEach(poem => {
@@ -112,11 +98,9 @@ const Author = () => {
       return grouped;
     }
 
-    // Not grouping, all filtered poems in one group
     return { "": filtered };
   }, [poems, poemFilter, presentThemes]);
 
-  // Statistics/mocks
   const poemsCount = poems?.length ?? 0;
   const viewsCount = typeof author.views === "number" ? author.views : 2345;
   const joined = author.created_at
@@ -127,9 +111,7 @@ const Author = () => {
       ? new Date(poems[0].created_at).toLocaleDateString()
       : MOCK_DETAILS.lastActivity;
 
-  // MOCK for info fields (substitute with author fields if present)
   const details = {
-    fullName: author.name,
     yearsActive: MOCK_DETAILS.yearsActive,
     lastActivity: lastActivity,
     placeOfBirth: MOCK_DETAILS.placeOfBirth,
@@ -138,7 +120,6 @@ const Author = () => {
 
   return (
     <div className="min-h-screen px-4 py-10 md:py-16 max-w-4xl mx-auto flex flex-col gap-10">
-      {/* Visual Profile Header */}
       <div className="flex flex-col md:flex-row gap-6 items-center md:items-start">
         <div
           className={`relative flex-shrink-0 w-36 h-36 rounded-full overflow-hidden ${AVATAR_GRADIENT} flex items-center justify-center`}
@@ -179,7 +160,6 @@ const Author = () => {
         </div>
       </div>
 
-      {/* Bio and Author Details - Responsive grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <Card className="bg-white bg-opacity-80 border-0 shadow-none rounded-xl min-h-[180px]">
           <CardContent className="p-6 md:p-8">
@@ -206,10 +186,6 @@ const Author = () => {
             </div>
             <ul className="text-md text-gray-700 space-y-2">
               <li>
-                <span className="font-semibold text-purple-900">Full Name: </span>
-                {details.fullName}
-              </li>
-              <li>
                 <span className="font-semibold text-purple-900">Years Active: </span>
                 {details.yearsActive}
               </li>
@@ -230,7 +206,6 @@ const Author = () => {
         </Card>
       </div>
 
-      {/* Poems Section WITH FILTERS & GROUPING */}
       <div>
         <div className="flex items-center gap-2 mb-4">
           <Book className="h-5 w-5 text-purple-800" />
@@ -240,7 +215,6 @@ const Author = () => {
           availableThemes={presentThemes}
           onFilterChange={setPoemFilter}
         />
-        {/* Grouped by theme/category if "all" or single group */}
         <div className="grid gap-6">
           {Object.entries(filteredPoemsByTheme).length === 0 && (
             <div className="text-gray-400 italic">No poems yet.</div>
