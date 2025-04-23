@@ -23,11 +23,15 @@ export interface Poem {
   content: string;
   created_at: string;
   category: Theme;
+  theme?: Theme;        // Adding optional theme property
+  theme_title?: string; // Adding optional theme_title property
+  views?: number;       // Adding optional views property
+  likes?: number;       // Adding optional likes property
 }
 
 export interface PoemDetail extends Poem {
-  views: number;
-  likes: number;
+  views: number;        // Required in PoemDetail
+  likes: number;        // Required in PoemDetail
 }
 
 export interface PaginatedResponse<T> {

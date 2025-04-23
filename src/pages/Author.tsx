@@ -1,3 +1,4 @@
+
 import { useParams } from "react-router-dom";
 import { Book, Calendar, FileText, UserRound, Eye } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
@@ -31,21 +32,15 @@ const Author = () => {
     search: "",
   });
 
-  if (authorLoading || poemsLoading) {
-    return <div className="min-h-screen px-4 py-16">Loading...</div>;
-  }
-  if (!author) {
-    return <div className="min-h-screen px-4 py-16">Author not found</div>;
-  }
-
+  // Always compute these values, regardless of loading state
   const presentThemes = useMemo(() => {
     if (!poems) return [];
     const themeSet = new Map<string, { id: number; title: string }>();
     poems.forEach(poem => {
       if (poem.theme?.id && poem.theme?.title) {
         themeSet.set(poem.theme.title, { id: poem.theme.id, title: poem.theme.title });
-      } else if (poem.theme_title) {
-        themeSet.set(poem.theme_title, { id: Math.floor(Math.random() * 10000), title: poem.theme_title });
+      } else if (poem.category?.title) {
+        themeSet.set(poem.category.title, { id: poem.category.id, title: poem.category.title });
       }
     });
     if (themeSet.size === 0 && themes && themes.length > 0) {
@@ -54,6 +49,7 @@ const Author = () => {
     return Array.from(themeSet.values());
   }, [poems, themes]);
 
+  // Always compute filtered poems
   const filteredPoemsByTheme = useMemo(() => {
     if (!poems) return {};
     let filtered = poems;
@@ -66,7 +62,7 @@ const Author = () => {
     if (poemFilter.theme !== "all") {
       filtered = filtered.filter(poem =>
         (poem.theme?.title === poemFilter.theme) ||
-        (poem.theme_title === poemFilter.theme)
+        (poem.category?.title === poemFilter.theme)
       );
     }
 
@@ -91,7 +87,7 @@ const Author = () => {
       const grouped: { [theme: string]: typeof poems } = {};
       presentThemes.forEach(t => grouped[t.title] = []);
       filtered.forEach(poem => {
-        const themeTitle = poem.theme?.title ?? poem.theme_title ?? presentThemes[0]?.title ?? "Uncategorized";
+        const themeTitle = poem.theme?.title ?? poem.category?.title ?? presentThemes[0]?.title ?? "Uncategorized";
         if (grouped[themeTitle]) grouped[themeTitle].push(poem);
         else grouped[themeTitle] = [poem];
       });
@@ -101,9 +97,10 @@ const Author = () => {
     return { "": filtered };
   }, [poems, poemFilter, presentThemes]);
 
+  // Calculate these values outside of the conditional rendering
   const poemsCount = poems?.length ?? 0;
-  const viewsCount = typeof author.views === "number" ? author.views : 2345;
-  const joined = author.created_at
+  const viewsCount = author?.views ?? 2345;
+  const joined = author?.created_at
     ? new Date(author.created_at).toLocaleDateString()
     : "-";
   const lastActivity =
@@ -117,6 +114,14 @@ const Author = () => {
     placeOfBirth: MOCK_DETAILS.placeOfBirth,
     languages: MOCK_DETAILS.languages.join(", "),
   };
+
+  if (authorLoading || poemsLoading) {
+    return <div className="min-h-screen px-4 py-16">Loading...</div>;
+  }
+  
+  if (!author) {
+    return <div className="min-h-screen px-4 py-16">Author not found</div>;
+  }
 
   return (
     <div className="min-h-screen px-4 py-10 md:py-16 max-w-4xl mx-auto flex flex-col gap-10">
@@ -137,11 +142,6 @@ const Author = () => {
         <div className="flex-1 flex flex-col gap-3 items-center md:items-start">
           <div className="flex items-center gap-3">
             <h1 className="text-3xl font-bold">{author.name}</h1>
-            <Badge
-              className={`text-base font-medium px-3 py-1 border-transparent ${PRIMARY_PURPLE}`}
-            >
-              Автор
-            </Badge>
           </div>
           <div className="flex gap-5 mt-2 text-gray-700 text-sm flex-wrap">
             <div className="flex items-center gap-1">
