@@ -1,16 +1,16 @@
 
-import { Heart, Link } from "lucide-react";
+import { Heart, Apple } from "lucide-react";
 
 export const Footer = () => {
   return (
     <footer className="fixed bottom-0 w-full bg-white/60 backdrop-blur border-t py-2 flex justify-between items-center px-4">
       <a 
-        href="https://apps.apple.com/ru/app/%D1%83%D1%81%D1%8D%D1%80%D0%B0%D0%B4%D1%8D/id6478048644" 
+        href="https://apps.apple.com/ru/app/%D1%83%D1%81%D1%8D%D1%80%D0%B0%D1%8D/id6478048644" 
         target="_blank" 
         rel="noopener noreferrer" 
         className="text-sm text-gray-600 flex items-center hover:text-gray-800 transition-colors"
       >
-        <Link className="inline-block mr-2" size={16} />
+        <Apple className="inline-block mr-2" size={16} />
         Download on App Store
       </a>
       <span className="text-sm text-gray-600">
