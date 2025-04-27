@@ -1,4 +1,3 @@
-
 import { useAuthors } from "@/hooks/useApi";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
@@ -35,7 +34,7 @@ const Authors = () => {
   }
 
 
-  const sortedAuthors = [...authorsWithRandomData].sort((a, b) => {
+  const sortedAuthors = [...authors].sort((a, b) => {
     if (sortBy === "name") {
       return a.name.localeCompare(b.name);
     }
