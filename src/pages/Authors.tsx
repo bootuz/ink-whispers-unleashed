@@ -34,15 +34,6 @@ const Authors = () => {
     );
   }
 
-  // Helper to generate random number in a range
-  const randomNumber = (min: number, max: number) => Math.floor(Math.random() * (max - min + 1)) + min;
-
-  // Add temporary random poems_count and views to each author for sorting and display
-  const authorsWithRandomData = authors.map(author => ({
-    ...author,
-    poems_count: randomNumber(5, 50),
-    views: randomNumber(100, 10000),
-  }));
 
   const sortedAuthors = [...authorsWithRandomData].sort((a, b) => {
     if (sortBy === "name") {
