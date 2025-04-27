@@ -13,6 +13,7 @@ export interface AuthorDetail extends Author {
   bio: string;
   photo: string | null;
   views: number;
+  poems_count: number;  // Add the poems_count property
   created_at: string;
 }
 
