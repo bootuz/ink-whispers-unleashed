@@ -1,5 +1,5 @@
 
-import { UserRound } from "lucide-react";
+import { Calendar, Book, Eye, UserRound } from "lucide-react";
 
 interface AuthorHeaderProps {
   name: string;

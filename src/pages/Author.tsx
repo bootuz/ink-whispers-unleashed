@@ -10,6 +10,7 @@ const MOCK_DETAILS = {
   yearsActive: "N/A",
   placeOfBirth: "Unknown",
   languages: ["Адыгабзэ"],
+  views: 0
 };
 
 const Author = () => {
