@@ -1,4 +1,3 @@
-
 import { useParams } from "react-router-dom";
 import { Book, Calendar, FileText, UserRound, Eye } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
@@ -6,7 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { useAuthor, useAuthorPoems, useThemes } from "@/hooks/useApi";
 import { AuthorPoemFilter, FilterValues } from "@/components/AuthorPoemFilter";
 import { PoemMetrics } from "@/components/PoemMetrics";
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 
 const PRIMARY_PURPLE = "bg-purple-100 text-purple-800";
 const AVATAR_GRADIENT = "bg-gradient-to-br from-purple-200 via-purple-100 to-white border-4 border-white shadow-lg";
@@ -22,9 +21,22 @@ const MOCK_ENGAGEMENT = { views: 100, likes: 20 };
 
 const Author = () => {
   const { id } = useParams<{ id: string }>();
-  const { data: author, isLoading: authorLoading } = useAuthor(Number(id));
+  const [shouldCountView, setShouldCountView] = useState(true);
+  const { data: author, isLoading: authorLoading } = useAuthor(Number(id), shouldCountView);
   const { data: poems, isLoading: poemsLoading } = useAuthorPoems(Number(id));
   const { data: themes } = useThemes();
+  
+  useEffect(() => {
+    const authorViewKey = `author_viewed_${id}`;
+    const alreadyViewed = sessionStorage.getItem(authorViewKey);
+    
+    if (!alreadyViewed) {
+      sessionStorage.setItem(authorViewKey, 'true');
+      setShouldCountView(true);
+    } else {
+      setShouldCountView(false);
+    }
+  }, [id]);
 
   const [poemFilter, setPoemFilter] = useState<FilterValues>({
     sort: "date",
@@ -32,7 +44,6 @@ const Author = () => {
     search: "",
   });
 
-  // Always compute these values, regardless of loading state
   const presentThemes = useMemo(() => {
     if (!poems) return [];
     const themeSet = new Map<string, { id: number; title: string }>();
@@ -49,7 +60,6 @@ const Author = () => {
     return Array.from(themeSet.values());
   }, [poems, themes]);
 
-  // Always compute filtered poems
   const filteredPoemsByTheme = useMemo(() => {
     if (!poems) return {};
     let filtered = poems;
@@ -97,7 +107,6 @@ const Author = () => {
     return { "": filtered };
   }, [poems, poemFilter, presentThemes]);
 
-  // Calculate these values outside of the conditional rendering
   const poemsCount = poems?.length ?? 0;
   const viewsCount = author?.views ?? 2345;
   const joined = author?.created_at

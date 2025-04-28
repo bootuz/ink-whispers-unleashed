@@ -1,10 +1,9 @@
-
 import { useQuery, useInfiniteQuery } from "@tanstack/react-query";
 import { API_BASE_URL, API_ENDPOINTS } from "@/lib/api-config";
 import { Poem, PoemDetail, Author, AuthorDetail, Theme, PaginatedResponse } from "@/types/api";
 
-async function fetchFromApi<T>(endpoint: string): Promise<T> {
-  const response = await fetch(`${API_BASE_URL}${endpoint}`);
+async function fetchFromApi<T>(endpoint: string, options = {}): Promise<T> {
+  const response = await fetch(`${API_BASE_URL}${endpoint}`, options);
   if (!response.ok) {
     throw new Error('Network response was not ok');
   }
@@ -60,10 +59,15 @@ export function useAuthors() {
   });
 }
 
-export function useAuthor(id: number) {
+export function useAuthor(id: number, countView: boolean = true) {
   return useQuery<AuthorDetail>({
     queryKey: ['author', id],
-    queryFn: () => fetchFromApi<AuthorDetail>(API_ENDPOINTS.authorDetail(id)),
+    queryFn: () => {
+      const endpoint = API_ENDPOINTS.authorDetail(id);
+      // Only count the view if explicitly requested
+      const queryParam = countView ? '?count_view=true' : '?count_view=false';
+      return fetchFromApi<AuthorDetail>(`${endpoint}${queryParam}`);
+    },
   });
 }
 
