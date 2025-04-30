@@ -78,7 +78,7 @@ const Index = () => {
                 id={featuredPoem.id}
                 title={featuredPoem.title}
                 author={featuredPoem.author}
-                excerpt={featuredPoem.excerpt || "This beautiful poem showcases the rich cultural heritage and poetic traditions..."}
+                excerpt={featuredPoem.excerpt}
               />
             )}
           </div>

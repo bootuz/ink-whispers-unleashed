@@ -1,7 +1,7 @@
-
 export interface Theme {
   id: number;
   title: string;
+  poems_count?: number; // Add this property as optional
 }
 
 export interface Author {
@@ -28,6 +28,7 @@ export interface Poem {
   theme_title?: string; // Adding optional theme_title property
   views?: number;       // Adding optional views property
   likes?: number;       // Adding optional likes property
+  excerpt?: string;     // Add excerpt property as optional
 }
 
 export interface PoemDetail extends Poem {
