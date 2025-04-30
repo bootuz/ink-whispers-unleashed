@@ -4,7 +4,7 @@ import { AuthorHeader } from "@/components/author/AuthorHeader";
 import { AuthorInfoCards } from "@/components/author/AuthorInfoCards";
 import { AuthorPoems } from "@/components/author/AuthorPoems";
 import { FilterValues } from "@/components/AuthorPoemFilter";
-import { useMemo, useState, useEffect } from "react";
+import { useMemo, useState } from "react";
 
 const MOCK_DETAILS = {
   yearsActive: "N/A",
@@ -15,22 +15,12 @@ const MOCK_DETAILS = {
 
 const Author = () => {
   const { id } = useParams<{ id: string }>();
-  const [shouldCountView, setShouldCountView] = useState(true);
+  const [shouldCountView] = useState(true); // Always pass true as the backend handles session tracking
   const { data: author, isLoading: authorLoading } = useAuthor(Number(id), shouldCountView);
   const { data: poems, isLoading: poemsLoading } = useAuthorPoems(Number(id));
   const { data: themes } = useThemes();
   
-  useEffect(() => {
-    const authorViewKey = `author_viewed_${id}`;
-    const alreadyViewed = sessionStorage.getItem(authorViewKey);
-    
-    if (!alreadyViewed) {
-      sessionStorage.setItem(authorViewKey, 'true');
-      setShouldCountView(true);
-    } else {
-      setShouldCountView(false);
-    }
-  }, [id]);
+  // No need for sessionStorage tracking as the backend handles this
 
   const [poemFilter, setPoemFilter] = useState<FilterValues>({
     sort: "date",

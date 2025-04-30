@@ -1,3 +1,4 @@
+
 import { useQuery, useInfiniteQuery } from "@tanstack/react-query";
 import { API_BASE_URL, API_ENDPOINTS } from "@/lib/api-config";
 import { Poem, PoemDetail, Author, AuthorDetail, Theme, PaginatedResponse } from "@/types/api";
@@ -64,9 +65,8 @@ export function useAuthor(id: number, countView: boolean = true) {
     queryKey: ['author', id],
     queryFn: () => {
       const endpoint = API_ENDPOINTS.authorDetail(id);
-      // Only count the view if explicitly requested
-      const queryParam = countView ? '?count_view=true' : '?count_view=false';
-      return fetchFromApi<AuthorDetail>(`${endpoint}${queryParam}`);
+      // We don't need to pass any query parameters since the backend handles the session management
+      return fetchFromApi<AuthorDetail>(`${endpoint}`);
     },
   });
 }
