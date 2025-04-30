@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button"
 import { Link } from "react-router-dom"
 import { useAuthors } from "@/hooks/useApi"
 import { Skeleton } from "@/components/ui/skeleton"
+import { Badge } from "@/components/ui/badge"
 
 export const FeaturedAuthor = () => {
   const { data: authors = [], isLoading } = useAuthors();

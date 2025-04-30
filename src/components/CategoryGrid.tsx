@@ -1,6 +1,6 @@
 
 import { useThemes } from "@/hooks/useApi"
-import { Book, Category } from "lucide-react"
+import { Book, BookOpen } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { Link } from "react-router-dom"
 import { Skeleton } from "@/components/ui/skeleton"
@@ -12,7 +12,7 @@ export const CategoryGrid = () => {
     return (
       <div className="mb-12">
         <div className="flex items-center gap-2 mb-4">
-          <Category className="text-purple-800 h-5 w-5" />
+          <BookOpen className="text-purple-800 h-5 w-5" />
           <h2 className="text-2xl font-playfair">Categories</h2>
         </div>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -46,7 +46,7 @@ export const CategoryGrid = () => {
   return (
     <div className="mb-12">
       <div className="flex items-center gap-2 mb-6">
-        <Category className="text-purple-800 h-5 w-5" />
+        <BookOpen className="text-purple-800 h-5 w-5" />
         <h2 className="text-2xl font-playfair">Categories</h2>
       </div>
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -63,7 +63,7 @@ export const CategoryGrid = () => {
               {theme.title}
             </span>
             <Badge variant="outline" className="mt-1 bg-white/50">
-              {theme.poems_count || 0} poems
+              {theme.poems_count ?? 0} poems
             </Badge>
           </Link>
         ))}

@@ -8,7 +8,7 @@ interface FeaturedPoemProps {
   id: number;
   title: string;
   author: { id: number; name: string };
-  excerpt: string;
+  excerpt?: string; // Make excerpt optional
 }
 
 export const FeaturedPoem = ({ id, title, author, excerpt }: FeaturedPoemProps) => {
@@ -24,7 +24,7 @@ export const FeaturedPoem = ({ id, title, author, excerpt }: FeaturedPoemProps) 
         <p className="text-sm text-purple-800 mb-4">by {author.name}</p>
         
         <div className="bg-white/60 p-4 rounded-md mb-6 italic text-gray-700">
-          {excerpt}
+          {excerpt || "This beautiful poem showcases the rich cultural heritage and poetic traditions..."}
         </div>
         
         <Link to={`/poem/${id}`}>
