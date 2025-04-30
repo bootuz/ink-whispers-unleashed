@@ -1,4 +1,3 @@
-
 import { useQuery, useInfiniteQuery } from "@tanstack/react-query";
 import { API_BASE_URL, API_ENDPOINTS } from "@/lib/api-config";
 import { Poem, PoemDetail, Author, AuthorDetail, Theme, PaginatedResponse } from "@/types/api";
@@ -82,7 +81,16 @@ export function useAuthorPoems(authorId: number, options: { enabled: boolean } =
 export function useThemes() {
   return useQuery<Theme[]>({
     queryKey: ['themes'],
-    queryFn: () => fetchFromApi<Theme[]>(API_ENDPOINTS.themes),
+    queryFn: async () => {
+      // Fetch themes
+      const themes = await fetchFromApi<Theme[]>(API_ENDPOINTS.themes);
+      
+      // For each theme, we should ideally fetch the count of poems
+      // But since that would cause n+1 requests, we'll rely on the 
+      // poems_count field already present in the API response
+      
+      return themes;
+    },
   });
 }
 
