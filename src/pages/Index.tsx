@@ -50,7 +50,7 @@ const Index = () => {
   const featuredPoem = latestPoems.length > 0 ? latestPoems[0] : null;
 
   return (
-    <div className="min-h-screen flex flex-col items-center px-4 py-8 max-w-7xl mx-auto">
+    <div className="min-h-screen flex flex-col items-center px-4 py-8 max-w-7xl mx-auto bg-purple-50/30">
       {/* Hero Section with Search */}
       <HeroSection 
         searchQuery={searchQuery}
@@ -68,7 +68,7 @@ const Index = () => {
         </Alert>
       )}
 
-      <div className="w-full space-y-12">
+      <div className="w-full space-y-8">
         {/* Featured Section - 2 columns on desktop */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Featured Poem - 2/3 width on desktop */}

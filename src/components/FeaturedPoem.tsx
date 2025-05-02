@@ -13,17 +13,17 @@ interface FeaturedPoemProps {
 
 export const FeaturedPoem = ({ id, title, author, excerpt }: FeaturedPoemProps) => {
   return (
-    <Card className="overflow-hidden bg-purple-100/40 border-purple-200 shadow-md">
-      <CardContent className="p-6 md:p-8">
+    <Card className="overflow-hidden bg-white border border-purple-100 shadow-sm rounded-xl h-full">
+      <CardContent className="p-6">
         <div className="flex items-center gap-2 mb-4">
-          <Quote className="text-purple-800 h-6 w-6" />
-          <h3 className="text-xl font-semibold text-purple-900">Featured Poem</h3>
+          <Quote className="text-purple-700 h-5 w-5" />
+          <h3 className="text-xl font-marck-script">Featured Poem</h3>
         </div>
         
-        <h4 className="text-2xl font-bold mb-2 text-purple-950">{title}</h4>
-        <p className="text-sm text-purple-800 mb-4">by {author.name}</p>
+        <h4 className="text-2xl font-bold mb-2 text-gray-900">{title}</h4>
+        <p className="text-sm text-purple-700 mb-4">by {author.name}</p>
         
-        <div className="bg-white/60 p-4 rounded-md mb-6 italic text-gray-700">
+        <div className="bg-purple-50/60 p-4 rounded-md mb-6 italic text-gray-700 border border-purple-100">
           {excerpt || "This beautiful poem showcases the rich cultural heritage and poetic traditions..."}
         </div>
         

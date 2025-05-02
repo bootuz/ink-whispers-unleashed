@@ -26,9 +26,9 @@ export const PoemGrid = ({
   loading = false
 }: PoemGridProps) => {
   return (
-    <section className="w-full">
-      <h2 className="text-2xl font-playfair mb-6">{title}</h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+    <section className="w-full mb-8 bg-white rounded-xl p-6 shadow-sm border border-purple-100">
+      <h2 className="text-2xl font-marck-script mb-6">{title}</h2>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
         {poems.map((poem) => (
           <PoemCard key={poem.id} {...poem} />
         ))}
@@ -39,7 +39,7 @@ export const PoemGrid = ({
             variant="default" 
             onClick={onMoreClick}
             disabled={loading}
-            className="w-[250px] bg-purple-100 text-purple-800 hover:bg-purple-200 transition-colors duration-300 group"
+            className="w-[250px] bg-purple-600 text-white hover:bg-purple-700 transition-colors duration-300 group"
           >
             {loading ? 'Loading...' : 'More Poems'}
             <ChevronRight className="ml-2 group-hover:translate-x-1 transition-transform" />
@@ -49,4 +49,3 @@ export const PoemGrid = ({
     </section>
   )
 }
-

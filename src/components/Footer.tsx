@@ -3,9 +3,9 @@ import { Heart } from "lucide-react";
 
 export const Footer = () => {
   return (
-    <footer className="fixed bottom-0 w-full bg-white/60 backdrop-blur border-t py-2 flex justify-between items-center px-4">
+    <footer className="fixed bottom-0 w-full bg-white/80 backdrop-blur border-t border-purple-100 py-2 flex justify-between items-center px-4 shadow-sm">
       <span className="text-sm text-gray-600">
-        Made with <Heart className="inline-block mx-1" color="#ea384c" size={16} fill="#ea384c" /> by Адыгэбзэ Хасэ
+        Made with <Heart className="inline-block mx-1" color="#7e22ce" size={16} fill="#7e22ce" /> by Адыгэбзэ Хасэ
       </span>
       <a 
         href="https://apps.apple.com/us/app/%D1%83%D1%81%D1%8D%D1%80%D0%B0%D0%B4%D1%8D/id6478048644?itscg=30200&itsct=apps_box_badge" 
