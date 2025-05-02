@@ -1,5 +1,5 @@
 
-export const API_BASE_URL = 'https://wuserade.onrender.com/api/v1';
+export const API_BASE_URL = 'https://wuserade.com/api/v1';
 
 export const API_ENDPOINTS = {
   poems: '/poems/',
