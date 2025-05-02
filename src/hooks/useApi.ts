@@ -81,16 +81,7 @@ export function useAuthorPoems(authorId: number, options: { enabled: boolean } =
 export function useThemes() {
   return useQuery<Theme[]>({
     queryKey: ['themes'],
-    queryFn: async () => {
-      // Fetch themes
-      const themes = await fetchFromApi<Theme[]>(API_ENDPOINTS.themes);
-      
-      // For each theme, we should ideally fetch the count of poems
-      // But since that would cause n+1 requests, we'll rely on the 
-      // poems_count field already present in the API response
-      
-      return themes;
-    },
+    queryFn: () => fetchFromApi<Theme[]>(API_ENDPOINTS.themes),
   });
 }
 
@@ -99,6 +90,14 @@ export function useThemePoems(themeId: number, options: { enabled: boolean } = {
     queryKey: ['theme', themeId, 'poems'],
     queryFn: () => fetchFromApi<Poem[]>(API_ENDPOINTS.themePoems(themeId)),
     enabled: themeId > 0 && options.enabled,
+  });
+}
+
+export function useThemePoemsCount(themeId: number) {
+  return useQuery<Poem[]>({
+    queryKey: ['theme', themeId, 'poemsCount'],
+    queryFn: () => fetchFromApi<Poem[]>(API_ENDPOINTS.themePoems(themeId)),
+    enabled: themeId > 0,
   });
 }
 

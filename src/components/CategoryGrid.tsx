@@ -4,9 +4,41 @@ import { Book, BookOpen } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { Link } from "react-router-dom"
 import { Skeleton } from "@/components/ui/skeleton"
+import { useState, useEffect } from "react"
+import { API_BASE_URL, API_ENDPOINTS } from "@/lib/api-config"
 
 export const CategoryGrid = () => {
   const { data: themes = [], isLoading } = useThemes();
+  const [themePoems, setThemePoems] = useState<Record<number, number>>({});
+  
+  // Only show top categories (max 8)
+  const displayThemes = themes.slice(0, 8);
+  
+  // Fetch poem counts for each theme
+  useEffect(() => {
+    if (displayThemes.length > 0) {
+      const fetchPoemCounts = async () => {
+        const counts: Record<number, number> = {};
+        
+        for (const theme of displayThemes) {
+          try {
+            const response = await fetch(`${API_BASE_URL}${API_ENDPOINTS.themePoems(theme.id)}`);
+            if (response.ok) {
+              const data = await response.json();
+              counts[theme.id] = Array.isArray(data) ? data.length : 0;
+            }
+          } catch (error) {
+            console.error(`Error fetching poems for theme ${theme.id}:`, error);
+            counts[theme.id] = 0;
+          }
+        }
+        
+        setThemePoems(counts);
+      };
+      
+      fetchPoemCounts();
+    }
+  }, [displayThemes]);
   
   if (isLoading) {
     return (
@@ -23,9 +55,6 @@ export const CategoryGrid = () => {
       </div>
     );
   }
-  
-  // Show only top categories (max 8)
-  const displayThemes = themes.slice(0, 8);
   
   // Color variations for category cards
   const bgColors = [
@@ -63,7 +92,7 @@ export const CategoryGrid = () => {
               {theme.title}
             </span>
             <Badge variant="outline" className="mt-1 bg-white/50">
-              {theme.poems_count ?? 0} poems
+              {themePoems[theme.id] || 0} poems
             </Badge>
           </Link>
         ))}
