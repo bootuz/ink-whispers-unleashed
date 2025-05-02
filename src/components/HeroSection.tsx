@@ -10,7 +10,7 @@ interface HeroSectionProps {
 
 export const HeroSection = ({ searchQuery, onSearch, onKeyPress }: HeroSectionProps) => {
   return (
-    <div className="flex flex-col items-center text-center p-8 bg-gradient-to-b from-purple-100 to-white rounded-xl mb-8 border border-purple-100 shadow-sm">
+    <div className="flex flex-col items-center text-center p-8 mb-8">
       <h1 
         className="text-5xl md:text-6xl mb-4 tracking-wider text-purple-900"
         style={{
@@ -25,7 +25,7 @@ export const HeroSection = ({ searchQuery, onSearch, onKeyPress }: HeroSectionPr
         Explore the beauty of Circassian poetry, discover new authors, and immerse yourself in the rich literary heritage of the Adyghe people.
       </p>
       <SearchBar 
-        className="w-full max-w-2xl bg-white shadow-sm border-purple-100" 
+        className="w-full max-w-2xl" 
         value={searchQuery}
         onSearch={onSearch}
         onKeyDown={onKeyPress}
