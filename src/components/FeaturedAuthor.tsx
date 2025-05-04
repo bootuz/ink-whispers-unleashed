@@ -34,7 +34,7 @@ export const FeaturedAuthor = () => {
       <CardContent className="p-6">
         <div className="flex items-center gap-2 mb-4">
           <User className="text-purple-700 h-5 w-5" />
-          <h3 className="text-xl font-marck-script">Featured Author</h3>
+          <h3 className="text-xl font-marck-script">Нобэрей усакlуэр</h3>
         </div>
         
         <div className="mb-4">
