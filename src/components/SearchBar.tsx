@@ -1,4 +1,3 @@
-
 import { Search } from "lucide-react"
 
 interface SearchBarProps {
@@ -18,7 +17,10 @@ export const SearchBar = ({
 }: SearchBarProps) => {
   return (
     <div className={`relative max-w-2xl w-full ${className}`}>
-      <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+      {/* Fixed the Search icon implementation */}
+      <div className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400">
+        <Search size={20} />
+      </div>
       <input
         type="text"
         value={value}
