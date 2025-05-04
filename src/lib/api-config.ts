@@ -5,6 +5,7 @@ export const API_ENDPOINTS = {
   poems: '/poems/',
   poemDetail: (id: number) => `/poems/${id}/`,
   latestPoems: '/poems/latest/',
+  featuredPoem: '/poems/featured/',
   searchPoems: (query: string) => `/poems/search/?q=${encodeURIComponent(query)}`,
   authors: '/authors/',
   authorDetail: (id: number) => `/authors/${id}/`,

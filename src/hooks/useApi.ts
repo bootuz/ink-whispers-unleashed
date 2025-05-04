@@ -52,6 +52,13 @@ export function usePoem(id: number) {
   });
 }
 
+export function useFeaturedPoem() {
+  return useQuery<Poem>({
+    queryKey: ['poems', 'featured'],
+    queryFn: () => fetchFromApi<Poem>(API_ENDPOINTS.featuredPoem),
+  });
+}
+
 export function useAuthors() {
   return useQuery<AuthorDetail[]>({
     queryKey: ['authors'],

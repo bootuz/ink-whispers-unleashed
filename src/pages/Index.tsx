@@ -1,7 +1,7 @@
 
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
-import { useLatestPoems } from "@/hooks/useApi"
+import { useLatestPoems, useFeaturedPoem } from "@/hooks/useApi"
 import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert"
 import { AlertCircle } from "lucide-react"
 import { HeroSection } from "@/components/HeroSection"
@@ -20,6 +20,12 @@ const Index = () => {
     isLoading: isLoadingLatest,
     error: latestError 
   } = useLatestPoems();
+  
+  const {
+    data: featuredPoem,
+    isLoading: isFeaturedLoading,
+    error: featuredError
+  } = useFeaturedPoem();
 
   const handleNewPoemsMore = () => {
     navigate('/poems?filter=new');
@@ -45,10 +51,6 @@ const Index = () => {
     }
   };
 
-  // Featured poem - in a real app, this would come from an API
-  // For now, use the first poem from latestPoems if available
-  const featuredPoem = latestPoems.length > 0 ? latestPoems[0] : null;
-
   return (
     <div className="min-h-screen flex flex-col items-center px-4 py-8 max-w-7xl mx-auto">
       {/* Hero Section with Search */}
@@ -58,12 +60,12 @@ const Index = () => {
         onKeyPress={handleKeyPress}
       />
       
-      {latestError && (
+      {(latestError || featuredError) && (
         <Alert variant="destructive" className="mb-6 w-full">
           <AlertCircle className="h-4 w-4" />
           <AlertTitle>Error</AlertTitle>
           <AlertDescription>
-            Unable to load latest poems. Please try again later.
+            Unable to load poems. Please try again later.
           </AlertDescription>
         </Alert>
       )}

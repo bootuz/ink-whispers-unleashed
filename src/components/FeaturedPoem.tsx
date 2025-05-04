@@ -3,6 +3,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { BookOpen, Quote } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Link } from "react-router-dom"
+import { Skeleton } from "@/components/ui/skeleton"
 
 interface FeaturedPoemProps {
   id: number;
@@ -40,3 +41,21 @@ export const FeaturedPoem = ({ id, title, author, excerpt }: FeaturedPoemProps) 
     </Card>
   )
 }
+
+export const FeaturedPoemSkeleton = () => (
+  <Card className="overflow-hidden bg-white border border-purple-100 shadow-sm rounded-xl h-full">
+    <CardContent className="p-6">
+      <div className="flex items-center gap-2 mb-4">
+        <Quote className="text-purple-700 h-5 w-5" />
+        <h3 className="text-xl font-marck-script">Нобэрей усэр</h3>
+      </div>
+      
+      <Skeleton className="h-8 w-3/4 mb-2" />
+      <Skeleton className="h-4 w-1/4 mb-4" />
+      
+      <Skeleton className="h-32 w-full mb-6" />
+      
+      <Skeleton className="h-10 w-40" />
+    </CardContent>
+  </Card>
+)
