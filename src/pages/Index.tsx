@@ -94,7 +94,7 @@ const Index = () => {
         
         {/* Latest Poems */}
         <PoemGrid 
-          title="УсэщIэхэр" 
+          title="Усэщӏэхэр" 
           poems={latestPoems}
           onMoreClick={handleNewPoemsMore}
           hasMore={true}
