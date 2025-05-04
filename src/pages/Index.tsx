@@ -50,7 +50,7 @@ const Index = () => {
   const featuredPoem = latestPoems.length > 0 ? latestPoems[0] : null;
 
   return (
-    <div className="min-h-screen flex flex-col items-center px-4 py-8 max-w-7xl mx-auto bg-purple-50/30">
+    <div className="min-h-screen flex flex-col items-center px-4 py-8 max-w-7xl mx-auto">
       {/* Hero Section with Search */}
       <HeroSection 
         searchQuery={searchQuery}
