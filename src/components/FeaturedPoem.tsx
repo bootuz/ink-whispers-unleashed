@@ -17,7 +17,7 @@ export const FeaturedPoem = ({ id, title, author, excerpt }: FeaturedPoemProps) 
       <CardContent className="p-6">
         <div className="flex items-center gap-2 mb-4">
           <Quote className="text-purple-700 h-5 w-5" />
-          <h3 className="text-xl font-marck-script">Featured Poem</h3>
+          <h3 className="text-xl font-marck-script">Нобэрей усэр</h3>
         </div>
         
         <h4 className="text-2xl font-bold mb-2 text-gray-900">{title}</h4>
