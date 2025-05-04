@@ -17,10 +17,13 @@ export const SearchBar = ({
 }: SearchBarProps) => {
   return (
     <div className={`relative max-w-2xl w-full ${className}`}>
-      {/* Fixed the Search icon implementation */}
-      <div className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400">
-        <Search size={20} />
-      </div>
+      <Search 
+        size={20}
+        color="currentColor" 
+        className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" 
+        strokeWidth={2}
+        aria-hidden="true"
+      />
       <input
         type="text"
         value={value}
