@@ -1,6 +1,6 @@
 import { useQuery, useInfiniteQuery } from "@tanstack/react-query";
 import { API_BASE_URL, API_ENDPOINTS } from "@/lib/api-config";
-import { Poem, PoemDetail, Author, AuthorDetail, Theme, PaginatedResponse } from "@/types/api";
+import { Poem, PoemDetail, Author, AuthorDetail, Theme, PaginatedResponse, FeaturedPoemResponse } from "@/types/api";
 
 async function fetchFromApi<T>(endpoint: string, options = {}): Promise<T> {
   const response = await fetch(`${API_BASE_URL}${endpoint}`, options);
@@ -53,9 +53,9 @@ export function usePoem(id: number) {
 }
 
 export function useFeaturedPoem() {
-  return useQuery<Poem>({
+  return useQuery<FeaturedPoemResponse>({
     queryKey: ['poems', 'featured'],
-    queryFn: () => fetchFromApi<Poem>(API_ENDPOINTS.featuredPoem),
+    queryFn: () => fetchFromApi<FeaturedPoemResponse>(API_ENDPOINTS.featuredPoem),
   });
 }
 

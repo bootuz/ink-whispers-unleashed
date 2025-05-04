@@ -1,3 +1,4 @@
+
 export interface Theme {
   id: number;
   title: string;
@@ -34,6 +35,11 @@ export interface Poem {
 export interface PoemDetail extends Poem {
   views: number;        // Required in PoemDetail
   likes: number;        // Required in PoemDetail
+}
+
+export interface FeaturedPoemResponse {
+  featured_date: string;
+  poem: Poem;
 }
 
 export interface PaginatedResponse<T> {

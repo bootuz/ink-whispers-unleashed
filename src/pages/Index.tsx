@@ -22,10 +22,13 @@ const Index = () => {
   } = useLatestPoems();
   
   const {
-    data: featuredPoem,
+    data: featuredPoemResponse,
     isLoading: isFeaturedLoading,
     error: featuredError
   } = useFeaturedPoem();
+
+  // Extract the poem from the featured poem response
+  const featuredPoem = featuredPoemResponse?.poem;
 
   const handleNewPoemsMore = () => {
     navigate('/poems?filter=new');
