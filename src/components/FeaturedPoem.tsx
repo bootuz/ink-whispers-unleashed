@@ -8,11 +8,14 @@ import { Skeleton } from "@/components/ui/skeleton"
 interface FeaturedPoemProps {
   id: number;
   title: string;
-  author: { id: number; name: string };
+  author: { id: number; name: string } | undefined;
   excerpt?: string; // Make excerpt optional
 }
 
 export const FeaturedPoem = ({ id, title, author, excerpt }: FeaturedPoemProps) => {
+  // Check if author exists before trying to access its properties
+  const authorName = author ? author.name : "Unknown Author";
+  
   return (
     <Card className="overflow-hidden bg-white border border-purple-100 shadow-sm rounded-xl h-full">
       <CardContent className="p-6">
@@ -22,7 +25,7 @@ export const FeaturedPoem = ({ id, title, author, excerpt }: FeaturedPoemProps) 
         </div>
         
         <h4 className="text-2xl font-bold mb-2 text-gray-900">{title}</h4>
-        <p className="text-sm text-purple-700 mb-4">by {author.name}</p>
+        <p className="text-sm text-purple-700 mb-4">by {authorName}</p>
         
         <div className="bg-purple-50/60 p-4 rounded-md mb-6 italic text-gray-700 border border-purple-100">
           {excerpt || "This beautiful poem showcases the rich cultural heritage and poetic traditions..."}

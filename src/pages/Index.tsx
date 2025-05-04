@@ -7,7 +7,7 @@ import { AlertCircle } from "lucide-react"
 import { HeroSection } from "@/components/HeroSection"
 import { PoemGrid } from "@/components/PoemGrid"
 import { CategoryGrid } from "@/components/CategoryGrid"
-import { FeaturedPoem } from "@/components/FeaturedPoem"
+import { FeaturedPoem, FeaturedPoemSkeleton } from "@/components/FeaturedPoem"
 import { FeaturedAuthor } from "@/components/FeaturedAuthor"
 import { SiteStats } from "@/components/SiteStats"
 
@@ -75,13 +75,19 @@ const Index = () => {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Featured Poem - 2/3 width on desktop */}
           <div className="lg:col-span-2">
-            {featuredPoem && (
+            {isFeaturedLoading ? (
+              <FeaturedPoemSkeleton />
+            ) : featuredPoem ? (
               <FeaturedPoem 
                 id={featuredPoem.id}
                 title={featuredPoem.title}
                 author={featuredPoem.author}
                 excerpt={featuredPoem.excerpt}
               />
+            ) : (
+              <div className="p-6 bg-white border border-purple-100 shadow-sm rounded-xl">
+                <p className="text-gray-600">No featured poem available.</p>
+              </div>
             )}
           </div>
           
