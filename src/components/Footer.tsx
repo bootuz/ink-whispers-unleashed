@@ -3,8 +3,8 @@ import { Heart } from "lucide-react";
 
 export const Footer = () => {
   return (
-    <footer className="fixed bottom-0 w-full bg-white/80 dark:bg-slate-900/80 backdrop-blur border-t border-purple-100 dark:border-purple-900 py-2 flex justify-between items-center px-4 shadow-sm">
-      <span className="text-sm text-gray-600 dark:text-gray-400">
+    <footer className="fixed bottom-0 w-full bg-white/80 backdrop-blur border-t border-purple-100 py-2 flex justify-between items-center px-4 shadow-sm">
+      <span className="text-sm text-gray-600">
         Made with <Heart className="inline-block mx-1" color="#ea384c" size={16} fill="#ea384c" /> by Адыгэбзэ Хасэ
       </span>
       <a 

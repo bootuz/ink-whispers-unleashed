@@ -13,7 +13,6 @@ import NotFound from "./pages/NotFound";
 import Authors from "./pages/Authors";
 import Author from "./pages/Author";
 import { useEffect } from "react";
-import { ThemeProvider } from "./providers/ThemeProvider";
 
 const queryClient = new QueryClient();
 
@@ -38,26 +37,24 @@ const App = () => {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <ThemeProvider>
-        <TooltipProvider>
-          <Toaster />
-          <Sonner />
-          <BrowserRouter>
-            <Navigation />
-            <div className="pb-10">
-              <Routes>
-                <Route path="/" element={<Index />} />
-                <Route path="/poems" element={<Poems />} />
-                <Route path="/poem/:id" element={<Poem />} />
-                <Route path="/authors" element={<Authors />} />
-                <Route path="/author/:id" element={<Author />} />
-                <Route path="*" element={<NotFound />} />
-              </Routes>
-            </div>
-            <Footer />
-          </BrowserRouter>
-        </TooltipProvider>
-      </ThemeProvider>
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
+          <Navigation />
+          <div className="pb-10">
+            <Routes>
+              <Route path="/" element={<Index />} />
+              <Route path="/poems" element={<Poems />} />
+              <Route path="/poem/:id" element={<Poem />} />
+              <Route path="/authors" element={<Authors />} />
+              <Route path="/author/:id" element={<Author />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </div>
+          <Footer />
+        </BrowserRouter>
+      </TooltipProvider>
     </QueryClientProvider>
   );
 };
