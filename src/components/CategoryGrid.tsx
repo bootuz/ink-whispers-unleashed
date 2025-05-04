@@ -72,7 +72,7 @@ export const CategoryGrid = () => {
     <div className="mb-8 bg-white rounded-xl p-6 shadow-sm border border-purple-100">
       <div className="flex items-center gap-2 mb-6">
         <BookOpen className="text-purple-700 h-5 w-5" />
-        <h2 className="text-2xl font-marck-script">Categories</h2>
+        <h2 className="text-2xl font-marck-script">Жанрхэр</h2>
       </div>
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         {displayThemes.map((theme, index) => (
