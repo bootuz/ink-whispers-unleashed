@@ -4,8 +4,6 @@ import { Book, BookOpen } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { Link } from "react-router-dom"
 import { Skeleton } from "@/components/ui/skeleton"
-import { useState, useEffect, useRef } from "react"
-import { API_BASE_URL, API_ENDPOINTS } from "@/lib/api-config"
 
 // Array of gradient classes for category cards
 const gradientColors = [
@@ -21,44 +19,9 @@ const gradientColors = [
 
 export const CategoryGrid = () => {
   const { data: themes = [], isLoading } = useThemes();
-  const [themePoems, setThemePoems] = useState<Record<number, number>>({});
-  const hasLoadedCounts = useRef(false);
   
   // Only show top categories (max 8)
   const displayThemes = themes.slice(0, 8);
-  
-  // Fetch poem counts for each theme - but only once
-  useEffect(() => {
-    if (displayThemes.length > 0 && !hasLoadedCounts.current) {
-      const fetchPoemCounts = async () => {
-        const counts: Record<number, number> = {};
-        
-        // Create a local cache to avoid repeated fetches
-        const cache: Record<number, boolean> = {};
-        
-        for (const theme of displayThemes) {
-          if (!cache[theme.id]) {
-            try {
-              const response = await fetch(`${API_BASE_URL}${API_ENDPOINTS.themePoems(theme.id)}`);
-              if (response.ok) {
-                const data = await response.json();
-                counts[theme.id] = Array.isArray(data) ? data.length : 0;
-                cache[theme.id] = true;
-              }
-            } catch (error) {
-              console.error(`Error fetching poems for theme ${theme.id}:`, error);
-              counts[theme.id] = 0;
-            }
-          }
-        }
-        
-        setThemePoems(counts);
-        hasLoadedCounts.current = true;
-      };
-      
-      fetchPoemCounts();
-    }
-  }, [displayThemes]);
   
   if (isLoading) {
     return (
@@ -96,7 +59,7 @@ export const CategoryGrid = () => {
               {theme.title}
             </span>
             <Badge variant="outline" className="mt-1 bg-white/70 border border-opacity-20 text-opacity-90">
-              {themePoems[theme.id] || 0} poems
+              {theme.poems_count || 0} poems
             </Badge>
           </Link>
         ))}
