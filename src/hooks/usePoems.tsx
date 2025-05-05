@@ -1,17 +1,22 @@
 
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams, useLocation } from "react-router-dom";
 import { usePoems, useSearchPoems, useThemes, useThemePoems, useAuthorPoems, useAuthors } from "@/hooks/useApi";
 import { useState } from "react";
 import { toast } from "@/hooks/use-toast";
 
 export const usePoemsPage = () => {
   const [searchParams] = useSearchParams();
+  const location = useLocation();
   const [hasShownError, setHasShownError] = useState(false);
   
   const filterType = searchParams.get('filter');
   const selectedGenre = searchParams.get('genre');
   const selectedAuthor = searchParams.get('author');
   const searchQuery = searchParams.get('q') || '';
+  
+  // Only enable poems endpoint on /poems route and if we have no other filters
+  const shouldLoadAllPoems = location.pathname === '/poems' && 
+    !selectedGenre && !selectedAuthor && !searchQuery;
   
   const { data: themes } = useThemes();
   const { data: authors } = useAuthors();
@@ -32,7 +37,7 @@ export const usePoemsPage = () => {
     fetchNextPage,
     isFetchingNextPage,
     error: poemsError
-  } = usePoems();
+  } = usePoems(undefined, { enabled: shouldLoadAllPoems });
 
   const {
     data: themePoems,
