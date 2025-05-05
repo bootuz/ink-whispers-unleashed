@@ -125,10 +125,10 @@ export const usePoemsPage = () => {
       return `Poems by ${authorName}`;
     }
     if (selectedGenre) {
-      return `${selectedGenre.charAt(0).toUpperCase() + selectedGenre.slice(1)} Poems`;
+      return `${selectedGenre.charAt(0).toUpperCase() + selectedGenre.slice(1)}`;
     }
-    if (filterType === 'new') return "New Poems";
-    if (filterType === 'popular') return "Popular Poems";
+    if (filterType === 'new') return "Усэщlэхэр";
+    if (filterType === 'popular') return "Нэхъ зэджэ усэхэр";
     return "Усэу хъуар";
   };
 
