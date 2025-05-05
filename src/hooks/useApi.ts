@@ -57,6 +57,7 @@ export function useFeaturedPoem() {
   return useQuery<FeaturedPoemResponse>({
     queryKey: ['poems', 'featured'],
     queryFn: () => fetchFromApi<FeaturedPoemResponse>(API_ENDPOINTS.featuredPoem),
+    staleTime: 5 * 60 * 1000, // 5 minutes - reduce refetching frequency
   });
 }
 

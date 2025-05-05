@@ -34,10 +34,6 @@ const Index = () => {
     navigate('/poems?filter=new');
   };
 
-  const handlePopularPoemsMore = () => {
-    navigate('/poems?filter=popular');
-  };
-
   const handleSearch = (query: string) => {
     setSearchQuery(query);
   };
