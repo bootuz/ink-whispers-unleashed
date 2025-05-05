@@ -112,14 +112,6 @@ const Index = () => {
           loading={isLoadingLatest}
         />
         
-        {/* Popular Poems */}
-        {/* <PoemGrid 
-          title="Нэхъ зэджэ усэхэр" 
-          poems={latestPoems.slice().sort((a, b) => (b.views || 0) - (a.views || 0))}
-          onMoreClick={handlePopularPoemsMore}
-          hasMore={true}
-        /> */}
-        
         {/* Site Statistics */}
         <SiteStats />
       </div>

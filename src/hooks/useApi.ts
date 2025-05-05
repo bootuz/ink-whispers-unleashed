@@ -10,7 +10,7 @@ async function fetchFromApi<T>(endpoint: string, options = {}): Promise<T> {
   return response.json();
 }
 
-export function usePoems(themeId?: string) {
+export function usePoems(themeId?: string, options: { enabled?: boolean } = {}) {
   return useInfiniteQuery<PaginatedResponse<Poem>>({
     queryKey: ['poems', themeId],
     initialPageParam: 1,
@@ -27,6 +27,7 @@ export function usePoems(themeId?: string) {
       }
       return undefined;
     },
+    enabled: options.enabled !== false, // Default to true if not specified
   });
 }
 
