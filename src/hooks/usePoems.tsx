@@ -25,9 +25,6 @@ export const usePoemsPage = () => {
     author => author.name.toLowerCase().replace(/\s+/g, '-') === selectedAuthor?.toLowerCase()
   )?.id;
 
-  // Only enable the poems query on the Poems page, not on the Index page
-  const isPoemsPage = window.location.pathname === '/poems';
-
   const { 
     data: poemsResponse, 
     isLoading: isLoadingPoems,
@@ -35,7 +32,7 @@ export const usePoemsPage = () => {
     fetchNextPage,
     isFetchingNextPage,
     error: poemsError
-  } = usePoems(undefined, { enabled: isPoemsPage });
+  } = usePoems();
 
   const {
     data: themePoems,

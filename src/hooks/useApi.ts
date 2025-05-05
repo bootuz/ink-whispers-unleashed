@@ -10,7 +10,7 @@ async function fetchFromApi<T>(endpoint: string, options = {}): Promise<T> {
   return response.json();
 }
 
-export function usePoems(themeId?: string, options: { enabled?: boolean } = {}) {
+export function usePoems(themeId?: string) {
   return useInfiniteQuery<PaginatedResponse<Poem>>({
     queryKey: ['poems', themeId],
     initialPageParam: 1,
@@ -27,7 +27,6 @@ export function usePoems(themeId?: string, options: { enabled?: boolean } = {}) 
       }
       return undefined;
     },
-    enabled: options.enabled !== false, // Default to true if not specified
   });
 }
 
@@ -57,7 +56,6 @@ export function useFeaturedPoem() {
   return useQuery<FeaturedPoemResponse>({
     queryKey: ['poems', 'featured'],
     queryFn: () => fetchFromApi<FeaturedPoemResponse>(API_ENDPOINTS.featuredPoem),
-    staleTime: 5 * 60 * 1000, // 5 minutes - reduce refetching frequency
   });
 }
 
